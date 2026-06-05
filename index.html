@@ -699,40 +699,141 @@ async function parseWA(){
 // ─── KEYWORD PARSER ──────────────────────────────────────────────────────────
 function kwParse(text){
   var items=getItems(), results=[];
-  var outW=['out','keluar','guna','used','issued','pakai','ambil','keluarkan'];
-  var inW=['in','masuk','received','receive','terima','dapat','tambah'];
+
+  // ── Direction keywords ──────────────────────────────────────────────────
+  var outW=['out','keluar','guna','used','issued','issue','pakai','ambil','keluarkan','hantar','remove','deduct'];
+  var inW=['in','masuk','received','receive','terima','dapat','tambah','add','delivery','arrive','stockin'];
+
   function detectType(s){
-    var sl=s.toLowerCase();
-    if(/^(in|masuk|terima|received?|tambah)\s*[:：]/i.test(sl.trim()))return 'in';
-    if(/^(out|keluar|guna|issued?|used?|pakai|ambil)\s*[:：]/i.test(sl.trim()))return 'out';
-    for(var i=0;i<outW.length;i++){if(sl.includes(outW[i]))return 'out';}
-    for(var i=0;i<inW.length;i++){if(sl.includes(inW[i]))return 'in';}
+    var sl=s.toLowerCase().trim();
+    // Explicit prefix  "IN:" / "OUT:" / "MASUK:" / "KELUAR:"
+    if(/^(stock\s*in|in|masuk|terima|received?|tambah|dapat)\s*[:：\-]/i.test(sl)) return 'in';
+    if(/^(stock\s*out|out|keluar|guna|issued?|used?|pakai|ambil|deduct|remove)\s*[:：\-]/i.test(sl)) return 'out';
+    // Word anywhere in segment
+    for(var i=0;i<outW.length;i++){
+      // whole word match — avoid matching "amount" triggering "in", etc.
+      var re=new RegExp('\\b'+outW[i]+'\\b','i');
+      if(re.test(sl))return 'out';
+    }
+    for(var i=0;i<inW.length;i++){
+      var re=new RegExp('\\b'+inW[i]+'\\b','i');
+      if(re.test(sl))return 'in';
+    }
     return null;
   }
+
   var globalType=detectType(text.split('\n')[0])||'in';
-  var supMatch=text.match(/(?:from|dari)\s+([A-Z][A-Za-z0-9 &.'-]{2,30})/i);
+
+  // Extract global supplier "from X" / "dari X"
+  var supMatch=text.match(/(?:\bfrom\b|\bdari\b)\s+([A-Z][A-Za-z0-9 &.()'-]{2,35})/i);
   var globalSup=supMatch?supMatch[1].trim():null;
-  var segs=text.split(/[\n,;]|(?:\band\b|\bdan\b)/i).map(function(s){return s.trim();}).filter(Boolean);
+
+  // Split into segments by newline, comma, semicolon, "and", "dan"
+  var segs=text.split(/[\n;]|(?:,(?!\s*\d))|\s+(?:and|dan)\s+/i)
+    .map(function(s){return s.trim();}).filter(function(s){return s.length>1;});
+
   segs.forEach(function(seg){
     var segType=detectType(seg)||globalType;
-    var qm=seg.match(/(\d+(?:\.\d+)?)\s*(pcs?|bags?|rolls?|lengths?|tins?|boxes?|kg|litre|unit|sets?|biji|keping|batang)?/i);
-    if(!qm)return;
-    var qty=parseFloat(qm[1]), unit=qm[2]||'pcs';
-    if(qty<=0)return;
-    var namePart=seg.replace(/(?:from|dari)\s+[A-Za-z0-9 &.'-]+/gi,'').replace(/(?:in|out|masuk|keluar|terima|received?|issued?|guna|pakai|used?|tambah|ambil)\s*[:：]?\s*/gi,'').replace(/\d+(?:\.\d+)?\s*(?:pcs?|bags?|rolls?|lengths?|tins?|boxes?|kg|litre|unit|sets?|biji|keping|batang)?\s*/gi,'').replace(/[↑↓•\-–]/g,'').trim();
-    if(namePart.length<2)return;
-    var nl=namePart.toLowerCase(), bestMatch=null, bestScore=0;
+
+    // ── Extract supplier for this segment ────────────────────────────────
+    var segSupMatch=seg.match(/(?:\bfrom\b|\bdari\b)\s+([A-Z][A-Za-z0-9 &.()'-]{2,35})/i);
+    var segSup=segSupMatch?segSupMatch[1].trim():globalSup;
+
+    // Strip direction words and supplier clause for quantity/name extraction
+    var clean=seg
+      .replace(/(?:\bfrom\b|\bdari\b)\s+[A-Za-z0-9 &.()'-]+/gi,'')
+      .replace(/^(?:stock\s*in|stock\s*out|in|out|masuk|keluar|terima|received?|issued?|guna|pakai|used?|tambah|ambil|deduct|remove)\s*[:：\-]?\s*/i,'')
+      .trim();
+
+    // ── Quantity extraction ───────────────────────────────────────────────
+    // Strategy: look for a standalone number that is NOT part of a product code.
+    // Product codes contain letters immediately before/after the digit  e.g. M14, 50x50, 4.5mm
+    // A standalone quantity looks like:  "100 pcs"  "50pcs"  "x 30"  or  a bare number at end.
+
+    var UNITS='(?:pcs?|biji|keping|unit|sets?|bags?|beg|rolls?|gulung|lengths?|batang|tins?|tin|boxes?|kotak|kg|kilogram|litre|liter|l\\b)';
+
+    // Pattern 1: number immediately followed by unit  e.g. "100pcs", "50 bags"
+    var qm=clean.match(/(?<![a-zA-Z\d.])(\d+(?:\.\d+)?)\s*x?\s*('+UNITS+')/i);
+
+    // Pattern 2: "x 30" or "× 30" prefix quantity
+    if(!qm) qm=clean.match(/[x×]\s*(\d+(?:\.\d+)?)\s*('+UNITS+')?/i);
+
+    // Pattern 3: bare standalone number — NOT touching letters/digits on either side
+    // e.g. in "bolt M14 100" the 100 is standalone; M14 is NOT standalone
+    if(!qm){
+      var m=clean.match(/(?<![a-zA-Z\d.x×])(\d{1,6}(?:\.\d+)?)(?!\s*(?:mm|cm|m\b|"|\d|x\d|\.\d))/g);
+      if(m){
+        // pick the LAST standalone number (most likely to be the quantity)
+        var last=m[m.length-1].match(/(\d+(?:\.\d+)?)/);
+        if(last) qm=['',last[1],null];
+      }
+    }
+
+    if(!qm) return;
+    var qty=parseFloat(qm[1]);
+    var unit=(qm[2]||'pcs').toLowerCase().replace(/s$/,''); // normalise plural
+    if(!qty||qty<=0) return;
+
+    // ── Extract item name ─────────────────────────────────────────────────
+    // Remove the matched quantity+unit from the clean string to get the name
+    var namePart=clean;
+
+    // Remove "x 30 pcs", "100pcs", "50 bags" etc — but NOT numbers inside codes like M14
+    namePart=namePart
+      .replace(new RegExp('(?<![a-zA-Z\\d.])'+qty.toString().replace('.','\\.')+'\\s*(?:'+UNITS+')?','gi'),'')
+      .replace(/[x×]\s*\d+(?:\.\d+)?\s*(?:pcs?|bags?|rolls?|kg|unit|set|biji|batang|tin|box|kotak)?/gi,'')
+      .replace(/\s*[:：\-]\s*$/,'')  // trailing colon
+      .replace(/\s{2,}/g,' ')
+      .trim();
+
+    if(!namePart||namePart.length<2) return;
+
+    // ── Fuzzy match against materials list ───────────────────────────────
+    var nl=namePart.toLowerCase();
+    var bestMatch=null, bestScore=0;
+
     items.forEach(function(item){
       var desc=(item.description||'').toLowerCase();
-      var words=nl.split(/\s+/).filter(function(w){return w.length>1;});
       var score=0;
-      words.forEach(function(w){if(desc.includes(w))score++;});
-      var thk=nl.match(/(\d+(?:\.\d+)?)\s*mm/);
-      if(thk&&desc.includes(thk[1]))score+=2;
+
+      // Split input into tokens — keep product-code tokens like "M14","50x50","4.5mm"
+      var tokens=nl.split(/\s+/).filter(function(w){return w.length>=2;});
+      tokens.forEach(function(tok){
+        if(desc.includes(tok)) score+=tok.length>4?3:2;  // longer token = more specific = higher score
+      });
+
+      // Bonus: thickness/size numbers like "3.0","4.5","50","14" present in both
+      var nums=nl.match(/\d+(?:\.\d+)?/g)||[];
+      nums.forEach(function(n){
+        // Only award bonus if the number appears as a standalone token in description too
+        var nRe=new RegExp('(?<![\\d.])'+n.replace('.','\\.')+'(?![\\d]|mm|cm)');
+        if(nRe.test(desc)) score+=1;
+      });
+
+      // Exact code match bonus e.g. "M14","M16","HDG","MS","4.5mm"
+      var codes=nl.match(/[A-Z]{1,3}\d+|\d+(?:\.\d+)?mm|HDG|MS\b|PVC|SLS/gi)||[];
+      codes.forEach(function(c){if(desc.includes(c.toLowerCase())) score+=4;});
+
       if(score>bestScore){bestScore=score;bestMatch=item;}
     });
-    results.push({parsedName:namePart,matchedId:bestScore>=1&&bestMatch?bestMatch.id:null,matchedName:bestScore>=1&&bestMatch?bestMatch.description:null,type:segType,qty:qty,unit:unit,supplier:globalSup,confidence:bestScore>=3?'high':bestScore>=2?'medium':bestScore>=1?'low':null,note:bestScore>=1?'keyword match':'no match'});
+
+    // Threshold: require at least score 2 to consider a match
+    var matched=bestScore>=2&&bestMatch;
+    var conf=bestScore>=6?'high':bestScore>=3?'medium':bestScore>=2?'low':null;
+
+    results.push({
+      parsedName:namePart,
+      matchedId:matched?bestMatch.id:null,
+      matchedName:matched?bestMatch.description:null,
+      type:segType,
+      qty:qty,
+      unit:unit,
+      supplier:segSup,
+      confidence:conf,
+      note:matched?'score '+bestScore:'no match — will create new item'
+    });
   });
+
   return results;
 }
 
