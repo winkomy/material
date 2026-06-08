@@ -146,6 +146,21 @@ th.th-r{text-align:right}
 .wa-textarea::placeholder{color:var(--t3)}
 .wa-footer{background:var(--s2);padding:9px 14px;border-top:1px solid var(--b1);display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
 .wa-hint{font-size:0.72rem;color:var(--t3)}
+/* WA STEP INDICATOR */
+.wa-steps{display:flex;align-items:center;gap:8px;margin-bottom:14px;padding:0 2px}
+.wa-step{display:flex;align-items:center;gap:6px;font-size:0.78rem;font-weight:600;color:var(--t3);white-space:nowrap}
+.wa-step-num{width:22px;height:22px;border-radius:50%;background:var(--s3);color:var(--t3);display:grid;place-items:center;font-size:0.72rem;font-weight:700;transition:all 0.2s}
+.wa-step.active{color:var(--orange)}
+.wa-step.active .wa-step-num{background:var(--orange);color:#fff}
+.wa-step.done .wa-step-num{background:var(--green);color:#fff}
+.wa-step.done{color:var(--green)}
+.wa-step-line{flex:1;height:2px;background:var(--s3);border-radius:2px;max-width:48px}
+.btn-parse{font-size:0.85rem;padding:9px 16px}
+@media(max-width:680px){
+  .btn-parse{padding:11px 18px;font-size:0.9rem}
+  .wa-step{font-size:0.72rem}
+  .wa-textarea{min-height:120px;font-size:1rem}
+}
 .example-chips{margin-bottom:12px}
 .example-chips h3{font-size:0.75rem;font-weight:600;color:var(--t3);margin-bottom:7px}
 .chip{display:inline-block;background:var(--s2);border:1px solid var(--b1);border-radius:var(--r8);padding:5px 10px;font-size:0.76rem;color:var(--t2);margin:2px;cursor:pointer;transition:all 0.12s;line-height:1.4}
@@ -227,7 +242,7 @@ th.th-r{text-align:right}
 .btbl input,.btbl select{width:100%;padding:5px 7px;background:var(--s3);border:1px solid transparent;border-radius:5px;font-size:0.79rem;color:var(--t1);font-family:var(--sans)}
 .btbl input:focus,.btbl select:focus{outline:none;border-color:var(--orange)}
 /* TOAST */
-#toast{position:fixed;bottom:18px;right:18px;background:var(--s2);border:1px solid var(--b2);border-radius:var(--r10);padding:10px 14px;font-size:0.83rem;font-weight:500;color:var(--t1);box-shadow:var(--shadow);transform:translateY(14px);opacity:0;transition:all 0.22s;pointer-events:none;z-index:999;display:flex;align-items:center;gap:8px;max-width:300px}
+#toast{position:fixed;bottom:80px;right:12px;background:var(--s1);border:1px solid var(--b2);border-radius:var(--r10);padding:11px 16px;font-size:0.85rem;font-weight:500;color:var(--t1);box-shadow:var(--shadow);transform:translateY(14px);opacity:0;transition:all 0.22s;pointer-events:none;z-index:999;display:flex;align-items:center;gap:8px;max-width:320px}@media(min-width:681px){#toast{bottom:20px;right:20px}}
 #toast.show{opacity:1;transform:translateY(0)}
 #toast.ok{border-color:var(--orange-border)}
 #toast.err{border-color:var(--red-border)}
@@ -239,13 +254,26 @@ th.th-r{text-align:right}
 .empty h3{font-size:0.9rem;font-weight:600;margin-bottom:5px}
 .empty p{font-size:0.8rem;color:var(--t2)}
 /* RESPONSIVE */
+/* ─── MOBILE BOTTOM NAV ─────────────────────────────────────────────────────── */
+.mobile-bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--s1);border-top:1px solid var(--b1);z-index:80;box-shadow:0 -2px 12px rgba(0,0,0,0.25)}
+.mbn-inner{display:flex;align-items:stretch;max-width:600px;margin:0 auto;padding:0 4px}
+.mbn-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:8px 2px;background:transparent;border:none;cursor:pointer;color:var(--t3);font-family:var(--sans);font-size:0.62rem;font-weight:600;transition:color 0.15s;position:relative;-webkit-tap-highlight-color:transparent}
+.mbn-btn svg{width:21px;height:21px;stroke-width:2;transition:transform 0.15s}
+.mbn-btn span{line-height:1;white-space:nowrap}
+.mbn-btn.active{color:var(--orange)}
+.mbn-btn.active svg{transform:translateY(-1px)}
+.mbn-btn.active::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:26px;height:2.5px;background:var(--orange);border-radius:0 0 3px 3px}
+.mbn-btn:active{opacity:0.6}
+
 @media(max-width:680px){
-  .sidebar{width:195px;position:fixed;left:-195px;top:52px;height:calc(100vh - 52px);z-index:50;transition:left 0.22s;box-shadow:var(--shadow)}
+  .sidebar{width:200px;position:fixed;left:-200px;top:52px;height:calc(100vh - 52px);z-index:50;transition:left 0.22s;box-shadow:var(--shadow)}
   .sidebar.open{left:0}
   .mobile-btn{display:flex!important}
   .stats{grid-template-columns:repeat(2,1fr)}
-  .main{padding:14px}
-  .fab{bottom:14px;right:14px}
+  .main{padding:14px 14px 78px}
+  .fab{bottom:78px;right:14px}
+  .mobile-bottom-nav{display:block;padding-bottom:env(safe-area-inset-bottom,0)}
+  .body-layout{height:auto;min-height:calc(100vh - 52px)}
 }
 .mobile-btn{display:none;align-items:center;justify-content:center;width:34px;height:34px;background:transparent;border:1px solid var(--b1);border-radius:var(--r8);cursor:pointer;color:var(--t2);flex-shrink:0}
 /* ─── QUICK STOCK BUTTONS ──────────────────────────────────────────────────── */
@@ -275,7 +303,6 @@ th.th-r{text-align:right}
 .chart-bar-fill.zero{background:var(--s4)}
 .chart-val{font-size:0.68rem;font-family:var(--mono);color:#fff;white-space:nowrap;font-weight:600}
 .chart-empty{text-align:center;padding:2rem;color:var(--t3);font-size:0.82rem}
-</style>
 .prod-flow{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
 .prod-arrow{color:var(--orange);font-size:1rem;flex-shrink:0}
 .prod-raw{background:var(--red-bg);border:1px solid var(--red-border);border-radius:var(--r6);padding:3px 9px;font-size:0.75rem;color:var(--red);font-weight:500}
@@ -380,7 +407,7 @@ th.th-r{text-align:right}
             </div>
           </div>
           <div class="card-body" style="padding-bottom:6px">
-            <div id="chart-area" style="min-height:180px"></div>
+            <div id="chart-area" style="min-height:180px;padding:4px 0"></div>
           </div>
         </div>
         <div class="card">
@@ -393,30 +420,41 @@ th.th-r{text-align:right}
       </div>
       <!-- WHATSAPP -->
       <div id="page-wa" class="page">
-        <div class="ph"><div><h1>WhatsApp Entry</h1><p>Paste any message — auto detects items and updates stock</p></div></div>
-        <div class="example-chips">
-          <h3>Tap an example:</h3>
+        <div class="ph"><div><h1>WhatsApp Entry</h1><p>Paste a message, tap Parse, check the results, then confirm</p></div></div>
+
+        <div class="wa-steps">
+          <div class="wa-step active"><span class="wa-step-num">1</span> Paste</div>
+          <div class="wa-step-line"></div>
+          <div class="wa-step" id="wa-step-2"><span class="wa-step-num">2</span> Check</div>
+          <div class="wa-step-line"></div>
+          <div class="wa-step" id="wa-step-3"><span class="wa-step-num">3</span> Confirm</div>
+        </div>
+
+        <div class="wa-card">
+          <div class="wa-head">
+            <div class="wa-pulse"></div>
+            <div><strong>Smart Stock Parser</strong><br><span>English, Malay or mixed — detects in / out automatically</span></div>
+          </div>
+          <textarea class="wa-textarea" id="wa-text" placeholder="Paste your WhatsApp message here…&#10;&#10;Examples:&#10;  Received 50 pcs 3mm plate from KIN KEE&#10;  Keluar 20 pcs 4.5mm tank plates&#10;  IN: 3mm plate 50pcs, angle bar 30pcs&#10;  OUT: bolt M14 100pcs, washer 5 bags" oninput="onWaInput()"></textarea>
+          <div class="wa-footer">
+            <span class="wa-hint" id="wa-charcount">Supports English &amp; Malay</span>
+            <div class="btn-row">
+              <button class="btn btn-ghost btn-sm" onclick="clearWA()">Clear</button>
+              <button class="btn btn-orange btn-parse" onclick="parseWA()" id="parse-btn">
+                <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>Parse Message
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="example-chips" id="wa-examples">
+          <h3>Or tap an example to try:</h3>
           <span class="chip" onclick="useEx(this)">Received 50 pcs 3mm plate from KIN KEE</span>
           <span class="chip" onclick="useEx(this)">Keluar 20 pcs 4.5mm tank plates</span>
           <span class="chip" onclick="useEx(this)">IN: 3mm plate 80pcs, angle bar 30pcs&#10;OUT: bolt M14 100pcs</span>
           <span class="chip" onclick="useEx(this)">Masuk dari KEAN SOON: 3mm plate 80pcs. Keluar: 100pcs bolt M14</span>
         </div>
-        <div class="wa-card">
-          <div class="wa-head">
-            <div class="wa-pulse"></div>
-            <div><strong>Smart Stock Parser</strong><br><span>English, Malay or mixed — detects in/out automatically</span></div>
-          </div>
-          <textarea class="wa-textarea" id="wa-text" placeholder="Paste your WhatsApp message here…&#10;&#10;Examples:&#10;  Received 50 pcs 3mm plate from KIN KEE&#10;  Keluar 20 pcs 4.5mm tank plates&#10;  IN: 3mm plate 50pcs, angle bar 30pcs&#10;  OUT: bolt M14 100pcs, washer 5 bags"></textarea>
-          <div class="wa-footer">
-            <span class="wa-hint">Supports English &amp; Malay. All results are editable before confirming.</span>
-            <div class="btn-row">
-              <button class="btn btn-ghost btn-sm" onclick="clearWA()">Clear</button>
-              <button class="btn btn-orange" onclick="parseWA()" id="parse-btn">
-                <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>Parse
-              </button>
-            </div>
-          </div>
-        </div>
+
         <div id="wa-preview"></div>
       </div>
       <!-- MANUAL ENTRY -->
@@ -498,7 +536,7 @@ th.th-r{text-align:right}
       <!-- RECOUNT -->
       <div id="page-recount" class="page">
         <div class="ph">
-          <div><h1>Stock Recount</h1><p>Physical count — system auto-calculates variance and logs adjustments</p></div>
+          <div><h1>Stock Recount</h1><p>Enter what you physically count — system auto-calculates and logs all adjustments</p></div>
           <div class="ph-right">
             <select class="filter-sel" id="recount-cat" onchange="renderRecountTable()"><option value="">All Categories</option></select>
             <button class="btn btn-orange" onclick="confirmRecount()" id="recount-confirm-btn" style="display:none">
@@ -509,7 +547,7 @@ th.th-r{text-align:right}
         </div>
         <div class="alert a-blue" style="margin-bottom:14px">
           <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg>
-          <span>Enter the <strong>actual physical count</strong> you see on the shelf. The system shows the difference and saves an adjustment log automatically.</span>
+          <div><strong>How to use:</strong> Walk to your shelf, count each item physically, type the number you see. Green = you have more than system shows. Red = you have less. Zero difference = system is correct. Click "Save All Adjustments" when done.</div>
         </div>
         <div class="card">
           <div class="card-head">
@@ -835,6 +873,27 @@ th.th-r{text-align:right}
   </button>
 </div>
 
+
+<!-- Mobile Bottom Nav -->
+<nav class="mobile-bottom-nav">
+  <div class="mbn-inner">
+    <button class="mbn-btn active" id="mbn-dashboard" onclick="goto('dashboard',this);syncMbn('dashboard')">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Home
+    </button>
+    <button class="mbn-btn" id="mbn-wa" onclick="goto('wa',this);syncMbn('wa')">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>WA Entry
+    </button>
+    <button class="mbn-btn" id="mbn-entry" onclick="goto('entry',this);syncMbn('entry')">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>Manual
+    </button>
+    <button class="mbn-btn" id="mbn-items" onclick="goto('items',this);syncMbn('items')">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>Stock
+    </button>
+    <button class="mbn-btn" id="mbn-history" onclick="goto('history',this);syncMbn('history')">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>History
+    </button>
+  </div>
+</nav>
 <div id="toast"><div class="t-icon" id="t-icon"></div><span id="t-msg"></span></div>
 
 <script>
@@ -908,10 +967,18 @@ function goto(id,el){
   if(id==='entry'){populateSel('e-item',false);if(!document.getElementById('e-date').value)document.getElementById('e-date').value=today();loadWorkerName();renderTodayEntries();}
   if(id==='items'){populateCats();renderItems();}
   if(id==='history'){populateSel('h-item',true);renderHistory();}
+  syncMbn(id);
 }
 function gotoN(id){var btn=document.querySelector('.nav-item[onclick*="\''+id+'\'"]');if(btn)goto(id,btn);}
 function toggleSidebar(){document.getElementById('sidebar').classList.toggle('open');}
 function closeSidebar(){document.getElementById('sidebar').classList.remove('open');}
+
+function syncMbn(id){
+  document.querySelectorAll('.mbn-btn').forEach(function(b){b.classList.remove('active');});
+  var btn=document.getElementById('mbn-'+id);
+  if(btn)btn.classList.add('active');
+}
+
 
 // ─── DASHBOARD ───────────────────────────────────────────────────────────────
 function renderDashboard(){
@@ -933,12 +1000,17 @@ function renderDashboard(){
   out.slice(0,3).forEach(function(i){alerts+='<div class="alert a-red"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>Out of stock: <strong>'+i.description+'</strong></div>';});
   low.slice(0,3).forEach(function(i){alerts+='<div class="alert a-yellow"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>Low stock: <strong>'+i.description+'</strong> — '+i.stock+' '+i.unit+' left</div>';});
   document.getElementById('dash-alerts').innerHTML=alerts;
-  renderRecent();renderDashTable();
+  renderRecent();
+  populateChartMonths();
+  renderChart();
+  renderDashTable();
 }
 
 function renderRecent(){
   var log=getLog().slice(-8).reverse();
-  var el=document.getElementById('recent-lbl');if(el)el.textContent='Last '+log.length+' moves';
+  var el=document.getElementById('recent-lbl');if(el)el.textContent=log.length?'Last '+log.length+' moves':'';
+  var undoBtn=document.getElementById('undo-btn');
+  if(undoBtn)undoBtn.style.display=getLog().length?'':'none';
   var tbody=document.getElementById('recent-tbody');if(!tbody)return;
   if(!log.length){tbody.innerHTML='<tr><td colspan="6"><div class="empty" style="padding:20px"><h3>No activity yet</h3><p>Start by adding a stock entry</p></div></td></tr>';return;}
   var lbl={in:'↑ In',out:'↓ Out',adjust:'⟳'}, cls={in:'b-in',out:'b-out',adjust:'b-adj'};
@@ -963,7 +1035,7 @@ function renderDashTable(){
   });
   document.getElementById('dash-count').textContent=filtered.length+' items';
   var tbody=document.getElementById('dash-tbody');
-  if(!filtered.length){tbody.innerHTML='<tr><td colspan="9"><div class="empty"><h3>No items match</h3></div></td></tr>';return;}
+  if(!filtered.length){tbody.innerHTML='<tr><td colspan="9"><div class="empty"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" style="width:40px;height:40px;margin:0 auto 10px;display:block;opacity:0.15"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg><h3>No items found</h3><p>Try a different search</p></div></td></tr>';return;}
   tbody.innerHTML=filtered.map(function(i){
     var rc=i.stock<=0?'row-out':i.min>0&&i.stock<=i.min?'row-low':'';
     return '<tr class="'+rc+'"><td class="td-muted">'+(i.itemNo||'—')+'</td><td class="td-bold">'+i.description+'</td><td><span class="cat-tag">'+(i.category||'—')+'</span></td><td>'+i.unit+'</td><td>'+stockBar(i)+'</td><td class="td-rm">'+(i.unitPrice?fmtRM(i.unitPrice):'—')+'</td><td class="td-rm">'+(i.stock&&i.unitPrice?fmtRM(r2(i.stock*i.unitPrice)):'—')+'</td><td class="td-muted">'+(i.supplier||'—')+'</td><td>'+statusBadge(i)+'</td></tr>';
@@ -973,8 +1045,37 @@ function renderDashTable(){
 // ─── WHATSAPP ENTRY ───────────────────────────────────────────────────────────
 var waRows=[];
 
-function useEx(el){document.getElementById('wa-text').value=el.textContent.trim();}
-function clearWA(){document.getElementById('wa-text').value='';document.getElementById('wa-preview').innerHTML='';waRows=[];}
+function waSetStep(n){
+  var s1=document.querySelector('.wa-step'); // first
+  var s2=document.getElementById('wa-step-2');
+  var s3=document.getElementById('wa-step-3');
+  if(!s1||!s2||!s3)return;
+  [s1,s2,s3].forEach(function(s){s.classList.remove('active','done');});
+  if(n>=1){ if(n>1)s1.classList.add('done'); else s1.classList.add('active'); }
+  if(n>=2){ if(n>2)s2.classList.add('done'); else s2.classList.add('active'); }
+  if(n>=3){ s3.classList.add('active'); }
+}
+
+function onWaInput(){
+  var t=document.getElementById('wa-text').value;
+  var cc=document.getElementById('wa-charcount');
+  if(cc)cc.textContent=t.trim()?t.trim().length+' characters — ready to parse':'Supports English & Malay';
+  waSetStep(t.trim()?1:1);
+}
+
+function useEx(el){
+  document.getElementById('wa-text').value=el.textContent.trim();
+  onWaInput();
+  document.getElementById('wa-text').focus();
+}
+function clearWA(){
+  document.getElementById('wa-text').value='';
+  document.getElementById('wa-preview').innerHTML='';
+  waRows=[];
+  var ex=document.getElementById('wa-examples'); if(ex)ex.style.display='';
+  var cc=document.getElementById('wa-charcount'); if(cc)cc.textContent='Supports English & Malay';
+  waSetStep(1);
+}
 
 async function parseWA(){
   var text=document.getElementById('wa-text').value.trim();
@@ -1147,6 +1248,8 @@ function kwParse(text){
 
 // ─── WA PREVIEW (FULLY EDITABLE) ─────────────────────────────────────────────
 function renderWAPreview(){
+  var ex=document.getElementById('wa-examples'); if(ex)ex.style.display='none';
+  waSetStep(2);
   var area=document.getElementById('wa-preview');
   var notice=area.querySelector('.alert.a-yellow,.alert.a-red');
   var html=notice?notice.outerHTML:'';
@@ -1488,6 +1591,19 @@ goto=function(id,el){
     renderProdPage();
     return;
   }
+  if(id==='recount'){
+    document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
+    document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('active');});
+    document.getElementById('page-recount').classList.add('active');
+    if(el)el.classList.add('active');
+    closeSidebar();
+    var cats=getCats();
+    var rsel=document.getElementById('recount-cat');
+    if(rsel){rsel.innerHTML='<option value="">All Categories</option>';cats.forEach(function(c){rsel.appendChild(new Option(c,c));});}
+    recountData={};
+    renderRecountTable();
+    return;
+  }
   if(id==='recipes'){
     document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
     document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('active');});
@@ -1496,6 +1612,7 @@ goto=function(id,el){
     renderRecipes();
     return;
   }
+  syncMbn(id);
   _origGoto(id,el);
 };
 
@@ -1730,7 +1847,7 @@ function saveProdJob(){
 function viewProdJob(id){
   var job=getProdLog().find(function(j){return j.id===id;});
   if(!job)return;
-  alert('Job: '+job.jobDesc+'\nDate: '+fmtD(job.date)+' '+job.time+'\nRaw used: '+job.rawQty+' '+job.rawUnit+' of '+job.rawName+'\nProduced: '+job.finQty+' '+job.finUnit+' of '+job.finName+'\nBy: '+(job.by||'—')+'\nNotes: '+(job.notes||'—'));
+  toast(job.jobDesc+' — '+job.rawQty+' '+job.rawUnit+' → '+job.finQty+' '+job.finUnit+' ('+fmtD(job.date)+')', 'info');
 }
 
 function deleteProdJob(id){
@@ -2173,11 +2290,86 @@ function quickStockCustom(itemId) {
   var items = getItems();
   var item = items.find(function(i){ return i.id === itemId; });
   if (!item) return;
-  var val = prompt('Quick update for: ' + item.description + '\nCurrent stock: ' + item.stock + ' ' + item.unit + '\n\nEnter amount (positive = add, negative = deduct):');
-  if (val === null || val === '') return;
-  var delta = parseFloat(val);
-  if (isNaN(delta)) { toast('Invalid number.', 'err'); return; }
-  quickStock(itemId, delta);
+
+  var existing = document.getElementById('qs-popup');
+  if (existing) existing.remove();
+
+  var overlay = document.createElement('div');
+  overlay.id = 'qs-popup';
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.72);z-index:400;display:flex;align-items:center;justify-content:center;padding:16px';
+
+  var box = document.createElement('div');
+  box.style.cssText = 'background:var(--s1);border:1px solid var(--b2);border-radius:var(--r12);padding:20px;width:100%;max-width:320px;box-shadow:var(--shadow)';
+
+  var title = document.createElement('div');
+  title.style.cssText = 'font-size:0.9rem;font-weight:700;margin-bottom:4px';
+  title.textContent = 'Quick Update';
+
+  var sub = document.createElement('div');
+  sub.style.cssText = 'font-size:0.78rem;color:var(--t2);margin-bottom:14px';
+  sub.innerHTML = item.description + ' &nbsp;·&nbsp; Current: <strong>' + item.stock + ' ' + item.unit + '</strong>';
+
+  var inputWrap = document.createElement('div');
+  inputWrap.style.cssText = 'display:flex;gap:6px;margin-bottom:12px;align-items:center';
+
+  var btnOut = document.createElement('button');
+  btnOut.textContent = '− OUT';
+  btnOut.style.cssText = 'background:var(--red-bg);border:1px solid var(--red-border);color:var(--red);border-radius:var(--r6);padding:8px 10px;cursor:pointer;font-family:var(--sans);font-size:0.82rem;font-weight:700';
+  btnOut.onclick = function(){ if(inp.value && parseFloat(inp.value) > 0) inp.value = '-' + inp.value; };
+
+  var inp = document.createElement('input');
+  inp.id = 'qs-delta';
+  inp.type = 'number';
+  inp.step = 'any';
+  inp.placeholder = 'Amount';
+  inp.style.cssText = 'flex:1;background:var(--s2);border:1px solid var(--b2);border-radius:var(--r6);padding:9px 10px;font-size:1.1rem;color:var(--t1);font-family:var(--mono);text-align:center;min-width:0';
+  inp.onkeydown = function(e){ if(e.key==='Enter') doSave(); };
+
+  var btnIn = document.createElement('button');
+  btnIn.textContent = '+ IN';
+  btnIn.style.cssText = 'background:var(--green-bg);border:1px solid var(--green-border);color:var(--green);border-radius:var(--r6);padding:8px 10px;cursor:pointer;font-family:var(--sans);font-size:0.82rem;font-weight:700';
+  btnIn.onclick = function(){ if(inp.value) inp.value = Math.abs(parseFloat(inp.value)||0); };
+
+  inputWrap.appendChild(btnOut);
+  inputWrap.appendChild(inp);
+  inputWrap.appendChild(btnIn);
+
+  var hint = document.createElement('div');
+  hint.style.cssText = 'font-size:0.72rem;color:var(--t3);margin-bottom:12px;text-align:center';
+  hint.textContent = 'Positive number = add stock.  Negative = remove stock.';
+
+  var btnRow = document.createElement('div');
+  btnRow.style.cssText = 'display:flex;gap:8px';
+
+  var saveBtn = document.createElement('button');
+  saveBtn.textContent = 'Save';
+  saveBtn.style.cssText = 'flex:1;background:var(--orange);border:none;border-radius:var(--r8);padding:11px;color:#fff;font-weight:700;cursor:pointer;font-family:var(--sans);font-size:0.88rem';
+
+  var cancelBtn = document.createElement('button');
+  cancelBtn.textContent = 'Cancel';
+  cancelBtn.style.cssText = 'background:transparent;border:1px solid var(--b2);border-radius:var(--r8);padding:11px 14px;color:var(--t2);cursor:pointer;font-family:var(--sans);font-size:0.88rem';
+  cancelBtn.onclick = function(){ overlay.remove(); };
+
+  function doSave(){
+    var v = parseFloat(inp.value);
+    if (isNaN(v) || v === 0) { toast('Enter a valid number.', 'err'); return; }
+    overlay.remove();
+    quickStock(itemId, v);
+  }
+
+  saveBtn.onclick = doSave;
+  btnRow.appendChild(saveBtn);
+  btnRow.appendChild(cancelBtn);
+
+  box.appendChild(title);
+  box.appendChild(sub);
+  box.appendChild(inputWrap);
+  box.appendChild(hint);
+  box.appendChild(btnRow);
+  overlay.appendChild(box);
+  overlay.addEventListener('click', function(e){ if(e.target===overlay) overlay.remove(); });
+  document.body.appendChild(overlay);
+  setTimeout(function(){ inp.focus(); }, 60);
 }
 
 // ─── UPGRADE 2: UNDO LAST ENTRY ───────────────────────────────────────────────
@@ -2462,7 +2654,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeModal(
   var f=new Date();f.setDate(f.getDate()-30);
   document.getElementById('h-from').value=f.toISOString().slice(0,10);
   document.getElementById('h-to').value=today();
-  populateCats();renderDashboard();loadWorkerName();
+  populateCats();populateChartMonths();renderDashboard();loadWorkerName();
 })();
 </script>
 </body>
