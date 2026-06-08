@@ -248,6 +248,45 @@ th.th-r{text-align:right}
   .fab{bottom:14px;right:14px}
 }
 .mobile-btn{display:none;align-items:center;justify-content:center;width:34px;height:34px;background:transparent;border:1px solid var(--b1);border-radius:var(--r8);cursor:pointer;color:var(--t2);flex-shrink:0}
+/* ─── QUICK STOCK BUTTONS ──────────────────────────────────────────────────── */
+.quick-stock{display:flex;align-items:center;gap:3px;justify-content:center}
+.qs-btn{background:transparent;border:1px solid var(--b2);border-radius:var(--r6);cursor:pointer;font-size:0.72rem;font-weight:700;font-family:var(--mono);padding:3px 6px;transition:all 0.12s;line-height:1;color:var(--t2);white-space:nowrap}
+.qs-btn.out:hover{background:var(--red-bg);border-color:var(--red-border);color:var(--red)}
+.qs-btn.in:hover{background:var(--green-bg);border-color:var(--green-border);color:var(--green)}
+.qs-btn.custom{background:var(--orange-bg);border-color:var(--orange-border);color:var(--orange)}
+.qs-btn.custom:hover{opacity:0.8}
+
+/* ─── RECOUNT ──────────────────────────────────────────────────────────────── */
+.recount-input{width:100%;background:var(--s2);border:1px solid var(--b2);border-radius:var(--r6);padding:5px 8px;font-size:0.85rem;color:var(--t1);font-family:var(--mono);text-align:center}
+.recount-input:focus{outline:none;border-color:var(--orange);box-shadow:0 0 0 2px var(--orange-bg)}
+.recount-input.changed{border-color:var(--orange);background:var(--orange-bg)}
+.var-plus{color:var(--green);font-family:var(--mono);font-size:0.82rem;font-weight:600}
+.var-minus{color:var(--red);font-family:var(--mono);font-size:0.82rem;font-weight:600}
+.var-zero{color:var(--t3);font-family:var(--mono);font-size:0.82rem}
+.remark-input{background:var(--s2);border:1px solid transparent;border-radius:var(--r6);padding:5px 8px;font-size:0.78rem;color:var(--t1);font-family:var(--sans);width:130px}
+.remark-input:focus{outline:none;border-color:var(--b2)}
+
+/* ─── CHART ────────────────────────────────────────────────────────────────── */
+.chart-wrap{padding:4px 0 8px}
+.chart-bar-row{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.chart-label{font-size:0.72rem;color:var(--t2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:160px;flex-shrink:0;text-align:right}
+.chart-bar-bg{flex:1;height:20px;background:var(--s3);border-radius:var(--r6);overflow:hidden;position:relative}
+.chart-bar-fill{height:100%;border-radius:var(--r6);background:var(--orange);transition:width 0.4s ease;display:flex;align-items:center;justify-content:flex-end;padding-right:6px}
+.chart-bar-fill.zero{background:var(--s4)}
+.chart-val{font-size:0.68rem;font-family:var(--mono);color:#fff;white-space:nowrap;font-weight:600}
+.chart-empty{text-align:center;padding:2rem;color:var(--t3);font-size:0.82rem}
+</style>
+.prod-flow{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.prod-arrow{color:var(--orange);font-size:1rem;flex-shrink:0}
+.prod-raw{background:var(--red-bg);border:1px solid var(--red-border);border-radius:var(--r6);padding:3px 9px;font-size:0.75rem;color:var(--red);font-weight:500}
+.prod-fin{background:var(--green-bg);border:1px solid var(--green-border);border-radius:var(--r6);padding:3px 9px;font-size:0.75rem;color:var(--green);font-weight:500}
+.prod-qty{font-family:var(--mono);font-size:0.75rem;color:var(--t2)}
+.status-done{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border);border-radius:99px;padding:2px 8px;font-size:0.67rem;font-weight:600}
+.status-pending{background:var(--yellow-bg);color:var(--yellow);border:1px solid var(--yellow-border);border-radius:99px;padding:2px 8px;font-size:0.67rem;font-weight:600}
+.preview-row-item{display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--b1);font-size:0.82rem}
+.preview-row-item:last-child{border:none}
+.preview-minus{color:var(--red);font-weight:600;font-family:var(--mono)}
+.preview-plus{color:var(--green);font-weight:600;font-family:var(--mono)}
 </style>
 </head>
 <body>
@@ -288,6 +327,12 @@ th.th-r{text-align:right}
         <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.3 7 12 12l8.7-5M12 22V12"/></svg>Materials
         <span class="nav-badge" id="nav-badge" style="display:none">!</span>
       </button>
+      <button class="nav-item" onclick="goto('production',this)">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg>Production
+      </button>
+      <button class="nav-item" onclick="goto('recount',this)">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Recount
+      </button>
       <button class="nav-item" onclick="goto('history',this)">
         <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>History
       </button>
@@ -311,11 +356,32 @@ th.th-r{text-align:right}
         <div class="stats" id="dash-stats"></div>
         <div class="alert-zone" id="dash-alerts"></div>
         <div class="card">
-          <div class="card-head"><h2>Recent Activity</h2><span id="recent-lbl" style="font-size:0.73rem;color:var(--t3)"></span></div>
+          <div class="card-head">
+            <h2>Recent Activity</h2>
+            <div style="display:flex;gap:8px;align-items:center">
+              <span id="recent-lbl" style="font-size:0.73rem;color:var(--t3)"></span>
+              <button class="btn btn-ghost btn-sm" id="undo-btn" onclick="undoLastEntry()" style="display:none">
+                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 7v6h6"/><path d="M3 13a9 9 0 1 0 2.93-6.36L3 9.5"/></svg>
+                Undo Last
+              </button>
+            </div>
+          </div>
           <div class="tbl-wrap"><table>
             <thead><tr><th>When</th><th>Material</th><th>Type</th><th>Qty</th><th>Balance</th><th>By</th></tr></thead>
             <tbody id="recent-tbody"></tbody>
           </table></div>
+        </div>
+        <div class="card">
+          <div class="card-head">
+            <h2>Monthly Usage — Top Materials</h2>
+            <div style="display:flex;gap:6px;align-items:center">
+              <select id="chart-month" onchange="renderChart()" style="background:var(--s2);border:1px solid var(--b2);border-radius:var(--r6);padding:4px 8px;font-size:0.78rem;color:var(--t1);font-family:var(--sans)"></select>
+              <span style="font-size:0.73rem;color:var(--t3)">Stock out by item</span>
+            </div>
+          </div>
+          <div class="card-body" style="padding-bottom:6px">
+            <div id="chart-area" style="min-height:180px"></div>
+          </div>
         </div>
         <div class="card">
           <div class="card-head"><h2>Stock Levels</h2><span id="dash-count" style="font-size:0.73rem;color:var(--t3)"></span></div>
@@ -405,6 +471,9 @@ th.th-r{text-align:right}
         <div class="ph">
           <div><h1>Materials</h1><p>Your full inventory list</p></div>
           <div class="ph-right">
+            <button class="btn btn-ghost" onclick="goto('recount',document.querySelector('.nav-item[onclick*=\'recount\']'))">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Recount
+            </button>
             <button class="btn btn-ghost" onclick="openBulk()">
               <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Bulk Import
             </button>
@@ -421,11 +490,146 @@ th.th-r{text-align:right}
             </div>
           </div>
           <div class="tbl-wrap"><table>
-            <thead><tr><th>#</th><th>Description</th><th>Category</th><th>Unit</th><th>Qty</th><th class="th-r">Unit(RM)</th><th class="th-r">Value(RM)</th><th>Supplier</th><th>Min</th><th>Status</th><th style="text-align:right">Actions</th></tr></thead>
+            <thead><tr><th>#</th><th>Description</th><th>Category</th><th>Unit</th><th>Qty</th><th class="th-r">Unit(RM)</th><th class="th-r">Value(RM)</th><th>Supplier</th><th>Min</th><th>Status</th><th style="text-align:center">Quick ±</th><th style="text-align:right">Actions</th></tr></thead>
             <tbody id="items-tbody"></tbody>
           </table></div>
         </div>
       </div>
+      <!-- RECOUNT -->
+      <div id="page-recount" class="page">
+        <div class="ph">
+          <div><h1>Stock Recount</h1><p>Physical count — system auto-calculates variance and logs adjustments</p></div>
+          <div class="ph-right">
+            <select class="filter-sel" id="recount-cat" onchange="renderRecountTable()"><option value="">All Categories</option></select>
+            <button class="btn btn-orange" onclick="confirmRecount()" id="recount-confirm-btn" style="display:none">
+              <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+              Save All Adjustments
+            </button>
+          </div>
+        </div>
+        <div class="alert a-blue" style="margin-bottom:14px">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg>
+          <span>Enter the <strong>actual physical count</strong> you see on the shelf. The system shows the difference and saves an adjustment log automatically.</span>
+        </div>
+        <div class="card">
+          <div class="card-head">
+            <h2>Physical Count Entry</h2>
+            <span id="recount-changed" style="font-size:0.73rem;color:var(--orange)"></span>
+          </div>
+          <div class="tbl-wrap">
+            <table id="recount-table">
+              <thead><tr>
+                <th>#</th><th>Description</th><th>Category</th><th>Unit</th>
+                <th>System Qty</th><th style="width:130px">Physical Count</th>
+                <th>Variance</th><th>Remarks</th>
+              </tr></thead>
+              <tbody id="recount-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- PRODUCTION -->
+      <div id="page-production" class="page">
+        <div class="ph">
+          <div><h1>Production</h1><p>Convert raw materials into finished products</p></div>
+          <div class="ph-right">
+            <button class="btn btn-ghost" onclick="goto('recipes',document.querySelector('.nav-item[onclick*=\'recipes\']'))">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              Saved Recipes
+            </button>
+            <button class="btn btn-orange" onclick="openProdModal()">
+              <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+              New Production Job
+            </button>
+          </div>
+        </div>
+
+        <div class="stats" id="prod-stats"></div>
+
+        <!-- WhatsApp Production Entry -->
+        <div class="card" style="margin-bottom:14px">
+          <div class="card-head">
+            <h2 style="display:flex;align-items:center;gap:8px">
+              <span style="width:8px;height:8px;border-radius:50%;background:var(--orange);display:inline-block;animation:pulse 2s infinite"></span>
+              WhatsApp Production Entry
+            </h2>
+            <span style="font-size:0.73rem;color:var(--t3)">Type naturally — AI detects what was made</span>
+          </div>
+          <div class="card-body" style="padding-bottom:0">
+            <div class="example-chips" style="margin-bottom:10px">
+              <h3>Tap an example:</h3>
+              <span class="chip" onclick="useProdEx(this)">Make 50 pcs 3.0mm A panel from 3.0mm plate</span>
+              <span class="chip" onclick="useProdEx(this)">Buat 30 keping 4.5mm B panel dari 4.5mm plate</span>
+              <span class="chip" onclick="useProdEx(this)">Produced 20 pcs HDG tank cover using 3.0mm plate 20pcs</span>
+              <span class="chip" onclick="useProdEx(this)">Convert 100pcs 3mm MS plate to 100pcs 3mm type A panel</span>
+            </div>
+          </div>
+          <div class="wa-card" style="margin:0 14px 14px;border-radius:var(--r10)">
+            <div class="wa-head">
+              <div class="wa-pulse"></div>
+              <div><strong>Production Parser</strong><br><span>Detects: what was used (raw) and what was made (finished)</span></div>
+            </div>
+            <textarea class="wa-textarea" id="prod-wa-text" placeholder="Type your production message here…&#10;&#10;Examples:&#10;  Make 50 pcs 3.0mm A panel from 3.0mm plate&#10;  Buat 30 keping 4.5mm B panel dari 4.5mm MS plate&#10;  Convert 3mm plate 20pcs → 3mm tank cover 20pcs&#10;  Produced 10 pcs roof cover using 1.5mm plate" style="min-height:110px"></textarea>
+            <div class="wa-footer">
+              <span class="wa-hint">English or Malay. Detects raw material used and product made.</span>
+              <div class="btn-row">
+                <button class="btn btn-ghost btn-sm" onclick="clearProdWA()">Clear</button>
+                <button class="btn btn-orange" onclick="parseProdWA()" id="prod-parse-btn">
+                  <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>Parse
+                </button>
+              </div>
+            </div>
+          </div>
+          <div id="prod-wa-preview" style="padding:0 14px 14px"></div>
+        </div>
+
+        <!-- Production Log -->
+        <div class="card">
+          <div class="card-head">
+            <h2>Production Log</h2>
+            <span id="prod-log-count" style="font-size:0.73rem;color:var(--t3)"></span>
+          </div>
+          <div class="tbl-wrap">
+            <table>
+              <thead><tr>
+                <th>Date</th><th>Time</th><th>Job</th>
+                <th>Raw Used</th><th>Qty</th>
+                <th>Product Made</th><th>Qty</th>
+                <th>By</th><th style="text-align:right">Actions</th>
+              </tr></thead>
+              <tbody id="prod-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- RECIPES -->
+      <div id="page-recipes" class="page">
+        <div class="ph">
+          <div><h1>Saved Recipes</h1><p>Define material → product conversion formulas</p></div>
+          <div class="ph-right">
+            <button class="btn btn-orange" onclick="openRecipeModal()">
+              <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+              Add Recipe
+            </button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="tbl-wrap">
+            <table>
+              <thead><tr>
+                <th>Recipe Name</th><th>Raw Material</th><th>Qty per Run</th>
+                <th>Finished Product</th><th>Output Qty</th><th>Notes</th>
+                <th style="text-align:right">Actions</th>
+              </tr></thead>
+              <tbody id="recipe-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
       <!-- HISTORY -->
       <div id="page-history" class="page">
         <div class="ph"><div><h1>History</h1><p>Full transaction log</p></div></div>
@@ -440,7 +644,7 @@ th.th-r{text-align:right}
             <button class="btn btn-ghost btn-sm" onclick="renderHistory()">Apply Filter</button>
           </div>
           <div class="tbl-wrap"><table>
-            <thead><tr><th>Date</th><th>Time</th><th>Material</th><th>Type</th><th>Qty</th><th>Balance</th><th class="th-r">Unit(RM)</th><th class="th-r">Amount(RM)</th><th>Supplier</th><th>By</th><th>Source</th></tr></thead>
+            <thead><tr><th>Date</th><th>Time</th><th>Material</th><th>Type</th><th>Qty</th><th>Balance</th><th class="th-r">Unit(RM)</th><th class="th-r">Amount(RM)</th><th>Supplier</th><th>By</th><th>Source</th><th></th></tr></thead>
             <tbody id="hist-tbody"></tbody>
           </table></div>
         </div>
@@ -511,6 +715,110 @@ th.th-r{text-align:right}
       <button class="btn btn-orange" onclick="saveBulkRows()">Import All</button>
       <button class="btn btn-ghost" onclick="closeBulk()">Cancel</button>
       <span id="bulk-save-msg" style="font-size:0.78rem"></span>
+    </div>
+  </div>
+</div>
+
+<!-- PRODUCTION JOB MODAL -->
+<div class="modal-bg" id="prod-modal">
+  <div class="modal" style="max-width:680px">
+    <div class="modal-head"><h2 id="prod-modal-title">New Production Job</h2><button class="close-btn" onclick="closeProdModal()">✕</button></div>
+    <div class="modal-body">
+
+      <!-- Load recipe shortcut -->
+      <div style="background:var(--blue-bg);border:1px solid var(--blue-border);border-radius:var(--r8);padding:10px 14px;margin-bottom:14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+        <span style="font-size:0.8rem;color:var(--blue);font-weight:600">⚡ Load from saved recipe:</span>
+        <select id="prod-recipe-sel" onchange="loadRecipe(this.value)" style="background:var(--s2);border:1px solid var(--blue-border);border-radius:var(--r6);padding:5px 9px;font-size:0.82rem;color:var(--t1);font-family:var(--sans);flex:1;min-width:160px">
+          <option value="">— Select recipe (optional) —</option>
+        </select>
+        <span style="font-size:0.73rem;color:var(--t3)">or fill in manually below</span>
+      </div>
+
+      <div class="form-grid" style="grid-template-columns:1fr 1fr">
+        <div class="fg"><label>Date</label><input type="date" id="prod-date"></div>
+        <div class="fg"><label>Job Description <span class="req">*</span></label><input type="text" id="prod-job" placeholder="e.g. Make 3.0mm A Panel"></div>
+      </div>
+
+      <div class="divider"></div>
+      <div class="sec-label" style="color:var(--red)">
+        <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        Raw Material to Deduct (Stock OUT)
+      </div>
+      <div class="form-grid">
+        <div class="fg"><label>Raw Material <span class="req">*</span></label><select id="prod-raw-item"><option value="">— Select material —</option></select></div>
+        <div class="fg"><label>Qty to Deduct <span class="req">*</span></label><input type="number" id="prod-raw-qty" min="0" step="any" placeholder="0"></div>
+        <div class="fg"><label>Unit</label><input type="text" id="prod-raw-unit" placeholder="auto-filled" readonly style="opacity:0.6"></div>
+      </div>
+
+      <div class="divider"></div>
+      <div class="sec-label" style="color:var(--green)">
+        <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        Finished Product to Add (Stock IN)
+      </div>
+      <div class="form-grid">
+        <div class="fg"><label>Finished Product <span class="req">*</span></label><select id="prod-fin-item"><option value="">— Select or create new —</option></select></div>
+        <div class="fg"><label>Qty Produced <span class="req">*</span></label><input type="number" id="prod-fin-qty" min="0" step="any" placeholder="0"></div>
+        <div class="fg"><label>Unit</label><input type="text" id="prod-fin-unit" placeholder="auto-filled" readonly style="opacity:0.6"></div>
+      </div>
+      <!-- Create new finished product inline -->
+      <div id="prod-new-item-sec" style="display:none;background:var(--green-bg);border:1px solid var(--green-border);border-radius:var(--r8);padding:12px;margin-top:8px">
+        <div style="font-size:0.75rem;font-weight:600;color:var(--green);margin-bottom:8px">🆕 Create new finished product item</div>
+        <div class="form-grid">
+          <div class="fg"><label>Product Name <span class="req">*</span></label><input type="text" id="prod-new-name" placeholder="e.g. 3.0mm A Panel"></div>
+          <div class="fg"><label>Category</label><input type="text" id="prod-new-cat" placeholder="e.g. Tank Plates (Fab)"></div>
+          <div class="fg"><label>Unit</label><input type="text" id="prod-new-unit" placeholder="pcs"></div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+      <div class="form-grid">
+        <div class="fg"><label>Production By</label><input type="text" id="prod-by" placeholder="Worker name"></div>
+        <div class="fg"><label>Remarks <span class="hint">optional</span></label><input type="text" id="prod-notes" placeholder="Any notes…"></div>
+      </div>
+
+      <!-- Live preview -->
+      <div id="prod-preview" style="display:none;background:var(--s2);border:1px solid var(--b2);border-radius:var(--r8);padding:12px;margin-top:4px">
+        <div style="font-size:0.75rem;font-weight:600;color:var(--t2);margin-bottom:8px">Preview of stock changes:</div>
+        <div id="prod-preview-content"></div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <input type="hidden" id="prod-edit-id">
+      <button class="btn btn-orange" onclick="saveProdJob()">
+        <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        <span id="prod-btn-lbl">Save & Update Stock</span>
+      </button>
+      <button class="btn btn-ghost" onclick="closeProdModal()">Cancel</button>
+      <span id="prod-msg" style="font-size:0.78rem"></span>
+    </div>
+  </div>
+</div>
+
+<!-- RECIPE MODAL -->
+<div class="modal-bg" id="recipe-modal">
+  <div class="modal" style="max-width:560px">
+    <div class="modal-head"><h2 id="recipe-modal-title">Add Recipe</h2><button class="close-btn" onclick="closeRecipeModal()">✕</button></div>
+    <div class="modal-body">
+      <div class="fg" style="margin-bottom:10px"><label>Recipe Name <span class="req">*</span></label><input type="text" id="rec-name" placeholder="e.g. 3.0mm Plate → 3.0mm A Panel"></div>
+      <div class="divider"></div>
+      <div class="sec-label">Raw Material (input)</div>
+      <div class="form-grid">
+        <div class="fg"><label>Material <span class="req">*</span></label><select id="rec-raw-item"><option value="">— Select —</option></select></div>
+        <div class="fg"><label>Qty per Run</label><input type="number" id="rec-raw-qty" min="0" step="any" placeholder="1"></div>
+      </div>
+      <div class="divider"></div>
+      <div class="sec-label">Finished Product (output)</div>
+      <div class="form-grid">
+        <div class="fg"><label>Product <span class="req">*</span></label><select id="rec-fin-item"><option value="">— Select —</option></select></div>
+        <div class="fg"><label>Output Qty</label><input type="number" id="rec-fin-qty" min="0" step="any" placeholder="1"></div>
+      </div>
+      <div class="fg" style="margin-top:10px"><label>Notes <span class="hint">optional</span></label><input type="text" id="rec-notes" placeholder="Any remarks…"></div>
+    </div>
+    <div class="modal-foot">
+      <input type="hidden" id="rec-id">
+      <button class="btn btn-orange" onclick="saveRecipe()"><span id="rec-btn-lbl">Save Recipe</span></button>
+      <button class="btn btn-ghost" onclick="closeRecipeModal()">Cancel</button>
+      <span id="rec-msg" style="font-size:0.78rem"></span>
     </div>
   </div>
 </div>
@@ -1016,7 +1324,19 @@ function renderItems(){
   if(!filtered.length){tbody.innerHTML='<tr><td colspan="11"><div class="empty"><h3>No items found</h3></div></td></tr>';return;}
   tbody.innerHTML=filtered.map(function(i){
     var rc=i.stock<=0?'row-out':i.min>0&&i.stock<=i.min?'row-low':'';
-    return '<tr class="'+rc+'"><td class="td-muted">'+(i.itemNo||'—')+'</td><td class="td-bold">'+i.description+'</td><td><span class="cat-tag">'+(i.category||'—')+'</span></td><td>'+i.unit+'</td><td>'+stockBar(i)+'</td><td class="td-rm">'+(i.unitPrice?fmtRM(i.unitPrice):'—')+'</td><td class="td-rm">'+(i.stock&&i.unitPrice?fmtRM(r2(i.stock*i.unitPrice)):'—')+'</td><td class="td-muted">'+(i.supplier||'—')+'</td><td class="td-mono">'+(i.min||'—')+'</td><td>'+statusBadge(i)+'</td><td><div class="btn-row" style="justify-content:flex-end"><button class="btn btn-ghost btn-xs" onclick="openEditModal(\''+i.id+'\')">Edit</button><button class="btn btn-red btn-xs" onclick="deleteItem(\''+i.id+'\')">Del</button></div></td></tr>';
+    // Smart quick amounts based on unit — 1/5/10 for bags, 10/50/100 for pcs
+    var smallStep = i.unit && (i.unit.match(/bag|roll|tin|box/i)) ? 1 : 10;
+    var bigStep   = i.unit && (i.unit.match(/bag|roll|tin|box/i)) ? 5 : 50;
+    return '<tr class="'+rc+'"><td class="td-muted">'+(i.itemNo||'—')+'</td><td class="td-bold">'+i.description+'</td><td><span class="cat-tag">'+(i.category||'—')+'</span></td><td>'+i.unit+'</td><td>'+stockBar(i)+'</td><td class="td-rm">'+(i.unitPrice?fmtRM(i.unitPrice):'—')+'</td><td class="td-rm">'+(i.stock&&i.unitPrice?fmtRM(r2(i.stock*i.unitPrice)):'—')+'</td><td class="td-muted">'+(i.supplier||'—')+'</td><td class="td-mono">'+(i.min||'—')+'</td><td>'+statusBadge(i)+'</td>'+
+      '<td>'+
+        '<div class="quick-stock">'+
+          '<button class="qs-btn out" onclick="quickStock(\''+i.id+'\','+(- smallStep)+')" title="Remove '+smallStep+'">-'+smallStep+'</button>'+
+          '<button class="qs-btn in"  onclick="quickStock(\''+i.id+'\','+smallStep+')"  title="Add '+smallStep+'">+'+smallStep+'</button>'+
+          '<button class="qs-btn in"  onclick="quickStock(\''+i.id+'\','+bigStep+')"   title="Add '+bigStep+'">+'+bigStep+'</button>'+
+          '<button class="qs-btn custom" onclick="quickStockCustom(\''+i.id+'\')" title="Custom amount">±?</button>'+
+        '</div>'+
+      '</td>'+
+      '<td><div class="btn-row" style="justify-content:flex-end"><button class="btn btn-ghost btn-xs" onclick="openEditModal(\''+i.id+'\')">Edit</button><button class="btn btn-red btn-xs" onclick="deleteItem(\''+i.id+'\')">Del</button></div></td></tr>';
   }).join('');
 }
 
@@ -1122,7 +1442,7 @@ function renderHistory(){
   var tbody=document.getElementById('hist-tbody');
   if(!log.length){tbody.innerHTML='<tr><td colspan="11"><div class="empty"><h3>No records found</h3><p>Adjust your date range or filters</p></div></td></tr>';return;}
   tbody.innerHTML=log.map(function(e){
-    return '<tr><td class="td-mono" style="font-size:0.74rem">'+fmtD(e.date)+'</td><td class="td-mono" style="font-size:0.74rem">'+(e.time||'—')+'</td><td class="td-bold">'+e.itemName+'</td><td><span class="badge '+(cls[e.type]||'b-adj')+'">'+(lbl[e.type]||e.type)+'</span></td><td class="td-mono">'+e.qty+' '+e.unit+'</td><td class="td-mono">'+e.newStock+' '+e.unit+'</td><td class="td-rm">'+(e.unitPrice?fmtRM(e.unitPrice):'—')+'</td><td class="td-rm">'+(e.amount?fmtRM(e.amount):'—')+'</td><td class="td-muted">'+(e.supplier||'—')+'</td><td>'+(e.by||'—')+'</td><td title="'+(e.source||'manual')+'">'+(srcIcon[e.source]||'✏️')+'</td></tr>';
+    return '<tr><td class="td-mono" style="font-size:0.74rem">'+fmtD(e.date)+'</td><td class="td-mono" style="font-size:0.74rem">'+(e.time||'—')+'</td><td class="td-bold">'+e.itemName+'</td><td><span class="badge '+(cls[e.type]||'b-adj')+'">'+(lbl[e.type]||e.type)+'</span></td><td class="td-mono">'+e.qty+' '+e.unit+'</td><td class="td-mono">'+e.newStock+' '+e.unit+'</td><td class="td-rm">'+(e.unitPrice?fmtRM(e.unitPrice):'—')+'</td><td class="td-rm">'+(e.amount?fmtRM(e.amount):'—')+'</td><td class="td-muted">'+(e.supplier||'—')+'</td><td>'+(e.by||'—')+'</td><td title="'+(e.source||'manual')+'">'+(srcIcon[e.source]||'✏️')+'</td><td><button class="btn btn-ghost btn-xs" onclick="undoEntry(\''+e.id+'\')" title="Undo this entry" style="white-space:nowrap"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="11" height="11"><path d="M3 7v6h6"/><path d="M3 13a9 9 0 1 0 2.93-6.36L3 9.5"/></svg></button></td></tr>';
   }).join('');
 }
 
@@ -1147,6 +1467,913 @@ function toggleFab(){
 function closeFab(){
   document.getElementById('fab-menu').classList.remove('open');
   document.getElementById('fab-btn').innerHTML='<svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>';
+}
+
+// ─── PRODUCTION & RECIPES ─────────────────────────────────────────────────────
+var KP='ws_prod_v1', KR='ws_rec_v1';
+var getProdLog=function(){try{return JSON.parse(localStorage.getItem(KP))||[];}catch{return[];}};
+var setProdLog=function(d){localStorage.setItem(KP,JSON.stringify(d));};
+var getRecipes=function(){try{return JSON.parse(localStorage.getItem(KR))||[];}catch{return[];}};
+var setRecipes=function(d){localStorage.setItem(KR,JSON.stringify(d));};
+
+// Navigation handler for production pages
+var _origGoto=goto;
+goto=function(id,el){
+  if(id==='production'){
+    document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
+    document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('active');});
+    document.getElementById('page-production').classList.add('active');
+    if(el)el.classList.add('active');
+    closeSidebar();
+    renderProdPage();
+    return;
+  }
+  if(id==='recipes'){
+    document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
+    document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('active');});
+    document.getElementById('page-recipes').classList.add('active');
+    closeSidebar();
+    renderRecipes();
+    return;
+  }
+  _origGoto(id,el);
+};
+
+// ── PRODUCTION PAGE ───────────────────────────────────────────────────────────
+function renderProdPage(){
+  var log=getProdLog();
+  var today_=today();
+  var todayJobs=log.filter(function(j){return j.date===today_;}).length;
+  var totalJobs=log.length;
+  var totalMade=log.reduce(function(s,j){return s+j.finQty;},0);
+
+  document.getElementById('prod-stats').innerHTML=
+    '<div class="stat"><div class="stat-icon si-orange"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg></div><div class="stat-val orange">'+todayJobs+'</div><div class="stat-lbl">Jobs Today</div></div>'+
+    '<div class="stat"><div class="stat-icon si-blue"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div><div class="stat-val">'+totalJobs+'</div><div class="stat-lbl">Total Jobs</div></div>'+
+    '<div class="stat"><div class="stat-icon si-green"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div><div class="stat-val green">'+totalMade+'</div><div class="stat-lbl">Units Produced</div></div>'+
+    '<div class="stat"><div class="stat-icon si-purple"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><div class="stat-val" style="color:var(--purple)">'+getRecipes().length+'</div><div class="stat-lbl">Saved Recipes</div></div>';
+
+  var sorted=log.slice().reverse();
+  document.getElementById('prod-log-count').textContent=sorted.length+' job'+(sorted.length!==1?'s':'');
+  var tbody=document.getElementById('prod-tbody');
+  if(!sorted.length){
+    tbody.innerHTML='<tr><td colspan="10"><div class="empty"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3"/></svg><h3>No production jobs yet</h3><p>Click "New Production Job" to record a conversion</p></div></td></tr>';
+    return;
+  }
+  tbody.innerHTML=sorted.map(function(j){
+    return '<tr>'+
+      '<td class="td-mono" style="font-size:0.74rem">'+fmtD(j.date)+'</td>'+
+      '<td class="td-mono" style="font-size:0.74rem">'+(j.time||'—')+'</td>'+
+      '<td class="td-bold">'+j.jobDesc+'</td>'+
+      '<td><span class="prod-raw">'+j.rawName+'</span></td>'+
+      '<td class="prod-qty">- '+j.rawQty+' '+j.rawUnit+'</td>'+
+      '<td><span class="prod-fin">'+j.finName+'</span></td>'+
+      '<td class="prod-qty">+ '+j.finQty+' '+j.finUnit+'</td>'+
+      '<td class="td-muted">'+(j.by||'—')+'</td>'+
+      '<td><span class="status-done">Done</span></td>'+
+      '<td style="text-align:right">'+
+        '<div class="btn-row" style="justify-content:flex-end">'+
+          '<button class="btn btn-ghost btn-xs" onclick="viewProdJob(\''+j.id+'\')">View</button>'+
+          '<button class="btn btn-red btn-xs" onclick="deleteProdJob(\''+j.id+'\')">Del</button>'+
+        '</div>'+
+      '</td>'+
+    '</tr>';
+  }).join('');
+}
+
+// ── PRODUCTION MODAL ──────────────────────────────────────────────────────────
+function openProdModal(prefill){
+  prefill=prefill||{};
+  // Populate item selects
+  var items=getItems();
+  var rawSel=document.getElementById('prod-raw-item');
+  var finSel=document.getElementById('prod-fin-item');
+  rawSel.innerHTML='<option value="">— Select material —</option>';
+  finSel.innerHTML='<option value="">— Select or create new —</option><option value="__new__">➕ Create new finished product…</option>';
+  items.forEach(function(i){
+    rawSel.appendChild(new Option(i.description+' (stock: '+i.stock+' '+i.unit+')',i.id));
+    finSel.appendChild(new Option(i.description+' ('+i.unit+')',i.id));
+  });
+
+  // Populate recipe select
+  var recs=getRecipes();
+  var recSel=document.getElementById('prod-recipe-sel');
+  recSel.innerHTML='<option value="">— Select recipe (optional) —</option>';
+  recs.forEach(function(r){recSel.appendChild(new Option(r.name,r.id));});
+
+  // Set defaults
+  document.getElementById('prod-date').value=today();
+  document.getElementById('prod-job').value=prefill.jobDesc||'';
+  document.getElementById('prod-raw-item').value=prefill.rawItemId||'';
+  document.getElementById('prod-raw-qty').value=prefill.rawQty||'';
+  document.getElementById('prod-raw-unit').value=prefill.rawUnit||'';
+  document.getElementById('prod-fin-item').value=prefill.finItemId||'';
+  document.getElementById('prod-fin-qty').value=prefill.finQty||'';
+  document.getElementById('prod-fin-unit').value=prefill.finUnit||'';
+  document.getElementById('prod-by').value=localStorage.getItem('winko_worker')||'';
+  document.getElementById('prod-notes').value=prefill.notes||'';
+  document.getElementById('prod-edit-id').value='';
+  document.getElementById('prod-msg').textContent='';
+  document.getElementById('prod-new-item-sec').style.display='none';
+  document.getElementById('prod-modal-title').textContent='New Production Job';
+  document.getElementById('prod-btn-lbl').textContent='Save & Update Stock';
+  updateProdPreview();
+  document.getElementById('prod-modal').classList.add('open');
+}
+
+function closeProdModal(){document.getElementById('prod-modal').classList.remove('open');}
+
+// Auto-fill unit when raw material selected
+document.addEventListener('DOMContentLoaded',function(){
+  document.getElementById('prod-raw-item').addEventListener('change',function(){
+    var item=getItems().find(function(i){return i.id===this.value;}.bind(this));
+    document.getElementById('prod-raw-unit').value=item?item.unit:'';
+    updateProdPreview();
+  });
+  document.getElementById('prod-fin-item').addEventListener('change',function(){
+    if(this.value==='__new__'){
+      document.getElementById('prod-new-item-sec').style.display='block';
+      document.getElementById('prod-fin-unit').value='';
+    }else{
+      document.getElementById('prod-new-item-sec').style.display='none';
+      var item=getItems().find(function(i){return i.id===this.value;}.bind(this));
+      document.getElementById('prod-fin-unit').value=item?item.unit:'';
+    }
+    updateProdPreview();
+  });
+  ['prod-raw-qty','prod-fin-qty','prod-job'].forEach(function(id){
+    var el=document.getElementById(id);
+    if(el)el.addEventListener('input',updateProdPreview);
+  });
+});
+
+function updateProdPreview(){
+  var rawId=document.getElementById('prod-raw-item').value;
+  var rawQty=parseFloat(document.getElementById('prod-raw-qty').value)||0;
+  var finId=document.getElementById('prod-fin-item').value;
+  var finQty=parseFloat(document.getElementById('prod-fin-qty').value)||0;
+  var preview=document.getElementById('prod-preview');
+  var content=document.getElementById('prod-preview-content');
+  if(!rawId&&!finId){preview.style.display='none';return;}
+  var items=getItems();
+  var html='';
+  if(rawId&&rawQty>0){
+    var rawItem=items.find(function(i){return i.id===rawId;});
+    if(rawItem){
+      var newStock=r2(rawItem.stock-rawQty);
+      html+='<div class="preview-row-item"><span><span class="prod-raw">'+rawItem.description+'</span></span><span class="preview-minus">'+rawItem.stock+' → '+newStock+' '+rawItem.unit+(newStock<0?' ⚠️ INSUFFICIENT':'')+'</span></div>';
+    }
+  }
+  if(finId&&finId!=='__new__'&&finQty>0){
+    var finItem=items.find(function(i){return i.id===finId;});
+    if(finItem){
+      var newFin=r2(finItem.stock+finQty);
+      html+='<div class="preview-row-item"><span><span class="prod-fin">'+finItem.description+'</span></span><span class="preview-plus">'+finItem.stock+' → '+newFin+' '+finItem.unit+'</span></div>';
+    }
+  }
+  if(finId==='__new__'&&finQty>0){
+    var newName=document.getElementById('prod-new-name').value||'New Product';
+    html+='<div class="preview-row-item"><span><span class="prod-fin">'+newName+' (new)</span></span><span class="preview-plus">0 → '+finQty+'</span></div>';
+  }
+  if(html){preview.style.display='block';content.innerHTML=html;}
+  else{preview.style.display='none';}
+}
+
+function loadRecipe(recId){
+  if(!recId)return;
+  var rec=getRecipes().find(function(r){return r.id===recId;});
+  if(!rec)return;
+  document.getElementById('prod-job').value=rec.name;
+  document.getElementById('prod-raw-item').value=rec.rawItemId||'';
+  document.getElementById('prod-raw-qty').value=rec.rawQty||'';
+  document.getElementById('prod-fin-item').value=rec.finItemId||'';
+  document.getElementById('prod-fin-qty').value=rec.finQty||'';
+  document.getElementById('prod-notes').value=rec.notes||'';
+  // Auto-fill units
+  var items=getItems();
+  var rawItem=items.find(function(i){return i.id===rec.rawItemId;});
+  var finItem=items.find(function(i){return i.id===rec.finItemId;});
+  document.getElementById('prod-raw-unit').value=rawItem?rawItem.unit:'';
+  document.getElementById('prod-fin-unit').value=finItem?finItem.unit:'';
+  document.getElementById('prod-new-item-sec').style.display='none';
+  updateProdPreview();
+  toast('Recipe loaded: '+rec.name,'info');
+}
+
+function saveProdJob(){
+  var rawId=document.getElementById('prod-raw-item').value;
+  var rawQty=parseFloat(document.getElementById('prod-raw-qty').value)||0;
+  var finId=document.getElementById('prod-fin-item').value;
+  var finQty=parseFloat(document.getElementById('prod-fin-qty').value)||0;
+  var jobDesc=document.getElementById('prod-job').value.trim();
+  var by=document.getElementById('prod-by').value.trim()||localStorage.getItem('winko_worker')||'';
+  var notes=document.getElementById('prod-notes').value.trim();
+  var date=document.getElementById('prod-date').value||today();
+  var msgEl=document.getElementById('prod-msg');msgEl.textContent='';
+
+  if(!jobDesc){msgEl.style.color='var(--red)';msgEl.textContent='Enter a job description.';return;}
+  if(!rawId){msgEl.style.color='var(--red)';msgEl.textContent='Select a raw material.';return;}
+  if(rawQty<=0){msgEl.style.color='var(--red)';msgEl.textContent='Enter quantity to deduct.';return;}
+  if(!finId){msgEl.style.color='var(--red)';msgEl.textContent='Select or create a finished product.';return;}
+  if(finQty<=0){msgEl.style.color='var(--red)';msgEl.textContent='Enter quantity produced.';return;}
+
+  var items=getItems();
+  var rawItem=items.find(function(i){return i.id===rawId;});
+  if(!rawItem){msgEl.style.color='var(--red)';msgEl.textContent='Raw material not found.';return;}
+  if(rawQty>rawItem.stock){
+    if(!confirm('Warning: only '+rawItem.stock+' '+rawItem.unit+' available, but you are using '+rawQty+'. Continue anyway?'))return;
+  }
+
+  var log=getLog();
+  var finItem=null;
+
+  // Handle new finished product creation
+  if(finId==='__new__'){
+    var newName=document.getElementById('prod-new-name').value.trim();
+    var newCat=document.getElementById('prod-new-cat').value.trim();
+    var newUnit=document.getElementById('prod-new-unit').value.trim()||'pcs';
+    if(!newName){msgEl.style.color='var(--red)';msgEl.textContent='Enter a name for the new product.';return;}
+    finId=uid();
+    finItem={id:finId,itemNo:'',category:newCat||'Finished Product',description:newName,unit:newUnit,stock:0,unitPrice:0,min:0,supplier:'',created:today()};
+    items.push(finItem);
+  } else {
+    finItem=items.find(function(i){return i.id===finId;});
+    if(!finItem){msgEl.style.color='var(--red)';msgEl.textContent='Finished product not found.';return;}
+  }
+
+  // Deduct raw material
+  var rawPrev=rawItem.stock;
+  rawItem.stock=r2(rawPrev-rawQty);
+
+  // Add finished product
+  var finPrev=finItem.stock;
+  finItem.stock=r2(finPrev+finQty);
+
+  setItems(items);
+
+  // Log to stock movement log
+  log.push({id:uid(),date:date,time:nowTime(),itemId:rawId,itemName:rawItem.description,unit:rawItem.unit,type:'out',qty:rawQty,prevStock:rawPrev,newStock:rawItem.stock,unitPrice:rawItem.unitPrice||0,amount:r2(rawQty*(rawItem.unitPrice||0)),supplier:'',ref:'PROD',by:by,notes:'Production: '+jobDesc,source:'production'});
+  log.push({id:uid(),date:date,time:nowTime(),itemId:finId,itemName:finItem.description,unit:finItem.unit,type:'in',qty:finQty,prevStock:finPrev,newStock:finItem.stock,unitPrice:0,amount:0,supplier:'',ref:'PROD',by:by,notes:'Production: '+jobDesc,source:'production'});
+  setLog(log);
+
+  // Save production job record
+  var prodLog=getProdLog();
+  prodLog.push({id:uid(),date:date,time:nowTime(),jobDesc:jobDesc,rawItemId:rawId,rawName:rawItem.description,rawQty:rawQty,rawUnit:rawItem.unit,finItemId:finId,finName:finItem.description,finQty:finQty,finUnit:finItem.unit,by:by,notes:notes});
+  setProdLog(prodLog);
+
+  closeProdModal();
+  toast('Production saved! '+rawQty+' '+rawItem.unit+' → '+finQty+' '+finItem.unit,'ok');
+  renderProdPage();
+  populateCats();
+}
+
+function viewProdJob(id){
+  var job=getProdLog().find(function(j){return j.id===id;});
+  if(!job)return;
+  alert('Job: '+job.jobDesc+'\nDate: '+fmtD(job.date)+' '+job.time+'\nRaw used: '+job.rawQty+' '+job.rawUnit+' of '+job.rawName+'\nProduced: '+job.finQty+' '+job.finUnit+' of '+job.finName+'\nBy: '+(job.by||'—')+'\nNotes: '+(job.notes||'—'));
+}
+
+function deleteProdJob(id){
+  if(!confirm('Delete this production job? Stock changes will NOT be reversed.'))return;
+  setProdLog(getProdLog().filter(function(j){return j.id!==id;}));
+  renderProdPage();
+  toast('Job deleted. Note: stock changes were not reversed.','info');
+}
+
+// ── RECIPES ───────────────────────────────────────────────────────────────────
+function renderRecipes(){
+  var recs=getRecipes();
+  var tbody=document.getElementById('recipe-tbody');
+  if(!recs.length){
+    tbody.innerHTML='<tr><td colspan="7"><div class="empty"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><h3>No recipes yet</h3><p>Save a recipe to quickly load production settings next time</p></div></td></tr>';
+    return;
+  }
+  var items=getItems();
+  tbody.innerHTML=recs.map(function(r){
+    var rawItem=items.find(function(i){return i.id===r.rawItemId;});
+    var finItem=items.find(function(i){return i.id===r.finItemId;});
+    return '<tr>'+
+      '<td class="td-bold">'+r.name+'</td>'+
+      '<td><span class="prod-raw">'+(rawItem?rawItem.description:r.rawItemId||'—')+'</span></td>'+
+      '<td class="prod-qty">'+(r.rawQty||1)+' '+(rawItem?rawItem.unit:'')+'</td>'+
+      '<td><span class="prod-fin">'+(finItem?finItem.description:r.finItemId||'—')+'</span></td>'+
+      '<td class="prod-qty">'+(r.finQty||1)+' '+(finItem?finItem.unit:'')+'</td>'+
+      '<td class="td-muted">'+(r.notes||'—')+'</td>'+
+      '<td style="text-align:right"><div class="btn-row" style="justify-content:flex-end">'+
+        '<button class="btn btn-orange btn-xs" onclick="useRecipe(\''+r.id+'\')">Use</button>'+
+        '<button class="btn btn-ghost btn-xs" onclick="openRecipeModal(\''+r.id+'\')">Edit</button>'+
+        '<button class="btn btn-red btn-xs" onclick="deleteRecipe(\''+r.id+'\')">Del</button>'+
+      '</div></td>'+
+    '</tr>';
+  }).join('');
+}
+
+function useRecipe(id){
+  openProdModal();
+  setTimeout(function(){
+    document.getElementById('prod-recipe-sel').value=id;
+    loadRecipe(id);
+  },100);
+}
+
+function openRecipeModal(editId){
+  var items=getItems();
+  var rawSel=document.getElementById('rec-raw-item');
+  var finSel=document.getElementById('rec-fin-item');
+  rawSel.innerHTML='<option value="">— Select —</option>';
+  finSel.innerHTML='<option value="">— Select —</option>';
+  items.forEach(function(i){
+    rawSel.appendChild(new Option(i.description+' ('+i.unit+')',i.id));
+    finSel.appendChild(new Option(i.description+' ('+i.unit+')',i.id));
+  });
+  if(editId){
+    var rec=getRecipes().find(function(r){return r.id===editId;});
+    if(rec){
+      document.getElementById('rec-name').value=rec.name||'';
+      document.getElementById('rec-raw-item').value=rec.rawItemId||'';
+      document.getElementById('rec-raw-qty').value=rec.rawQty||1;
+      document.getElementById('rec-fin-item').value=rec.finItemId||'';
+      document.getElementById('rec-fin-qty').value=rec.finQty||1;
+      document.getElementById('rec-notes').value=rec.notes||'';
+      document.getElementById('rec-id').value=editId;
+      document.getElementById('recipe-modal-title').textContent='Edit Recipe';
+      document.getElementById('rec-btn-lbl').textContent='Save Changes';
+    }
+  } else {
+    ['rec-name','rec-raw-qty','rec-fin-qty','rec-notes'].forEach(function(id){document.getElementById(id).value='';});
+    document.getElementById('rec-raw-item').value='';
+    document.getElementById('rec-fin-item').value='';
+    document.getElementById('rec-id').value='';
+    document.getElementById('recipe-modal-title').textContent='Add Recipe';
+    document.getElementById('rec-btn-lbl').textContent='Save Recipe';
+  }
+  document.getElementById('rec-msg').textContent='';
+  document.getElementById('recipe-modal').classList.add('open');
+}
+
+function closeRecipeModal(){document.getElementById('recipe-modal').classList.remove('open');}
+
+function saveRecipe(){
+  var name=document.getElementById('rec-name').value.trim();
+  var rawId=document.getElementById('rec-raw-item').value;
+  var finId=document.getElementById('rec-fin-item').value;
+  var rawQty=parseFloat(document.getElementById('rec-raw-qty').value)||1;
+  var finQty=parseFloat(document.getElementById('rec-fin-qty').value)||1;
+  var notes=document.getElementById('rec-notes').value.trim();
+  var editId=document.getElementById('rec-id').value;
+  var msgEl=document.getElementById('rec-msg');
+  if(!name){msgEl.style.color='var(--red)';msgEl.textContent='Name required.';return;}
+  if(!rawId){msgEl.style.color='var(--red)';msgEl.textContent='Select a raw material.';return;}
+  if(!finId){msgEl.style.color='var(--red)';msgEl.textContent='Select a finished product.';return;}
+  var recs=getRecipes();
+  if(editId){
+    var r=recs.find(function(x){return x.id===editId;});
+    if(r){r.name=name;r.rawItemId=rawId;r.rawQty=rawQty;r.finItemId=finId;r.finQty=finQty;r.notes=notes;}
+  } else {
+    recs.push({id:uid(),name:name,rawItemId:rawId,rawQty:rawQty,finItemId:finId,finQty:finQty,notes:notes});
+  }
+  setRecipes(recs);
+  closeRecipeModal();
+  renderRecipes();
+  toast(editId?'Recipe updated.':'Recipe saved!','ok');
+}
+
+function deleteRecipe(id){
+  if(!confirm('Delete this recipe?'))return;
+  setRecipes(getRecipes().filter(function(r){return r.id!==id;}));
+  renderRecipes();
+  toast('Recipe deleted.','info');
+}
+
+// ─── PRODUCTION WHATSAPP PARSER ───────────────────────────────────────────────
+var prodWARows=[];
+
+function useProdEx(el){document.getElementById('prod-wa-text').value=el.textContent.trim();}
+function clearProdWA(){
+  document.getElementById('prod-wa-text').value='';
+  document.getElementById('prod-wa-preview').innerHTML='';
+  prodWARows=[];
+}
+
+async function parseProdWA(){
+  var text=document.getElementById('prod-wa-text').value.trim();
+  if(!text){toast('Paste a production message first.','err');return;}
+  var btn=document.getElementById('prod-parse-btn');
+  btn.disabled=true;btn.innerHTML='<span class="spinner"></span>';
+  document.getElementById('prod-wa-preview').innerHTML='<div class="parse-loading"><div class="spinner"></div>Reading your production message…</div>';
+
+  var items=getItems();
+  var itemList=items.length?items.map(function(i){return 'ID:'+i.id+'|"'+i.description+'"|'+i.unit+'|stock:'+i.stock;}).join('\n'):'(empty)';
+
+  var prompt='You are a production AI for a steel fabrication company in Malaysia.\n'+
+    'Message: """'+text+'"""\n'+
+    'Materials list:\n'+itemList+'\n\n'+
+    'Extract production jobs from the message. Each job converts a raw material into a finished product.\n'+
+    'Keywords for raw material (what is used/consumed): from, dari, guna, used, pakai, deduct, raw, using, ambil\n'+
+    'Keywords for finished product (what is made/produced): make, buat, produce, jadi, convert, to, →, menjadi, siap, made, hasilkan\n\n'+
+    'For each production job:\n'+
+    '1. Detect the raw material and match to materials list (fuzzy match)\n'+
+    '2. Detect the finished product and match to materials list (fuzzy match, may not exist yet)\n'+
+    '3. Extract quantities for both raw and finished\n'+
+    '4. Generate a short job description\n'+
+    '5. If no match found for raw or finished, set matchedId to null\n\n'+
+    'Return ONLY a JSON array, no markdown:\n'+
+    '[{"jobDesc":"short description","rawParsed":"text from msg","rawMatchedId":"id or null","rawMatchedName":"name or null","rawQty":number,"rawUnit":"string","finParsed":"text from msg","finMatchedId":"id or null","finMatchedName":"name or null","finQty":number,"finUnit":"string","confidence":"high/medium/low","note":"brief reason"}]';
+
+  try{
+    var resp=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1500,messages:[{role:'user',content:prompt}]})});
+    if(!resp.ok)throw new Error('API '+resp.status);
+    var data=await resp.json();
+    var raw=data.content.map(function(c){return c.text||'';}).join('').replace(/```json|```/g,'').trim();
+    prodWARows=JSON.parse(raw);
+    renderProdWAPreview();
+  }catch(e){
+    // Fallback: keyword-based production parser
+    prodWARows=kwParseProd(text);
+    if(prodWARows.length){
+      document.getElementById('prod-wa-preview').innerHTML='<div class="alert a-yellow" style="margin-bottom:10px"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>Using keyword detection — AI unavailable. Check results carefully.</div>';
+      renderProdWAPreview();
+    }else{
+      document.getElementById('prod-wa-preview').innerHTML='<div class="alert a-red"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg>Could not detect. Try: <strong>Make 50 pcs 3mm A panel from 3mm plate</strong></div>';
+    }
+  }
+  btn.disabled=false;btn.innerHTML='<svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>Parse';
+}
+
+// Keyword fallback for production messages
+function kwParseProd(text){
+  var items=getItems();
+  var results=[];
+  // Patterns: "make X pcs Y from Z" / "buat X Y dari Z" / "Y X pcs → Z X pcs" / "convert X to Y"
+  var lines=text.split(/[\n;]/);
+
+  lines.forEach(function(line){
+    var l=line.trim();
+    if(!l)return;
+
+    // ── Try to find arrow pattern: "A qty → B qty" ──────────────────────
+    var arrowMatch=l.match(/(.+?)\s*(?:→|->|to|kepada|menjadi)\s*(.+)/i);
+
+    var rawText='', finText='', rawQty=0, finQty=0, rawUnit='pcs', finUnit='pcs';
+
+    if(arrowMatch){
+      rawText=arrowMatch[1].trim();
+      finText=arrowMatch[2].trim();
+    } else {
+      // ── Try "make/buat/produce N pcs X from/dari Y" ───────────────────
+      var makeMatch=l.match(/(?:make|buat|produce|hasilkan|convert|siapkan)\s+(.+?)\s+(?:from|dari|using|guna|pakai)\s+(.+)/i);
+      if(makeMatch){finText=makeMatch[1].trim();rawText=makeMatch[2].trim();}
+      else{
+        // ── Try "from/dari X [make] Y" ────────────────────────────────
+        var fromMatch=l.match(/(?:from|dari|using|guna)\s+(.+?)\s+(?:make|buat|produce|→|->|to|jadi)\s+(.+)/i);
+        if(fromMatch){rawText=fromMatch[1].trim();finText=fromMatch[2].trim();}
+        else return; // can't parse this line
+      }
+    }
+
+    // Extract qty from raw text
+    var rqm=extractQty(rawText);rawQty=rqm.qty;rawUnit=rqm.unit;rawText=rqm.name;
+    var fqm=extractQty(finText);finQty=fqm.qty;finUnit=fqm.unit;finText=fqm.name;
+
+    // If only one qty found, use it for both
+    if(rawQty>0&&finQty<=0)finQty=rawQty;
+    if(finQty>0&&rawQty<=0)rawQty=finQty;
+    if(rawQty<=0&&finQty<=0)rawQty=finQty=1;
+
+    // Fuzzy match both
+    var rawMatch=fuzzyMatchItem(rawText,items);
+    var finMatch=fuzzyMatchItem(finText,items);
+
+    var jobDesc='Make '+finQty+' '+finUnit+' '+finText.substring(0,30)+' from '+rawText.substring(0,30);
+
+    results.push({
+      jobDesc:jobDesc,
+      rawParsed:rawText,rawMatchedId:rawMatch?rawMatch.id:null,rawMatchedName:rawMatch?rawMatch.description:null,rawQty:rawQty,rawUnit:rawMatch?rawMatch.unit:rawUnit,
+      finParsed:finText,finMatchedId:finMatch?finMatch.id:null,finMatchedName:finMatch?finMatch.description:null,finQty:finQty,finUnit:finMatch?finMatch.unit:finUnit,
+      confidence:rawMatch&&finMatch?'high':rawMatch||finMatch?'medium':'low',
+      note:'keyword parse'
+    });
+  });
+  return results;
+}
+
+// Helper: extract quantity from a text string, return {qty, unit, name}
+function extractQty(text){
+  var UNITS='(?:pcs?|biji|keping|unit|sets?|bags?|rolls?|lengths?|kg|litre)';
+  // number + unit
+  var m=text.match(/(?<![a-zA-Z\d.])(\d+(?:\.\d+)?)\s*('+UNITS+')/i);
+  if(!m) m=text.match(/(?<![a-zA-Z\d.])(\d+(?:\.\d+)?)(?!\s*(?:mm|cm|"|\d|x\d))/);
+  var qty=m?parseFloat(m[1]):0;
+  var unit=m&&m[2]?m[2].toLowerCase().replace(/s$/,''):'pcs';
+  // Remove the qty from name
+  var name=text;
+  if(m){name=text.replace(m[0],'').replace(/\s{2,}/g,' ').trim();}
+  return{qty:qty,unit:unit,name:name};
+}
+
+// Helper: fuzzy match item from list
+function fuzzyMatchItem(text,items){
+  if(!text||!items.length)return null;
+  var nl=text.toLowerCase();
+  var bestMatch=null,bestScore=0;
+  items.forEach(function(item){
+    var desc=(item.description||'').toLowerCase();
+    var tokens=nl.split(/\s+/).filter(function(w){return w.length>=2;});
+    var score=0;
+    tokens.forEach(function(tok){if(desc.includes(tok))score+=tok.length>4?3:2;});
+    var codes=nl.match(/[A-Z]{1,3}\d+|\d+(?:\.\d+)?mm|HDG|MS\b|PVC/gi)||[];
+    codes.forEach(function(c){if(desc.includes(c.toLowerCase()))score+=4;});
+    var nums=nl.match(/\d+(?:\.\d+)?/g)||[];
+    nums.forEach(function(n){var re=new RegExp('(?<![\\d.])'+n.replace('.','\\.')+'(?![\\d])');if(re.test(desc))score+=1;});
+    if(score>bestScore){bestScore=score;bestMatch=item;}
+  });
+  return bestScore>=2?bestMatch:null;
+}
+
+// ── Render production WA preview (fully editable) ─────────────────────────────
+function renderProdWAPreview(){
+  var area=document.getElementById('prod-wa-preview');
+  var notice=area.querySelector('.alert');
+  var html=notice?notice.outerHTML:'';
+  if(!prodWARows.length){area.innerHTML=html+'<div class="alert a-yellow">No production jobs detected.</div>';return;}
+  var items=getItems();
+
+  html+='<div style="font-size:0.84rem;font-weight:600;margin-bottom:10px">'+prodWARows.length+' job'+(prodWARows.length>1?'s':'')+' detected &nbsp;·&nbsp; <span style="font-size:0.73rem;color:var(--t3)">✏️ Edit any field before confirming</span></div>';
+
+  prodWARows.forEach(function(r,i){
+    var confColor=r.confidence==='high'?'var(--orange)':r.confidence==='medium'?'var(--yellow)':'var(--red)';
+
+    // Build item option lists
+    var rawOpts='<option value="">— Select raw material —</option>';
+    var finOpts='<option value="">— Select or create new —</option><option value="__new__">➕ Create new product…</option>';
+    items.forEach(function(item){
+      rawOpts+='<option value="'+item.id+'"'+(item.id===r.rawMatchedId?' selected':'')+'>'+item.description+' (stock: '+item.stock+' '+item.unit+')</option>';
+      finOpts+='<option value="'+item.id+'"'+(item.id===r.finMatchedId?' selected':'')+'>'+item.description+' ('+item.unit+')</option>';
+    });
+
+    // Stock preview
+    var rawItem=items.find(function(x){return x.id===r.rawMatchedId;});
+    var finItem=items.find(function(x){return x.id===r.finMatchedId;});
+    var rawPreview=rawItem?'→ '+r2(rawItem.stock-r.rawQty)+' '+rawItem.unit+(rawItem.stock-r.rawQty<0?' ⚠️':''):'';
+    var finPreview=finItem?'→ '+r2(finItem.stock+r.finQty)+' '+finItem.unit:'(new item)';
+
+    html+='<div style="background:var(--s1);border:1px solid var(--b1);border-radius:var(--r10);padding:12px 14px;margin-bottom:10px" id="pwa-'+i+'">';
+
+    // Header row
+    html+='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;gap:8px">';
+    html+='<div style="flex:1"><div class="fg"><label>Job Description</label><input type="text" value="'+escHtml(r.jobDesc)+'" onchange="updateProdWARow('+i+',\'jobDesc\',this.value)" style="background:var(--s2);border:1px solid var(--b2);border-radius:var(--r6);padding:6px 9px;font-size:0.85rem;color:var(--t1);font-family:var(--sans);width:100%"></div></div>';
+    html+='<div style="display:flex;align-items:center;gap:6px;flex-shrink:0"><span style="font-size:0.7rem;color:'+confColor+'">'+r.confidence+' confidence</span><button class="pi-del" onclick="prodWARows.splice('+i+',1);renderProdWAPreview()" title="Remove"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>';
+    html+='</div>';
+
+    // Two-column: raw | finished
+    html+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">';
+
+    // RAW column
+    html+='<div style="background:var(--red-bg);border:1px solid var(--red-border);border-radius:var(--r8);padding:10px">';
+    html+='<div style="font-size:0.72rem;font-weight:700;color:var(--red);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.05em">📦 Raw Material (deduct)</div>';
+    html+='<div class="fg" style="margin-bottom:6px"><label>Material</label><select onchange="matchProdWARaw('+i+',this.value)">'+rawOpts+'</select></div>';
+    html+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">';
+    html+='<div class="fg"><label>Qty to use</label><input type="number" value="'+r.rawQty+'" min="0" step="any" onchange="updateProdWARow('+i+',\'rawQty\',parseFloat(this.value)||0)"></div>';
+    html+='<div class="fg"><label>Unit</label><input type="text" value="'+(r.rawUnit||'pcs')+'" onchange="updateProdWARow('+i+',\'rawUnit\',this.value)"></div>';
+    html+='</div>';
+    if(rawPreview)html+='<div style="font-size:0.73rem;color:var(--t3);margin-top:6px">Current stock: '+(rawItem?rawItem.stock+' '+rawItem.unit:'?')+' <strong>'+rawPreview+'</strong></div>';
+    html+='<div style="font-size:0.72rem;color:var(--t3);margin-top:4px">Parsed: "'+escHtml(r.rawParsed)+'"</div>';
+    html+='</div>';
+
+    // FINISHED column
+    html+='<div style="background:var(--green-bg);border:1px solid var(--green-border);border-radius:var(--r8);padding:10px">';
+    html+='<div style="font-size:0.72rem;font-weight:700;color:var(--green);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.05em">✅ Finished Product (add)</div>';
+    html+='<div class="fg" style="margin-bottom:6px"><label>Product</label><select onchange="matchProdWAFin('+i+',this.value)">'+finOpts+'</select></div>';
+    html+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">';
+    html+='<div class="fg"><label>Qty made</label><input type="number" value="'+r.finQty+'" min="0" step="any" onchange="updateProdWARow('+i+',\'finQty\',parseFloat(this.value)||0)"></div>';
+    html+='<div class="fg"><label>Unit</label><input type="text" value="'+(r.finUnit||'pcs')+'" onchange="updateProdWARow('+i+',\'finUnit\',this.value)"></div>';
+    html+='</div>';
+    html+='<div style="font-size:0.73rem;color:var(--t3);margin-top:6px">Current stock: '+(finItem?finItem.stock+' '+finItem.unit:'new item')+' <strong>'+finPreview+'</strong></div>';
+    html+='<div style="font-size:0.72rem;color:var(--t3);margin-top:4px">Parsed: "'+escHtml(r.finParsed)+'"</div>';
+    // New product fields (shown if __new__ selected)
+    html+='<div id="pwa-new-'+i+'" style="display:'+(r.finMatchedId===null&&r.finParsed?'block':'none')+';margin-top:8px;padding-top:8px;border-top:1px dashed var(--green-border)">';
+    html+='<div class="fg" style="margin-bottom:4px"><label style="color:var(--green)">New Product Name</label><input type="text" value="'+escHtml(r.finParsed)+'" onchange="updateProdWARow('+i+',\'finParsed\',this.value)"></div>';
+    html+='<div class="fg"><label style="color:var(--green)">Category</label><input type="text" value="" placeholder="e.g. Tank Plates (Fab)" onchange="updateProdWARow('+i+',\'finCategory\',this.value)"></div>';
+    html+='</div>';
+    html+='</div>';
+
+    html+='</div>';// end grid
+    html+='</div>';// end card
+  });
+
+  html+='<div class="confirm-bar"><div><strong>Review both columns then confirm</strong><span>New products will be created automatically</span></div><div class="btn-row"><button class="btn btn-ghost btn-sm" onclick="clearProdWA()">Cancel</button><button class="btn btn-orange" onclick="confirmProdWA()"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Confirm &amp; Update Stock</button></div></div>';
+
+  area.innerHTML=html;
+  // wire up the fg inputs inside pi-row2 style
+  area.querySelectorAll('.pi-fields input,.pi-fields select').forEach(function(el){el.style.background='var(--s2)';el.style.border='1px solid var(--b2)';el.style.borderRadius='var(--r6)';el.style.padding='6px 8px';el.style.fontSize='0.82rem';el.style.color='var(--t1)';el.style.fontFamily='var(--sans)';el.style.width='100%';});
+}
+
+function escHtml(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+function updateProdWARow(i,field,val){if(prodWARows[i])prodWARows[i][field]=val;}
+
+function matchProdWARaw(i,itemId){
+  if(!prodWARows[i])return;
+  var item=getItems().find(function(x){return x.id===itemId;});
+  prodWARows[i].rawMatchedId=itemId||null;
+  prodWARows[i].rawMatchedName=item?item.description:null;
+  if(item)prodWARows[i].rawUnit=item.unit;
+  // Update stock preview
+  var row=document.getElementById('pwa-'+i);
+  if(row&&item){
+    var previewEls=row.querySelectorAll('[data-rawpreview]');
+    // just re-render to keep it simple
+    renderProdWAPreview();
+  }
+}
+
+function matchProdWAFin(i,itemId){
+  if(!prodWARows[i])return;
+  if(itemId==='__new__'){
+    prodWARows[i].finMatchedId=null;
+    prodWARows[i].finMatchedName=null;
+    var newSec=document.getElementById('pwa-new-'+i);
+    if(newSec)newSec.style.display='block';
+    return;
+  }
+  var item=getItems().find(function(x){return x.id===itemId;});
+  prodWARows[i].finMatchedId=itemId||null;
+  prodWARows[i].finMatchedName=item?item.description:null;
+  if(item)prodWARows[i].finUnit=item.unit;
+  var newSec=document.getElementById('pwa-new-'+i);
+  if(newSec)newSec.style.display='none';
+  renderProdWAPreview();
+}
+
+function confirmProdWA(){
+  if(!prodWARows.length){toast('Nothing to confirm.','err');return;}
+  var items=getItems(), log=getLog(), prodLog=getProdLog();
+  var saved=0;
+
+  prodWARows.forEach(function(r){
+    var rawQty=r.rawQty||0, finQty=r.finQty||0;
+    if(rawQty<=0&&finQty<=0)return;
+
+    var rawItem=r.rawMatchedId?items.find(function(x){return x.id===r.rawMatchedId;}):null;
+    var finItem=r.finMatchedId?items.find(function(x){return x.id===r.finMatchedId;}):null;
+    var by=localStorage.getItem('winko_worker')||'';
+    var date=today();
+
+    // Create new finished product if needed
+    if(!finItem&&r.finParsed){
+      var newId=uid();
+      finItem={id:newId,itemNo:'',category:r.finCategory||'Finished Product',description:r.finParsed,unit:r.finUnit||'pcs',stock:0,unitPrice:0,min:0,supplier:'',created:date};
+      items.push(finItem);
+      r.finMatchedId=newId;
+    }
+
+    // Deduct raw
+    if(rawItem&&rawQty>0){
+      var rawPrev=rawItem.stock;
+      rawItem.stock=r2(rawPrev-rawQty);
+      log.push({id:uid(),date:date,time:nowTime(),itemId:rawItem.id,itemName:rawItem.description,unit:rawItem.unit,type:'out',qty:rawQty,prevStock:rawPrev,newStock:rawItem.stock,unitPrice:rawItem.unitPrice||0,amount:r2(rawQty*(rawItem.unitPrice||0)),supplier:'',ref:'PROD',by:by,notes:'Production: '+r.jobDesc,source:'production'});
+    }
+
+    // Add finished
+    if(finItem&&finQty>0){
+      var finPrev=finItem.stock;
+      finItem.stock=r2(finPrev+finQty);
+      log.push({id:uid(),date:date,time:nowTime(),itemId:finItem.id,itemName:finItem.description,unit:finItem.unit,type:'in',qty:finQty,prevStock:finPrev,newStock:finItem.stock,unitPrice:0,amount:0,supplier:'',ref:'PROD',by:by,notes:'Production: '+r.jobDesc,source:'production'});
+    }
+
+    // Save production job
+    prodLog.push({id:uid(),date:date,time:nowTime(),jobDesc:r.jobDesc||'WhatsApp Job',rawItemId:rawItem?rawItem.id:'',rawName:rawItem?rawItem.description:(r.rawParsed||''),rawQty:rawQty,rawUnit:r.rawUnit||'pcs',finItemId:finItem?finItem.id:'',finName:finItem?finItem.description:(r.finParsed||''),finQty:finQty,finUnit:r.finUnit||'pcs',by:by,notes:'',source:'whatsapp'});
+    saved++;
+  });
+
+  setItems(items);setLog(log);setProdLog(prodLog);
+  toast(saved+' production job'+(saved>1?'s':'')+' saved and stock updated!','ok');
+  clearProdWA();renderProdPage();populateCats();
+}
+
+// ─── UPGRADE 1: QUICK STOCK BUTTONS ──────────────────────────────────────────
+function quickStock(itemId, delta) {
+  var items = getItems();
+  var item = items.find(function(i){ return i.id === itemId; });
+  if (!item) return;
+  var prev = item.stock;
+  var newStock = r2(prev + delta);
+  if (newStock < 0) { toast('Not enough stock! Available: ' + prev + ' ' + item.unit, 'err'); return; }
+  item.stock = newStock;
+  setItems(items);
+  var log = getLog();
+  var by = localStorage.getItem('winko_worker') || '';
+  log.push({ id: uid(), date: today(), time: nowTime(), itemId: itemId, itemName: item.description, unit: item.unit, type: delta > 0 ? 'in' : 'out', qty: Math.abs(delta), prevStock: prev, newStock: newStock, unitPrice: item.unitPrice || 0, amount: r2(Math.abs(delta) * (item.unitPrice || 0)), supplier: item.supplier || '', ref: 'QUICK', by: by, notes: 'Quick ' + (delta > 0 ? '+' : '') + delta, source: 'manual' });
+  setLog(log);
+  renderItems();
+  toast((delta > 0 ? '+' : '') + delta + ' ' + item.unit + ' — ' + item.description + ' now: ' + newStock, 'ok');
+}
+
+function quickStockCustom(itemId) {
+  var items = getItems();
+  var item = items.find(function(i){ return i.id === itemId; });
+  if (!item) return;
+  var val = prompt('Quick update for: ' + item.description + '\nCurrent stock: ' + item.stock + ' ' + item.unit + '\n\nEnter amount (positive = add, negative = deduct):');
+  if (val === null || val === '') return;
+  var delta = parseFloat(val);
+  if (isNaN(delta)) { toast('Invalid number.', 'err'); return; }
+  quickStock(itemId, delta);
+}
+
+// ─── UPGRADE 2: UNDO LAST ENTRY ───────────────────────────────────────────────
+function undoLastEntry() {
+  var log = getLog();
+  if (!log.length) { toast('Nothing to undo.', 'err'); return; }
+  var last = log[log.length - 1];
+  if (!confirm('Undo this entry?\n\n' + last.itemName + ' — ' + (last.type === 'in' ? '+' : '-') + last.qty + ' ' + last.unit + '\nThis will restore stock to ' + last.prevStock + ' ' + last.unit + '.')) return;
+  var items = getItems();
+  var item = items.find(function(i){ return i.id === last.itemId; });
+  if (item) { item.stock = last.prevStock; setItems(items); }
+  log.pop();
+  setLog(log);
+  renderDashboard();
+  if (document.getElementById('page-items').classList.contains('active')) renderItems();
+  if (document.getElementById('page-history').classList.contains('active')) renderHistory();
+  toast('Undone. Stock restored to ' + last.prevStock + ' ' + last.unit + '.', 'ok');
+}
+
+function undoEntry(logId) {
+  var log = getLog();
+  var idx = log.findIndex(function(e){ return e.id === logId; });
+  if (idx < 0) { toast('Entry not found.', 'err'); return; }
+  var entry = log[idx];
+  if (!confirm('Undo this entry?\n\n' + entry.itemName + ' — ' + (entry.type === 'in' ? '+' : '-') + entry.qty + ' ' + entry.unit + '\n\nNote: Stock will be reversed by ' + entry.qty + ' ' + entry.unit + '.')) return;
+  var items = getItems();
+  var item = items.find(function(i){ return i.id === entry.itemId; });
+  if (item) {
+    // Reverse the movement
+    if (entry.type === 'in') item.stock = r2(item.stock - entry.qty);
+    else if (entry.type === 'out') item.stock = r2(item.stock + entry.qty);
+    else item.stock = entry.prevStock;
+    setItems(items);
+  }
+  log.splice(idx, 1);
+  setLog(log);
+  renderDashboard();
+  renderHistory();
+  if (document.getElementById('page-items').classList.contains('active')) renderItems();
+  toast('Entry undone. Stock adjusted.', 'ok');
+}
+
+// ─── UPGRADE 3: MONTHLY USAGE CHART ───────────────────────────────────────────
+function populateChartMonths() {
+  var sel = document.getElementById('chart-month');
+  if (!sel) return;
+  var log = getLog();
+  var months = {};
+  log.forEach(function(e){ if (e.date) months[e.date.slice(0,7)] = true; });
+  var now = today().slice(0,7);
+  months[now] = true;
+  var sorted = Object.keys(months).sort().reverse().slice(0, 12);
+  var prev = sel.value;
+  sel.innerHTML = '';
+  sorted.forEach(function(m){
+    var d = new Date(m + '-01');
+    var label = d.toLocaleDateString('en-MY', { year: 'numeric', month: 'short' });
+    sel.appendChild(new Option(label, m));
+  });
+  if (prev && sorted.includes(prev)) sel.value = prev;
+  else sel.value = sorted[0] || now;
+}
+
+function renderChart() {
+  var sel = document.getElementById('chart-month');
+  var area = document.getElementById('chart-area');
+  if (!sel || !area) return;
+  var month = sel.value;
+  var log = getLog().filter(function(e){ return e.type === 'out' && e.date && e.date.startsWith(month); });
+  // Aggregate by item
+  var totals = {};
+  var names = {};
+  log.forEach(function(e){
+    totals[e.itemId] = (totals[e.itemId] || 0) + e.qty;
+    names[e.itemId] = e.itemName;
+  });
+  var rows = Object.keys(totals).map(function(id){ return { id: id, name: names[id], qty: totals[id] }; });
+  rows.sort(function(a,b){ return b.qty - a.qty; });
+  var top = rows.slice(0, 10);
+  if (!top.length) { area.innerHTML = '<div class="chart-empty">No stock-out movements for this month.</div>'; return; }
+  var max = top[0].qty || 1;
+  var html = '<div class="chart-wrap">';
+  top.forEach(function(row){
+    var pct = Math.max(4, Math.round((row.qty / max) * 100));
+    var shortName = row.name.length > 32 ? row.name.slice(0, 30) + '…' : row.name;
+    html += '<div class="chart-bar-row">' +
+      '<div class="chart-label" title="' + row.name + '">' + shortName + '</div>' +
+      '<div class="chart-bar-bg">' +
+        '<div class="chart-bar-fill" style="width:' + pct + '%">' +
+          '<span class="chart-val">' + row.qty + '</span>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+  });
+  html += '</div>';
+  area.innerHTML = html;
+}
+
+// ─── UPGRADE 4: STOCK RECOUNT ─────────────────────────────────────────────────
+var recountData = {}; // itemId -> { physical, remark }
+
+function renderRecountTable() {
+  var items = getItems();
+  var cat = document.getElementById('recount-cat').value;
+  var filtered = items.filter(function(i){ return !cat || i.category === cat; });
+  var tbody = document.getElementById('recount-tbody');
+  if (!filtered.length) { tbody.innerHTML = '<tr><td colspan="8" class="empty"><h3>No items</h3></td></tr>'; return; }
+
+  tbody.innerHTML = filtered.map(function(item){
+    var rd = recountData[item.id] || {};
+    var physical = rd.physical !== undefined ? rd.physical : '';
+    var remark = rd.remark || '';
+    var variance = physical !== '' ? r2(parseFloat(physical) - item.stock) : null;
+    var varHtml = variance === null ? '<span class="var-zero">—</span>' :
+      variance > 0 ? '<span class="var-plus">+' + variance + '</span>' :
+      variance < 0 ? '<span class="var-minus">' + variance + '</span>' :
+      '<span class="var-zero">✓ Match</span>';
+    var rc = item.stock <= 0 ? 'row-out' : item.min > 0 && item.stock <= item.min ? 'row-low' : '';
+    return '<tr class="' + rc + '">' +
+      '<td class="td-muted">' + (item.itemNo || '—') + '</td>' +
+      '<td class="td-bold">' + item.description + '</td>' +
+      '<td><span class="cat-tag">' + (item.category || '—') + '</span></td>' +
+      '<td>' + item.unit + '</td>' +
+      '<td class="td-mono" style="font-weight:600">' + item.stock + '</td>' +
+      '<td><input type="number" class="recount-input' + (physical !== '' ? ' changed' : '') + '" value="' + physical + '" placeholder="Enter count" min="0" step="any" oninput="onRecountInput(\'' + item.id + '\',this.value)" onchange="onRecountInput(\'' + item.id + '\',this.value)"></td>' +
+      '<td>' + varHtml + '</td>' +
+      '<td><input type="text" class="remark-input" value="' + remark + '" placeholder="Reason…" oninput="onRecountRemark(\'' + item.id + '\',this.value)"></td>' +
+    '</tr>';
+  }).join('');
+  updateRecountStatus();
+}
+
+function onRecountInput(itemId, val) {
+  if (!recountData[itemId]) recountData[itemId] = {};
+  recountData[itemId].physical = val !== '' ? parseFloat(val) : '';
+  updateRecountStatus();
+  // Refresh just the variance cell without full re-render
+  var items = getItems();
+  var item = items.find(function(i){ return i.id === itemId; });
+  if (!item) return;
+  var physical = val !== '' ? parseFloat(val) : null;
+  var variance = physical !== null ? r2(physical - item.stock) : null;
+  // find the input's row and update variance column
+  var inputs = document.querySelectorAll('.recount-input');
+  inputs.forEach(function(inp){
+    if (inp.oninput && inp.oninput.toString().includes(itemId)) {
+      inp.classList.toggle('changed', val !== '');
+      var row = inp.closest('tr');
+      if (row) {
+        var cells = row.querySelectorAll('td');
+        if (cells[6]) {
+          cells[6].innerHTML = variance === null ? '<span class="var-zero">—</span>' :
+            variance > 0 ? '<span class="var-plus">+' + variance + '</span>' :
+            variance < 0 ? '<span class="var-minus">' + variance + '</span>' :
+            '<span class="var-zero">✓ Match</span>';
+        }
+      }
+    }
+  });
+}
+
+function onRecountRemark(itemId, val) {
+  if (!recountData[itemId]) recountData[itemId] = {};
+  recountData[itemId].remark = val;
+}
+
+function updateRecountStatus() {
+  var changed = Object.values(recountData).filter(function(d){ return d.physical !== '' && d.physical !== undefined; }).length;
+  var el = document.getElementById('recount-changed');
+  var btn = document.getElementById('recount-confirm-btn');
+  if (el) el.textContent = changed ? changed + ' item' + (changed > 1 ? 's' : '') + ' with new count' : '';
+  if (btn) btn.style.display = changed ? '' : 'none';
+}
+
+function confirmRecount() {
+  var items = getItems(), log = getLog();
+  var by = localStorage.getItem('winko_worker') || '';
+  var adjusted = 0;
+  items.forEach(function(item){
+    var rd = recountData[item.id];
+    if (!rd || rd.physical === '' || rd.physical === undefined) return;
+    var physical = parseFloat(rd.physical);
+    if (isNaN(physical)) return;
+    if (physical === item.stock) return; // no change
+    var prev = item.stock;
+    var variance = r2(physical - prev);
+    item.stock = physical;
+    log.push({ id: uid(), date: today(), time: nowTime(), itemId: item.id, itemName: item.description, unit: item.unit, type: 'adjust', qty: Math.abs(variance), prevStock: prev, newStock: physical, unitPrice: item.unitPrice || 0, amount: 0, supplier: '', ref: 'RECOUNT', by: by, notes: rd.remark || 'Physical recount: ' + (variance > 0 ? '+' : '') + variance, source: 'recount' });
+    adjusted++;
+  });
+  if (!adjusted) { toast('No changes to save — all counts match system.', 'info'); return; }
+  setItems(items); setLog(log);
+  recountData = {};
+  toast(adjusted + ' item' + (adjusted > 1 ? 's' : '') + ' adjusted from recount.', 'ok');
+  renderRecountTable();
+  renderDashboard();
 }
 
 // ─── SEED DATA ────────────────────────────────────────────────────────────────
