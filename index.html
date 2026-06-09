@@ -303,6 +303,25 @@ th.th-r{text-align:right}
 .chart-bar-fill.zero{background:var(--s4)}
 .chart-val{font-size:0.68rem;font-family:var(--mono);color:#fff;white-space:nowrap;font-weight:600}
 .chart-empty{text-align:center;padding:2rem;color:var(--t3);font-size:0.82rem}
+/* CHART TABS */
+.chart-tabs{display:inline-flex;background:var(--s3);border-radius:var(--r8);padding:2px;gap:2px}
+.chart-tab{background:transparent;border:none;border-radius:var(--r6);padding:4px 11px;font-size:0.75rem;font-weight:600;color:var(--t2);cursor:pointer;font-family:var(--sans);transition:all 0.12s}
+.chart-tab.active{background:var(--orange);color:#fff}
+/* DAILY TARGET */
+.dt-wrap{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.dt-ring{position:relative;width:96px;height:96px;flex-shrink:0}
+.dt-ring svg{transform:rotate(-90deg)}
+.dt-ring-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.dt-ring-pct{font-size:1.15rem;font-weight:700;font-family:var(--mono);line-height:1}
+.dt-ring-lbl{font-size:0.6rem;color:var(--t3);margin-top:2px;text-transform:uppercase;letter-spacing:0.05em}
+.dt-info{flex:1;min-width:160px}
+.dt-count{font-size:1.6rem;font-weight:700;font-family:var(--mono);line-height:1}
+.dt-count span{font-size:0.9rem;color:var(--t3)}
+.dt-sub{font-size:0.8rem;color:var(--t2);margin-top:4px}
+.dt-breakdown{display:flex;gap:14px;margin-top:10px;flex-wrap:wrap}
+.dt-stat{display:flex;align-items:center;gap:6px;font-size:0.78rem;color:var(--t2)}
+.dt-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.dt-msg{font-size:0.82rem;font-weight:600;margin-top:8px}
 .prod-flow{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
 .prod-arrow{color:var(--orange);font-size:1rem;flex-shrink:0}
 .prod-raw{background:var(--red-bg);border:1px solid var(--red-border);border-radius:var(--r6);padding:3px 9px;font-size:0.75rem;color:var(--red);font-weight:500}
@@ -398,12 +417,29 @@ th.th-r{text-align:right}
             <tbody id="recent-tbody"></tbody>
           </table></div>
         </div>
+        <!-- DAILY WORK TARGET -->
         <div class="card">
           <div class="card-head">
-            <h2>Monthly Usage — Top Materials</h2>
-            <div style="display:flex;gap:6px;align-items:center">
+            <h2>Today's Work</h2>
+            <button class="btn btn-ghost btn-sm" onclick="setDailyTarget()">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/></svg>
+              Set Target
+            </button>
+          </div>
+          <div class="card-body">
+            <div id="daily-target-area"></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <h2 id="chart-title">Usage Chart</h2>
+            <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
+              <div class="chart-tabs">
+                <button class="chart-tab active" id="ctab-month" onclick="setChartMode('month')">Monthly</button>
+                <button class="chart-tab" id="ctab-daily" onclick="setChartMode('daily')">Last 14 Days</button>
+              </div>
               <select id="chart-month" onchange="renderChart()" style="background:var(--s2);border:1px solid var(--b2);border-radius:var(--r6);padding:4px 8px;font-size:0.78rem;color:var(--t1);font-family:var(--sans)"></select>
-              <span style="font-size:0.73rem;color:var(--t3)">Stock out by item</span>
             </div>
           </div>
           <div class="card-body" style="padding-bottom:6px">
@@ -1001,6 +1037,7 @@ function renderDashboard(){
   low.slice(0,3).forEach(function(i){alerts+='<div class="alert a-yellow"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>Low stock: <strong>'+i.description+'</strong> — '+i.stock+' '+i.unit+' left</div>';});
   document.getElementById('dash-alerts').innerHTML=alerts;
   renderRecent();
+  renderDailyTarget();
   populateChartMonths();
   renderChart();
   renderDashTable();
@@ -1106,6 +1143,46 @@ async function parseWA(){
 }
 
 // ─── KEYWORD PARSER ──────────────────────────────────────────────────────────
+// ── Term normalisation: expand common factory abbreviations & synonyms ───────
+var ABBREV={
+  'thk':'thick','thck':'thick','tk':'thick',
+  'plt':'plate','plte':'plate','plat':'plate',
+  'galv':'hdg','galvanised':'hdg','galvanized':'hdg',
+  'ss':'stainless','ms':'mild steel','m.s':'mild steel',
+  'pc':'pcs','pcs.':'pcs','keping':'pcs','biji':'pcs',
+  'angle':'angle','ang':'angle',
+  'sht':'sheet','sheet':'sheet',
+  'dia':'diameter','dim':'diameter',
+  'qty':'quantity','bdl':'bundle',
+  'blt':'bolt','nt':'nut','wsr':'washer','washers':'washer',
+  'len':'length','lgth':'length','panjang':'length',
+  'tebal':'thick','keluli':'steel'
+};
+function normalizeTerm(s){
+  if(!s)return '';
+  // normalise separators: 50x50, 4.5 mm, 1340 x 2680
+  s=s.replace(/\s*[x×]\s*/g,'x').replace(/(\d)\s*mm/g,'$1mm').replace(/['"]/g,'');
+  var words=s.split(/\s+/).map(function(w){
+    var base=w.replace(/[.,;:]+$/,'');
+    return ABBREV[base]||base;
+  });
+  return words.join(' ');
+}
+// ── Lightweight typo check: returns true if two short words differ by <=1 edit ─
+function levClose(a,b){
+  if(a===b)return true;
+  if(Math.abs(a.length-b.length)>1)return false;
+  // count differences (allows 1 insert/delete/substitute)
+  var la=a.length, lb=b.length, i=0, j=0, edits=0;
+  while(i<la&&j<lb){
+    if(a[i]===b[j]){i++;j++;continue;}
+    edits++; if(edits>1)return false;
+    if(la>lb)i++; else if(lb>la)j++; else {i++;j++;}
+  }
+  if(i<la||j<lb)edits++;
+  return edits<=1;
+}
+
 function kwParse(text){
   var items=getItems(), results=[];
 
@@ -1198,29 +1275,37 @@ function kwParse(text){
     if(!namePart||namePart.length<2) return;
 
     // ── Fuzzy match against materials list ───────────────────────────────
-    var nl=namePart.toLowerCase();
+    var nl=normalizeTerm(namePart.toLowerCase());
     var bestMatch=null, bestScore=0;
 
     items.forEach(function(item){
-      var desc=(item.description||'').toLowerCase();
+      var desc=normalizeTerm((item.description||'').toLowerCase());
+      var catLc=normalizeTerm((item.category||'').toLowerCase());
       var score=0;
 
       // Split input into tokens — keep product-code tokens like "M14","50x50","4.5mm"
       var tokens=nl.split(/\s+/).filter(function(w){return w.length>=2;});
       tokens.forEach(function(tok){
-        if(desc.includes(tok)) score+=tok.length>4?3:2;  // longer token = more specific = higher score
+        if(desc.includes(tok)) score+=tok.length>4?3:2;  // longer token = more specific
+        else if(catLc.includes(tok)) score+=1;            // category match = small bonus
+        else {
+          // typo tolerance: token close to any word in description
+          var dwords=desc.split(/\s+/);
+          for(var k=0;k<dwords.length;k++){
+            if(dwords[k].length>=4 && tok.length>=4 && levClose(tok,dwords[k])){score+=1;break;}
+          }
+        }
       });
 
-      // Bonus: thickness/size numbers like "3.0","4.5","50","14" present in both
+      // Bonus: thickness/size numbers present in both
       var nums=nl.match(/\d+(?:\.\d+)?/g)||[];
       nums.forEach(function(n){
-        // Only award bonus if the number appears as a standalone token in description too
         var nRe=new RegExp('(?<![\\d.])'+n.replace('.','\\.')+'(?![\\d]|mm|cm)');
         if(nRe.test(desc)) score+=1;
       });
 
       // Exact code match bonus e.g. "M14","M16","HDG","MS","4.5mm"
-      var codes=nl.match(/[A-Z]{1,3}\d+|\d+(?:\.\d+)?mm|HDG|MS\b|PVC|SLS/gi)||[];
+      var codes=nl.match(/[a-z]{1,3}\d+|\d+(?:\.\d+)?mm|hdg|ms\b|pvc|sls/gi)||[];
       codes.forEach(function(c){if(desc.includes(c.toLowerCase())) score+=4;});
 
       if(score>bestScore){bestScore=score;bestMatch=item;}
@@ -2091,14 +2176,17 @@ function extractQty(text){
 // Helper: fuzzy match item from list
 function fuzzyMatchItem(text,items){
   if(!text||!items.length)return null;
-  var nl=text.toLowerCase();
+  var nl=normalizeTerm(text.toLowerCase());
   var bestMatch=null,bestScore=0;
   items.forEach(function(item){
-    var desc=(item.description||'').toLowerCase();
+    var desc=normalizeTerm((item.description||'').toLowerCase());
     var tokens=nl.split(/\s+/).filter(function(w){return w.length>=2;});
     var score=0;
-    tokens.forEach(function(tok){if(desc.includes(tok))score+=tok.length>4?3:2;});
-    var codes=nl.match(/[A-Z]{1,3}\d+|\d+(?:\.\d+)?mm|HDG|MS\b|PVC/gi)||[];
+    tokens.forEach(function(tok){
+      if(desc.includes(tok))score+=tok.length>4?3:2;
+      else{var dwords=desc.split(/\s+/);for(var k=0;k<dwords.length;k++){if(dwords[k].length>=4&&tok.length>=4&&levClose(tok,dwords[k])){score+=1;break;}}}
+    });
+    var codes=nl.match(/[a-z]{1,3}\d+|\d+(?:\.\d+)?mm|hdg|ms\b|pvc/gi)||[];
     codes.forEach(function(c){if(desc.includes(c.toLowerCase()))score+=4;});
     var nums=nl.match(/\d+(?:\.\d+)?/g)||[];
     nums.forEach(function(n){var re=new RegExp('(?<![\\d.])'+n.replace('.','\\.')+'(?![\\d])');if(re.test(desc))score+=1;});
@@ -2433,15 +2521,25 @@ function populateChartMonths() {
   else sel.value = sorted[0] || now;
 }
 
+var chartMode='month';
+function setChartMode(mode){
+  chartMode=mode;
+  document.getElementById('ctab-month').classList.toggle('active',mode==='month');
+  document.getElementById('ctab-daily').classList.toggle('active',mode==='daily');
+  document.getElementById('chart-month').style.display=mode==='month'?'':'none';
+  document.getElementById('chart-title').textContent=mode==='month'?'Monthly Usage — Top Materials':'Daily Activity — Last 14 Days';
+  renderChart();
+}
+
 function renderChart() {
-  var sel = document.getElementById('chart-month');
   var area = document.getElementById('chart-area');
-  if (!sel || !area) return;
-  var month = sel.value;
+  if (!area) return;
+  if (chartMode === 'daily') { renderDailyChart(area); return; }
+  // ── Monthly: top materials by stock-out ──
+  var sel = document.getElementById('chart-month');
+  var month = sel ? sel.value : today().slice(0,7);
   var log = getLog().filter(function(e){ return e.type === 'out' && e.date && e.date.startsWith(month); });
-  // Aggregate by item
-  var totals = {};
-  var names = {};
+  var totals = {}, names = {};
   log.forEach(function(e){
     totals[e.itemId] = (totals[e.itemId] || 0) + e.qty;
     names[e.itemId] = e.itemName;
@@ -2457,15 +2555,100 @@ function renderChart() {
     var shortName = row.name.length > 32 ? row.name.slice(0, 30) + '…' : row.name;
     html += '<div class="chart-bar-row">' +
       '<div class="chart-label" title="' + row.name + '">' + shortName + '</div>' +
-      '<div class="chart-bar-bg">' +
-        '<div class="chart-bar-fill" style="width:' + pct + '%">' +
-          '<span class="chart-val">' + row.qty + '</span>' +
-        '</div>' +
-      '</div>' +
+      '<div class="chart-bar-bg"><div class="chart-bar-fill" style="width:' + pct + '%"><span class="chart-val">' + row.qty + '</span></div></div>' +
     '</div>';
   });
   html += '</div>';
   area.innerHTML = html;
+}
+
+function renderDailyChart(area){
+  // Count entries per day for the last 14 days
+  var log=getLog();
+  var days=[];
+  for(var i=13;i>=0;i--){
+    var d=new Date(); d.setDate(d.getDate()-i);
+    days.push(d.toISOString().slice(0,10));
+  }
+  var counts=days.map(function(d){
+    var dayLog=log.filter(function(e){return e.date===d;});
+    return{date:d,total:dayLog.length,
+      inc:dayLog.filter(function(e){return e.type==='in';}).length,
+      out:dayLog.filter(function(e){return e.type==='out';}).length};
+  });
+  var max=Math.max(1,Math.max.apply(null,counts.map(function(c){return c.total;})));
+  var html='<div style="display:flex;align-items:flex-end;gap:4px;height:160px;padding:8px 0">';
+  counts.forEach(function(c){
+    var h=c.total?Math.max(6,Math.round((c.total/max)*130)):2;
+    var dd=new Date(c.date);
+    var dayNum=dd.getDate();
+    var isToday=c.date===today();
+    var color=isToday?'var(--orange)':c.total?'var(--blue)':'var(--s4)';
+    html+='<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px" title="'+fmtD(c.date)+': '+c.total+' entries ('+c.inc+' in, '+c.out+' out)">'+
+      '<span style="font-size:0.6rem;font-family:var(--mono);color:var(--t3);height:12px">'+(c.total||'')+'</span>'+
+      '<div style="width:100%;max-width:24px;height:'+h+'px;background:'+color+';border-radius:4px 4px 0 0;transition:height 0.3s"></div>'+
+      '<span style="font-size:0.58rem;color:'+(isToday?'var(--orange)':'var(--t3)')+';font-weight:'+(isToday?'700':'400')+'">'+dayNum+'</span>'+
+    '</div>';
+  });
+  html+='</div>';
+  var total14=counts.reduce(function(s,c){return s+c.total;},0);
+  var avg=(total14/14).toFixed(1);
+  html+='<div style="display:flex;gap:18px;justify-content:center;font-size:0.76rem;color:var(--t2);padding-top:4px;border-top:1px solid var(--b1);margin-top:4px">'+
+    '<span><strong style="color:var(--t1)">'+total14+'</strong> entries in 14 days</span>'+
+    '<span>Avg <strong style="color:var(--t1)">'+avg+'</strong>/day</span>'+
+  '</div>';
+  area.innerHTML=html;
+}
+
+// ── DAILY TARGET ──────────────────────────────────────────────────────────────
+var KT='ws_target_v1';
+function getTarget(){var v=parseInt(localStorage.getItem(KT));return isNaN(v)?20:v;}
+function setDailyTarget(){
+  var cur=getTarget();
+  var val=prompt('Set your daily entry target\n\nHow many stock updates should the team aim for each day?',cur);
+  if(val===null)return;
+  var n=parseInt(val);
+  if(isNaN(n)||n<1){toast('Enter a valid number.','err');return;}
+  localStorage.setItem(KT,n);
+  renderDailyTarget();
+  toast('Daily target set to '+n+' entries.','ok');
+}
+
+function renderDailyTarget(){
+  var area=document.getElementById('daily-target-area');
+  if(!area)return;
+  var target=getTarget();
+  var log=getLog().filter(function(e){return e.date===today();});
+  var done=log.length;
+  var inc=log.filter(function(e){return e.type==='in';}).length;
+  var out=log.filter(function(e){return e.type==='out';}).length;
+  var adj=log.filter(function(e){return e.type==='adjust';}).length;
+  var pct=Math.min(100,Math.round((done/target)*100));
+  var circ=2*Math.PI*42; // r=42
+  var offset=circ-(pct/100)*circ;
+  var ringColor=pct>=100?'var(--green)':pct>=50?'var(--orange)':'var(--blue)';
+  var msg=pct>=100?'🎉 Target reached! Great work today.':pct>=75?'Almost there — keep going!':pct>=40?'Good progress so far.':done>0?'Just getting started today.':'No entries yet today.';
+  var msgColor=pct>=100?'var(--green)':'var(--t2)';
+
+  area.innerHTML=
+    '<div class="dt-wrap">'+
+      '<div class="dt-ring">'+
+        '<svg width="96" height="96" viewBox="0 0 96 96">'+
+          '<circle cx="48" cy="48" r="42" fill="none" stroke="var(--s3)" stroke-width="8"/>'+
+          '<circle cx="48" cy="48" r="42" fill="none" stroke="'+ringColor+'" stroke-width="8" stroke-linecap="round" stroke-dasharray="'+circ+'" stroke-dashoffset="'+offset+'" style="transition:stroke-dashoffset 0.5s"/>'+
+        '</svg>'+
+        '<div class="dt-ring-center"><div class="dt-ring-pct" style="color:'+ringColor+'">'+pct+'%</div><div class="dt-ring-lbl">of target</div></div>'+
+      '</div>'+
+      '<div class="dt-info">'+
+        '<div class="dt-count">'+done+' <span>/ '+target+' entries</span></div>'+
+        '<div class="dt-sub">'+msg.replace(/[🎉]/g,'')+'</div>'+
+        '<div class="dt-breakdown">'+
+          '<div class="dt-stat"><span class="dt-dot" style="background:var(--blue)"></span>'+inc+' Stock In</div>'+
+          '<div class="dt-stat"><span class="dt-dot" style="background:var(--red)"></span>'+out+' Stock Out</div>'+
+          '<div class="dt-stat"><span class="dt-dot" style="background:var(--t3)"></span>'+adj+' Adjust</div>'+
+        '</div>'+
+      '</div>'+
+    '</div>';
 }
 
 // ─── UPGRADE 4: STOCK RECOUNT ─────────────────────────────────────────────────
