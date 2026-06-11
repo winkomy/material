@@ -34,6 +34,72 @@ body{font-family:var(--sans);background:var(--bg);color:var(--t1);min-height:100
 .topbar-sep{width:1px;height:20px;background:var(--b1)}
 .topbar-date{font-size:0.72rem;color:var(--t3);font-family:var(--mono)}
 .topbar-right{margin-left:auto;display:flex;gap:6px;align-items:center}
+/* WORKER CHIP */
+.worker-chip{display:flex;align-items:center;gap:6px;background:var(--s2);border:1px solid var(--b2);border-radius:99px;padding:4px 10px 4px 4px;cursor:pointer;font-family:var(--sans);font-size:0.78rem;font-weight:600;color:var(--t1);transition:all 0.12s}
+.worker-chip:hover{background:var(--s3);border-color:var(--b3)}
+.worker-chip svg{color:var(--t3)}
+.worker-avatar-sm{width:22px;height:22px;border-radius:50%;background:var(--orange);color:#fff;display:grid;place-items:center;font-size:0.7rem;font-weight:700;flex-shrink:0}
+/* LOGIN SCREEN */
+#login-screen{position:fixed;inset:0;z-index:500;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:20px;overflow-y:auto}
+#login-screen.hidden{display:none}
+.login-box{width:100%;max-width:480px;background:var(--s1);border:1px solid var(--b1);border-radius:var(--r12);padding:26px 24px}
+.login-logo{display:flex;align-items:center;gap:12px;margin-bottom:22px}
+.login-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:9px;margin-bottom:16px;max-height:340px;overflow-y:auto}
+.login-worker{display:flex;flex-direction:column;align-items:center;gap:7px;padding:14px 8px;background:var(--s2);border:1px solid var(--b2);border-radius:var(--r10);cursor:pointer;transition:all 0.12s;position:relative}
+.login-worker:hover{background:var(--s3);border-color:var(--orange-border);transform:translateY(-1px)}
+.login-worker-av{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-size:1rem;font-weight:700;color:#fff}
+.login-worker-name{font-size:0.82rem;font-weight:600;text-align:center;line-height:1.2;word-break:break-word}
+.login-worker-del{position:absolute;top:4px;right:4px;width:18px;height:18px;border-radius:50%;background:var(--s4);border:none;color:var(--t3);cursor:pointer;display:none;place-items:center;font-size:0.7rem}
+.login-worker:hover .login-worker-del{display:grid}
+.login-worker-del:hover{background:var(--red-bg);color:var(--red)}
+.login-add{display:flex;gap:8px}
+.login-add input{flex:1;background:var(--s2);border:1px solid var(--b2);border-radius:var(--r8);padding:10px 12px;font-size:0.88rem;color:var(--t1);font-family:var(--sans)}
+.login-add input:focus{outline:none;border-color:var(--orange)}
+.login-empty{grid-column:1/-1;text-align:center;padding:24px;color:var(--t3);font-size:0.83rem}
+/* PIN PAD */
+#pin-pad{position:fixed;inset:0;z-index:600;background:rgba(1,4,9,0.88);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:20px}
+#pin-pad.open{display:flex}
+.pin-box{background:var(--s1);border:1px solid var(--b2);border-radius:var(--r12);padding:24px 22px;width:100%;max-width:300px;text-align:center;box-shadow:var(--shadow)}
+.pin-box.shake{animation:shake 0.35s}
+@keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
+.pin-title{font-size:1rem;font-weight:700;margin-bottom:3px}
+.pin-sub{font-size:0.76rem;color:var(--t2);margin-bottom:16px}
+.pin-dots{display:flex;justify-content:center;gap:12px;margin-bottom:8px}
+.pin-dot{width:14px;height:14px;border-radius:50%;background:var(--s3);border:1px solid var(--b2);transition:all 0.15s}
+.pin-dot.filled{background:var(--orange);border-color:var(--orange)}
+.pin-err{font-size:0.75rem;color:var(--red);min-height:1.1em;margin-bottom:8px}
+.pin-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+.pin-key{background:var(--s2);border:1px solid var(--b2);border-radius:var(--r10);padding:14px 0;font-size:1.3rem;font-weight:600;color:var(--t1);cursor:pointer;font-family:var(--sans);transition:all 0.1s}
+.pin-key:hover{background:var(--s3)}
+.pin-key:active{background:var(--orange);color:#fff;transform:scale(0.96)}
+.pin-key-del{font-size:1.1rem;color:var(--t2)}
+.pin-cancel{background:transparent;border:none;color:var(--t3);font-size:0.82rem;cursor:pointer;font-family:var(--sans);padding:6px}
+.pin-cancel:hover{color:var(--t1)}
+/* GROUP BADGE */
+.group-badge{display:inline-block;font-size:0.62rem;font-weight:600;background:var(--orange-bg);color:var(--orange);border:1px solid var(--orange-border);border-radius:99px;padding:1px 7px;vertical-align:middle}
+/* BATCH TIMELINE */
+.batch-timeline{position:relative;padding-left:6px}
+.batch-item{position:relative;padding:0 0 14px 22px;border-left:2px solid var(--b1)}
+.batch-item:last-child{border-left-color:transparent}
+.batch-dot{position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--s4);border:2px solid var(--bg)}
+.batch-oldest>.batch-dot{background:var(--green);box-shadow:0 0 0 3px var(--green-bg)}
+.batch-content{background:var(--s2);border:1px solid var(--b1);border-radius:var(--r8);padding:9px 12px}
+.batch-oldest>.batch-content{border-color:var(--green-border)}
+.batch-use-first{display:inline-block;font-size:0.6rem;font-weight:700;background:var(--green);color:#fff;border-radius:99px;padding:1px 7px;margin-left:6px;letter-spacing:0.03em}
+/* LEADERBOARD */
+.podium{display:flex;align-items:flex-end;justify-content:center;gap:14px;padding:20px 10px 0;margin-bottom:16px}
+.podium-col{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1;max-width:120px}
+.podium-medal{font-size:1.4rem}
+.podium-av{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:700;font-size:1rem}
+.podium-name{font-size:0.8rem;font-weight:600;text-align:center;line-height:1.2;word-break:break-word}
+.podium-score{font-size:1.1rem;font-weight:700;font-family:var(--mono)}
+.podium-bar{width:100%;border-radius:var(--r8) var(--r8) 0 0;transition:height 0.4s}
+.lb-av{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:700;font-size:0.7rem;flex-shrink:0}
+.rank-1,.rank-2,.rank-3,.rank-n{display:grid;place-items:center;width:24px;height:24px;border-radius:50%;font-size:0.75rem;font-weight:700;font-family:var(--mono)}
+.rank-1{background:var(--orange);color:#fff}
+.rank-2{background:var(--blue);color:#fff}
+.rank-3{background:var(--purple);color:#fff}
+.rank-n{background:var(--s3);color:var(--t2)}
 /* LAYOUT */
 .body-layout{display:flex;height:calc(100vh - 52px)}
 /* SIDEBAR */
@@ -336,6 +402,26 @@ th.th-r{text-align:right}
 </style>
 </head>
 <body>
+<!-- LOGIN SCREEN -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">
+      <div class="logo-icon" style="width:44px;height:44px"><svg fill="none" stroke="#fff" stroke-width="2" viewBox="0 0 24 24" width="22" height="22"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div>
+      <div><div style="font-size:1.2rem;font-weight:800">WINKO <span style="color:var(--orange)">Stock</span></div><div style="font-size:0.78rem;color:var(--t2)">Select your name to start</div></div>
+    </div>
+    <div id="login-worker-grid" class="login-grid"></div>
+    <div class="login-add">
+      <input type="text" id="login-new-name" placeholder="New worker name…" onkeydown="if(event.key==='Enter')addWorkerFromLogin()">
+      <button class="btn btn-orange" onclick="addWorkerFromLogin()">
+        <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>Add
+      </button>
+    </div>
+    <p style="font-size:0.72rem;color:var(--t3);text-align:center;margin-top:14px">Tap your name, then enter your 4-digit PIN. First time? You'll set your PIN. 🔒 means a PIN is set.</p>
+  </div>
+</div>
+<!-- PIN PAD -->
+<div id="pin-pad"></div>
+
 <div class="shell">
   <header class="topbar">
     <button class="mobile-btn" id="menu-btn" onclick="toggleSidebar()">
@@ -348,6 +434,11 @@ th.th-r{text-align:right}
     <div class="topbar-sep"></div>
     <span class="topbar-date" id="topbar-date"></span>
     <div class="topbar-right">
+      <button class="worker-chip" onclick="openLogin()" title="Switch worker">
+        <span class="worker-avatar-sm" id="tb-avatar">?</span>
+        <span id="tb-worker-name">Not logged in</span>
+        <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
       <button class="btn btn-ghost btn-sm" onclick="exportCSV()">
         <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Export
       </button>
@@ -373,11 +464,17 @@ th.th-r{text-align:right}
         <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.3 7 12 12l8.7-5M12 22V12"/></svg>Materials
         <span class="nav-badge" id="nav-badge" style="display:none">!</span>
       </button>
+      <button class="nav-item" onclick="goto('usefirst',this)">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="9"/></svg>Use First
+      </button>
       <button class="nav-item" onclick="goto('production',this)">
         <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg>Production
       </button>
       <button class="nav-item" onclick="goto('recount',this)">
         <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Recount
+      </button>
+      <button class="nav-item" onclick="goto('leaderboard',this)">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>Leaderboard
       </button>
       <button class="nav-item" onclick="goto('history',this)">
         <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>History
@@ -501,8 +598,8 @@ th.th-r{text-align:right}
           <div class="card-body">
             <div class="worker-bar">
               <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-              <input class="worker-bar-input" id="worker-name" placeholder="Your name — saved automatically" oninput="saveWorkerName(this.value)">
-              <span class="worker-bar-hint" id="worker-hint"></span>
+              <input class="worker-bar-input" id="worker-name" readonly style="cursor:default" placeholder="Not logged in">
+              <button class="btn btn-ghost btn-xs" onclick="openLogin()">Switch</button>
             </div>
             <div class="form-grid">
               <div class="fg"><label>Date</label><input type="date" id="e-date"></div>
@@ -561,10 +658,17 @@ th.th-r{text-align:right}
             <div class="search-bar">
               <input class="search-input" id="item-search" placeholder="Search name, supplier, category…" oninput="renderItems()">
               <select class="filter-sel" id="item-cat" onchange="renderItems()"><option value="">All Categories</option></select>
+              <select class="filter-sel" id="item-sort" onchange="renderItems()" title="Sort materials">
+                <option value="default">Sort: Default</option>
+                <option value="oldest">Oldest stock first</option>
+                <option value="newest">Newest stock first</option>
+                <option value="name">Name A–Z</option>
+                <option value="lowstock">Low stock first</option>
+              </select>
             </div>
           </div>
           <div class="tbl-wrap"><table>
-            <thead><tr><th>#</th><th>Description</th><th>Category</th><th>Unit</th><th>Qty</th><th class="th-r">Unit(RM)</th><th class="th-r">Value(RM)</th><th>Supplier</th><th>Min</th><th>Status</th><th style="text-align:center">Quick ±</th><th style="text-align:right">Actions</th></tr></thead>
+            <thead><tr><th>#</th><th>Description</th><th>Category</th><th>Unit</th><th>Qty</th><th>Stock Age</th><th class="th-r">Unit(RM)</th><th class="th-r">Value(RM)</th><th>Supplier</th><th>Min</th><th>Status</th><th style="text-align:center">Quick ±</th><th style="text-align:right">Actions</th></tr></thead>
             <tbody id="items-tbody"></tbody>
           </table></div>
         </div>
@@ -621,6 +725,20 @@ th.th-r{text-align:right}
 
         <div class="stats" id="prod-stats"></div>
 
+        <!-- Daily Production Target -->
+        <div class="card">
+          <div class="card-head">
+            <h2>Today's Production</h2>
+            <button class="btn btn-ghost btn-sm" onclick="setProdTarget()">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/></svg>
+              Set Target
+            </button>
+          </div>
+          <div class="card-body">
+            <div id="prod-target-area"></div>
+          </div>
+        </div>
+
         <!-- WhatsApp Production Entry -->
         <div class="card" style="margin-bottom:14px">
           <div class="card-head">
@@ -656,6 +774,28 @@ th.th-r{text-align:right}
             </div>
           </div>
           <div id="prod-wa-preview" style="padding:0 14px 14px"></div>
+        </div>
+
+        <!-- Production Chart -->
+        <div class="card">
+          <div class="card-head">
+            <h2 id="prodchart-title">What We Produced</h2>
+            <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
+              <div class="chart-tabs">
+                <button class="chart-tab active" id="pctab-product" onclick="setProdChartMode('product')">By Product</button>
+                <button class="chart-tab" id="pctab-daily" onclick="setProdChartMode('daily')">Last 14 Days</button>
+                <button class="chart-tab" id="pctab-worker" onclick="setProdChartMode('worker')">By Worker</button>
+              </div>
+              <select id="prodchart-period" onchange="renderProdChart()" style="background:var(--s2);border:1px solid var(--b2);border-radius:var(--r6);padding:4px 8px;font-size:0.78rem;color:var(--t1);font-family:var(--sans)">
+                <option value="week">This Week</option>
+                <option value="month" selected>This Month</option>
+                <option value="all">All Time</option>
+              </select>
+            </div>
+          </div>
+          <div class="card-body" style="padding-bottom:6px">
+            <div id="prodchart-area" style="min-height:180px;padding:4px 0"></div>
+          </div>
         </div>
 
         <!-- Production Log -->
@@ -704,6 +844,56 @@ th.th-r{text-align:right}
         </div>
       </div>
 
+      <!-- USE FIRST -->
+      <div id="page-usefirst" class="page">
+        <div class="ph">
+          <div><h1>Use First — Oldest Stock</h1><p>Materials ranked oldest to newest so you use old stock before it ages</p></div>
+          <div class="ph-right">
+            <select class="filter-sel" id="uf-cat" onchange="renderUseFirst()"><option value="">All Categories</option></select>
+          </div>
+        </div>
+        <div class="alert a-blue" style="margin-bottom:14px">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg>
+          <span><strong>FIFO reminder:</strong> Use materials at the top first — they've been in stock longest. <span style="color:var(--green)">● green</span> = fresh (under 1 month), <span style="color:var(--yellow)">● yellow</span> = aging (1–3 months), <span style="color:var(--red)">● red</span> = old (over 3 months).</span>
+        </div>
+        <div class="card">
+          <div class="card-head"><h2>Oldest First</h2><span id="uf-count" style="font-size:0.73rem;color:var(--t3)"></span></div>
+          <div class="tbl-wrap"><table>
+            <thead><tr><th>Priority</th><th>Description</th><th>Category</th><th>Stock</th><th>Oldest Stock-In</th><th>Last Restock</th><th>Supplier</th><th style="text-align:right">Action</th></tr></thead>
+            <tbody id="uf-tbody"></tbody>
+          </table></div>
+        </div>
+      </div>
+
+      <!-- LEADERBOARD -->
+      <div id="page-leaderboard" class="page">
+        <div class="ph">
+          <div><h1>Worker Leaderboard</h1><p>Who's doing the work — ranked by activity</p></div>
+          <div class="ph-right">
+            <select class="filter-sel" id="lb-period" onchange="renderLeaderboard()">
+              <option value="today">Today</option>
+              <option value="week" selected>This Week</option>
+              <option value="month">This Month</option>
+              <option value="all">All Time</option>
+            </select>
+            <select class="filter-sel" id="lb-metric" onchange="renderLeaderboard()">
+              <option value="total">Total Entries</option>
+              <option value="in">Stock In</option>
+              <option value="out">Stock Out</option>
+              <option value="production">Production</option>
+            </select>
+          </div>
+        </div>
+        <div id="lb-podium"></div>
+        <div class="card">
+          <div class="card-head"><h2>Full Ranking</h2><span id="lb-count" style="font-size:0.73rem;color:var(--t3)"></span></div>
+          <div class="tbl-wrap"><table>
+            <thead><tr><th>Rank</th><th>Worker</th><th>Total</th><th>Stock In</th><th>Stock Out</th><th>Production</th><th>Last Active</th></tr></thead>
+            <tbody id="lb-tbody"></tbody>
+          </table></div>
+        </div>
+      </div>
+
       <!-- HISTORY -->
       <div id="page-history" class="page">
         <div class="ph"><div><h1>History</h1><p>Full transaction log</p></div></div>
@@ -728,6 +918,14 @@ th.th-r{text-align:right}
 </div>
 
 <!-- ADD/EDIT MODAL -->
+<!-- BATCH TIMELINE MODAL -->
+<div class="modal-bg" id="batch-modal">
+  <div class="modal" style="max-width:600px">
+    <div class="modal-head"><h2 id="batch-title">Stock Timeline</h2><button class="close-btn" onclick="closeBatchModal()">✕</button></div>
+    <div class="modal-body" id="batch-body"></div>
+  </div>
+</div>
+
 <div class="modal-bg" id="item-modal">
   <div class="modal" style="max-width:560px">
     <div class="modal-head"><h2 id="modal-title">Add New Item</h2><button class="close-btn" onclick="closeModal()">✕</button></div>
@@ -746,6 +944,7 @@ th.th-r{text-align:right}
         <div class="fg"><label>Min Level</label><input type="number" id="m-min" min="0" step="any" placeholder="0"></div>
       </div>
       <div class="fg" style="margin-bottom:10px"><label>Supplier</label><input type="text" id="m-supplier" placeholder="Supplier name"></div>
+      <div class="fg" style="margin-bottom:10px"><label>Product Group <span class="hint">link same product from different suppliers</span></label><input type="text" id="m-group" placeholder="e.g. 3.0mm Plate (leave blank if unique)" list="group-list"><datalist id="group-list"></datalist></div>
       <div id="m-open-sec">
         <div class="divider"></div>
         <div class="sec-label">Opening Stock <span style="color:var(--blue);font-size:0.68rem;text-transform:none;letter-spacing:0;font-weight:400">optional</span></div>
@@ -971,6 +1170,37 @@ function stockBar(item){
   var pct=Math.min(100,Math.round((item.stock/(item.min*3))*100));
   var color=item.stock<=0?'var(--red)':item.stock<=item.min?'var(--yellow)':'var(--orange)';
   return '<div class="sbar"><span class="sbar-num">'+item.stock+'</span><div class="sbar-track"><div class="sbar-fill" style="width:'+pct+'%;background:'+color+'"></div></div></div>';
+}
+
+// ── ITEM AGE: oldest stock-in + last restock ─────────────────────────────────
+function daysBetween(dateStr){
+  if(!dateStr)return null;
+  var d=new Date(dateStr+'T00:00:00');
+  return Math.floor((Date.now()-d.getTime())/86400000);
+}
+function ageLabel(days){
+  if(days===null)return '—';
+  if(days<=0)return 'Today';
+  if(days===1)return '1 day';
+  if(days<7)return days+' days';
+  if(days<30)return Math.floor(days/7)+'w '+(days%7)+'d';
+  if(days<365)return Math.floor(days/30)+' month'+(Math.floor(days/30)>1?'s':'');
+  return Math.floor(days/365)+'y '+Math.floor((days%365)/30)+'m';
+}
+// Returns {oldestDate, oldestDays, lastDate, lastDays, hasStock}
+function itemAge(item){
+  var ins=getLog().filter(function(e){return e.itemId===item.id&&e.type==='in';});
+  if(!ins.length)return {oldestDate:item.created||null,oldestDays:daysBetween(item.created),lastDate:item.created||null,lastDays:daysBetween(item.created)};
+  ins.sort(function(a,b){return (a.date+a.time).localeCompare(b.date+b.time);});
+  var oldest=ins[0].date, last=ins[ins.length-1].date;
+  return {oldestDate:oldest,oldestDays:daysBetween(oldest),lastDate:last,lastDays:daysBetween(last)};
+}
+// Colour by age: green fresh, yellow aging, red old
+function ageColor(days){
+  if(days===null)return 'var(--t3)';
+  if(days<30)return 'var(--green)';
+  if(days<90)return 'var(--yellow)';
+  return 'var(--red)';
 }
 
 function populateCats(){
@@ -1435,13 +1665,200 @@ function confirmWA(){
 }
 
 // ─── MANUAL ENTRY ─────────────────────────────────────────────────────────────
+// ─── WORKER LOGIN SYSTEM (name + PIN) ─────────────────────────────────────────
+var KW='ws_workers_v2';
+var AVATAR_COLORS=['#f97316','#58a6ff','#3fb950','#bc8cff','#f85149','#d29922','#ec4899','#14b8a6'];
+function getWorkers(){
+  try{
+    var raw=JSON.parse(localStorage.getItem(KW));
+    if(Array.isArray(raw))return raw;
+  }catch{}
+  // Migrate old v1 string-array format (no PINs) → objects
+  try{
+    var old=JSON.parse(localStorage.getItem('ws_workers_v1'));
+    if(Array.isArray(old)&&old.length){
+      var migrated=old.map(function(n){return {name:n,pin:''};});
+      setWorkers(migrated);
+      return migrated;
+    }
+  }catch{}
+  return [];
+}
+function setWorkers(d){localStorage.setItem(KW,JSON.stringify(d));}
+function findWorker(name){return getWorkers().find(function(w){return w.name.toLowerCase()===name.toLowerCase();});}
+function currentWorker(){return localStorage.getItem('winko_worker')||'';}
+function workerColor(name){
+  var sum=0;for(var i=0;i<name.length;i++)sum+=name.charCodeAt(i);
+  return AVATAR_COLORS[sum%AVATAR_COLORS.length];
+}
+function workerInitials(name){
+  var parts=name.trim().split(/\s+/);
+  if(parts.length>=2)return (parts[0][0]+parts[1][0]).toUpperCase();
+  return name.slice(0,2).toUpperCase();
+}
+
+function openLogin(){
+  renderLoginGrid();
+  document.getElementById('login-screen').classList.remove('hidden');
+}
+function renderLoginGrid(){
+  var workers=getWorkers();
+  var grid=document.getElementById('login-worker-grid');
+  if(!workers.length){
+    grid.innerHTML='<div class="login-empty">No workers yet. Add the first worker below 👇</div>';
+    return;
+  }
+  grid.innerHTML=workers.map(function(w){
+    var col=workerColor(w.name);
+    var hasPin=w.pin?'🔒':'';
+    return '<div class="login-worker" onclick="promptPin(\''+w.name.replace(/'/g,"\\'")+'\')">'+
+      '<button class="login-worker-del" onclick="event.stopPropagation();removeWorker(\''+w.name.replace(/'/g,"\\'")+'\')" title="Remove">✕</button>'+
+      '<div class="login-worker-av" style="background:'+col+'">'+workerInitials(w.name)+'</div>'+
+      '<div class="login-worker-name">'+w.name+' '+hasPin+'</div>'+
+    '</div>';
+  }).join('');
+}
+
+// ── PIN entry dialog ──
+var pinTarget=null, pinMode='login', pinBuffer='';
+function promptPin(name){
+  var w=findWorker(name);
+  if(!w)return;
+  if(!w.pin){
+    // No PIN set yet — ask them to create one now
+    pinMode='set'; pinTarget=name;
+  }else{
+    pinMode='login'; pinTarget=name;
+  }
+  pinBuffer='';
+  showPinPad();
+}
+function showPinPad(){
+  var w=findWorker(pinTarget);
+  var col=workerColor(pinTarget);
+  var title=pinMode==='set'?'Create a 4-digit PIN':'Enter your PIN';
+  var sub=pinMode==='set'?pinTarget+' — set a PIN so only you can log in':'Welcome back, '+pinTarget;
+  var pad=document.getElementById('pin-pad');
+  var keys=['1','2','3','4','5','6','7','8','9','','0','del'];
+  pad.innerHTML=
+    '<div class="pin-box">'+
+      '<div class="login-worker-av" style="background:'+col+';width:48px;height:48px;margin:0 auto 10px">'+workerInitials(pinTarget)+'</div>'+
+      '<div class="pin-title">'+title+'</div>'+
+      '<div class="pin-sub">'+sub+'</div>'+
+      '<div class="pin-dots" id="pin-dots"></div>'+
+      '<div class="pin-err" id="pin-err"></div>'+
+      '<div class="pin-grid">'+
+        keys.map(function(k){
+          if(k==='')return '<div></div>';
+          if(k==='del')return '<button class="pin-key pin-key-del" onclick="pinPress(\'del\')">⌫</button>';
+          return '<button class="pin-key" onclick="pinPress(\''+k+'\')">'+k+'</button>';
+        }).join('')+
+      '</div>'+
+      '<button class="pin-cancel" onclick="closePinPad()">Cancel</button>'+
+    '</div>';
+  pad.classList.add('open');
+  renderPinDots();
+}
+function renderPinDots(){
+  var dots=document.getElementById('pin-dots');
+  if(!dots)return;
+  var html='';
+  for(var i=0;i<4;i++){html+='<span class="pin-dot'+(i<pinBuffer.length?' filled':'')+'"></span>';}
+  dots.innerHTML=html;
+}
+function pinPress(k){
+  var err=document.getElementById('pin-err');if(err)err.textContent='';
+  if(k==='del'){pinBuffer=pinBuffer.slice(0,-1);renderPinDots();return;}
+  if(pinBuffer.length>=4)return;
+  pinBuffer+=k;
+  renderPinDots();
+  if(pinBuffer.length===4){setTimeout(submitPin,150);}
+}
+function submitPin(){
+  var w=findWorker(pinTarget);
+  if(pinMode==='set'){
+    // Save new PIN
+    var workers=getWorkers();
+    var ww=workers.find(function(x){return x.name===w.name;});
+    if(ww)ww.pin=pinBuffer;
+    setWorkers(workers);
+    closePinPad();
+    doLogin(pinTarget);
+    toast('PIN set. You are logged in.','ok');
+  }else{
+    if(pinBuffer===w.pin){
+      closePinPad();
+      doLogin(pinTarget);
+    }else{
+      var err=document.getElementById('pin-err');
+      if(err)err.textContent='Wrong PIN. Try again.';
+      pinBuffer='';renderPinDots();
+      var box=document.querySelector('.pin-box');
+      if(box){box.classList.remove('shake');void box.offsetWidth;box.classList.add('shake');}
+    }
+  }
+}
+function closePinPad(){
+  document.getElementById('pin-pad').classList.remove('open');
+  pinBuffer='';pinTarget=null;
+}
+function doLogin(name){
+  localStorage.setItem('winko_worker',name);
+  document.getElementById('login-screen').classList.add('hidden');
+  updateWorkerChip();
+  loadWorkerName();
+  toast('Logged in as '+name,'ok');
+  var pb=document.getElementById('prod-by');if(pb)pb.value=name;
+}
+
+function addWorkerFromLogin(){
+  var inp=document.getElementById('login-new-name');
+  var name=inp.value.trim();
+  if(!name){toast('Enter a name.','err');return;}
+  var workers=getWorkers();
+  if(workers.some(function(w){return w.name.toLowerCase()===name.toLowerCase();})){toast('That name already exists.','err');return;}
+  workers.push({name:name,pin:''});setWorkers(workers);
+  inp.value='';
+  renderLoginGrid();
+  toast('Worker added. Tap the name to set a PIN.','ok');
+}
+function removeWorker(name){
+  var w=findWorker(name);
+  // If worker has a PIN, require it (or admin override) before removing
+  if(w&&w.pin){
+    var entered=prompt('Enter '+name+'\'s 4-digit PIN to remove them:');
+    if(entered===null)return;
+    if(entered!==w.pin){toast('Wrong PIN — cannot remove.','err');return;}
+  }else{
+    if(!confirm('Remove '+name+' from the worker list?\n(Their past records stay in history.)'))return;
+  }
+  setWorkers(getWorkers().filter(function(x){return x.name!==name;}));
+  renderLoginGrid();
+  toast('Worker removed.','info');
+}
+function loginAs(name){ promptPin(name); } // kept for compatibility
+
+function updateWorkerChip(){
+  var name=currentWorker();
+  var av=document.getElementById('tb-avatar');
+  var nm=document.getElementById('tb-worker-name');
+  if(name){
+    av.textContent=workerInitials(name);
+    av.style.background=workerColor(name);
+    nm.textContent=name;
+  }else{
+    av.textContent='?';av.style.background='var(--t3)';
+    nm.textContent='Not logged in';
+  }
+}
+
 function saveWorkerName(val){
-  localStorage.setItem('winko_worker',val.trim());
-  var h=document.getElementById('worker-hint');
-  if(h){h.textContent=val.trim()?'✓ Saved':'';clearTimeout(h._t);h._t=setTimeout(function(){if(h)h.textContent='';},2000);}
+  // Manual entry bar is now read-only display of the logged-in worker.
+  // Editing it just re-opens the login screen so identity stays verified.
+  openLogin();
 }
 function loadWorkerName(){
-  var name=localStorage.getItem('winko_worker')||'';
+  var name=currentWorker();
   var el=document.getElementById('worker-name');if(el)el.value=name;
 }
 
@@ -1466,7 +1883,7 @@ function submitEntry(){
   var supplier=document.getElementById('e-supplier').value.trim();
   var ref=document.getElementById('e-ref').value.trim();
   var notes=document.getElementById('e-notes').value.trim();
-  var by=document.getElementById('worker-name').value.trim()||'';
+  var by=document.getElementById('worker-name').value.trim()||currentWorker();
   var msgEl=document.getElementById('e-msg');msgEl.textContent='';
   if(!itemId){msgEl.style.color='var(--red)';msgEl.textContent='Select a material.';return;}
   if(isNaN(qty)||qty<0){msgEl.style.color='var(--red)';msgEl.textContent='Enter a valid quantity.';return;}
@@ -1503,19 +1920,57 @@ function renderItems(){
   var items=getItems();
   var q=(document.getElementById('item-search').value||'').toLowerCase();
   var cat=document.getElementById('item-cat').value;
+  var sortEl=document.getElementById('item-sort');
+  var sortBy=sortEl?sortEl.value:'default';
   var filtered=items.filter(function(i){
     if(cat&&i.category!==cat)return false;
     if(q&&!(i.description||'').toLowerCase().includes(q)&&!(i.supplier||'').toLowerCase().includes(q)&&!(i.category||'').toLowerCase().includes(q))return false;
     return true;
   });
+  // Sort
+  if(sortBy==='oldest'){
+    filtered.sort(function(a,b){var aa=itemAge(a).oldestDays,bb=itemAge(b).oldestDays;return (bb===null?-1:bb)-(aa===null?-1:aa);});
+  }else if(sortBy==='newest'){
+    filtered.sort(function(a,b){var aa=itemAge(a).oldestDays,bb=itemAge(b).oldestDays;return (aa===null?-1:aa)-(bb===null?-1:bb);});
+  }else if(sortBy==='name'){
+    filtered.sort(function(a,b){return (a.description||'').localeCompare(b.description||'');});
+  }else if(sortBy==='lowstock'){
+    filtered.sort(function(a,b){
+      var ar=a.stock<=0?0:a.min>0&&a.stock<=a.min?1:2;
+      var br=b.stock<=0?0:b.min>0&&b.stock<=b.min?1:2;
+      return ar-br;
+    });
+  }
   var tbody=document.getElementById('items-tbody');
-  if(!filtered.length){tbody.innerHTML='<tr><td colspan="11"><div class="empty"><h3>No items found</h3></div></td></tr>';return;}
+  if(!filtered.length){tbody.innerHTML='<tr><td colspan="13"><div class="empty"><h3>No items found</h3></div></td></tr>';return;}
+  // Compute group totals for combined-stock display
+  var groupTotals={};
+  items.forEach(function(i){if(i.groupKey){groupTotals[i.groupKey]=(groupTotals[i.groupKey]||0)+i.stock;}});
   tbody.innerHTML=filtered.map(function(i){
     var rc=i.stock<=0?'row-out':i.min>0&&i.stock<=i.min?'row-low':'';
-    // Smart quick amounts based on unit — 1/5/10 for bags, 10/50/100 for pcs
     var smallStep = i.unit && (i.unit.match(/bag|roll|tin|box/i)) ? 1 : 10;
     var bigStep   = i.unit && (i.unit.match(/bag|roll|tin|box/i)) ? 5 : 50;
-    return '<tr class="'+rc+'"><td class="td-muted">'+(i.itemNo||'—')+'</td><td class="td-bold">'+i.description+'</td><td><span class="cat-tag">'+(i.category||'—')+'</span></td><td>'+i.unit+'</td><td>'+stockBar(i)+'</td><td class="td-rm">'+(i.unitPrice?fmtRM(i.unitPrice):'—')+'</td><td class="td-rm">'+(i.stock&&i.unitPrice?fmtRM(r2(i.stock*i.unitPrice)):'—')+'</td><td class="td-muted">'+(i.supplier||'—')+'</td><td class="td-mono">'+(i.min||'—')+'</td><td>'+statusBadge(i)+'</td>'+
+    // Group badge — shows combined stock across suppliers
+    var groupBadge='';
+    if(i.groupKey){
+      var gt=groupTotals[i.groupKey];
+      groupBadge=' <span class="group-badge" title="Product group: '+i.groupKey+' — combined stock '+gt+' '+i.unit+'">⛓ '+gt+' total</span>';
+    }
+    var descCell='<td class="td-bold">'+i.description+groupBadge+'<br><span style="font-size:0.7rem;color:var(--t3);font-weight:400">'+(i.supplier||'no supplier')+'</span></td>';
+    // Age cell
+    var ag=itemAge(i);
+    var ageCell;
+    if(i.stock<=0){
+      ageCell='<td><span style="font-size:0.72rem;color:var(--t3)">no stock</span></td>';
+    }else{
+      var col=ageColor(ag.oldestDays);
+      ageCell='<td style="cursor:pointer" onclick="openBatchModal(\''+i.id+'\')" title="Oldest stock-in: '+(ag.oldestDate?fmtD(ag.oldestDate):'—')+'\nLast restock: '+(ag.lastDate?fmtD(ag.lastDate):'—')+'\nClick for full timeline">'+
+        '<div style="display:flex;align-items:center;gap:5px"><span style="width:7px;height:7px;border-radius:50%;background:'+col+';flex-shrink:0"></span>'+
+        '<span style="font-size:0.78rem;font-weight:600;color:'+col+'">'+ageLabel(ag.oldestDays)+'</span></div>'+
+        '<div style="font-size:0.64rem;color:var(--t3);margin-top:1px">new: '+ageLabel(ag.lastDays)+' ago</div>'+
+      '</td>';
+    }
+    return '<tr class="'+rc+'"><td class="td-muted">'+(i.itemNo||'—')+'</td>'+descCell+'<td><span class="cat-tag">'+(i.category||'—')+'</span></td><td>'+i.unit+'</td><td>'+stockBar(i)+'</td>'+ageCell+'<td class="td-rm">'+(i.unitPrice?fmtRM(i.unitPrice):'—')+'</td><td class="td-rm">'+(i.stock&&i.unitPrice?fmtRM(r2(i.stock*i.unitPrice)):'—')+'</td><td class="td-muted">'+(i.supplier||'—')+'</td><td class="td-mono">'+(i.min||'—')+'</td><td>'+statusBadge(i)+'</td>'+
       '<td>'+
         '<div class="quick-stock">'+
           '<button class="qs-btn out" onclick="quickStock(\''+i.id+'\','+(- smallStep)+')" title="Remove '+smallStep+'">-'+smallStep+'</button>'+
@@ -1524,28 +1979,99 @@ function renderItems(){
           '<button class="qs-btn custom" onclick="quickStockCustom(\''+i.id+'\')" title="Custom amount">±?</button>'+
         '</div>'+
       '</td>'+
-      '<td><div class="btn-row" style="justify-content:flex-end"><button class="btn btn-ghost btn-xs" onclick="openEditModal(\''+i.id+'\')">Edit</button><button class="btn btn-red btn-xs" onclick="deleteItem(\''+i.id+'\')">Del</button></div></td></tr>';
+      '<td><div class="btn-row" style="justify-content:flex-end"><button class="btn btn-ghost btn-xs" onclick="openBatchModal(\''+i.id+'\')" title="Stock-in timeline (FIFO)">📋</button><button class="btn btn-ghost btn-xs" onclick="openEditModal(\''+i.id+'\')">Edit</button><button class="btn btn-red btn-xs" onclick="deleteItem(\''+i.id+'\')">Del</button></div></td></tr>';
   }).join('');
 }
 
 function openAddModal(){
-  ['m-no','m-cat','m-name','m-unit','m-price','m-min','m-supplier','m-stock','m-by'].forEach(function(id){document.getElementById(id).value='';});
+  ['m-no','m-cat','m-name','m-unit','m-price','m-min','m-supplier','m-stock','m-by','m-group'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
+  populateGroupList();
   document.getElementById('m-date').value=today();document.getElementById('m-id').value='';
   document.getElementById('m-msg').textContent='';document.getElementById('modal-title').textContent='Add New Item';
   document.getElementById('modal-btn-lbl').textContent='Add Item';document.getElementById('m-open-sec').style.display='block';
   document.getElementById('item-modal').classList.add('open');setTimeout(function(){document.getElementById('m-name').focus();},120);
 }
+function populateGroupList(){
+  var groups={};
+  getItems().forEach(function(i){if(i.groupKey)groups[i.groupKey]=true;});
+  var dl=document.getElementById('group-list');
+  if(dl)dl.innerHTML=Object.keys(groups).map(function(g){return '<option value="'+g+'">';}).join('');
+}
 function openEditModal(id){
   var item=getItems().find(function(i){return i.id===id;});if(!item)return;
+  populateGroupList();
   document.getElementById('m-no').value=item.itemNo||'';document.getElementById('m-cat').value=item.category||'';
   document.getElementById('m-name').value=item.description||'';document.getElementById('m-unit').value=item.unit||'';
   document.getElementById('m-price').value=item.unitPrice||'';document.getElementById('m-min').value=item.min||'';
   document.getElementById('m-supplier').value=item.supplier||'';document.getElementById('m-id').value=id;
+  document.getElementById('m-group').value=item.groupKey||'';
   document.getElementById('m-msg').textContent='';document.getElementById('modal-title').textContent='Edit Item';
   document.getElementById('modal-btn-lbl').textContent='Save Changes';document.getElementById('m-open-sec').style.display='none';
   document.getElementById('item-modal').classList.add('open');
 }
 function closeModal(){document.getElementById('item-modal').classList.remove('open');}
+
+// ── BATCH TIMELINE (FIFO) + LINKED SUPPLIERS ─────────────────────────────────
+function openBatchModal(itemId){
+  var items=getItems();
+  var item=items.find(function(i){return i.id===itemId;});
+  if(!item)return;
+  document.getElementById('batch-title').textContent=item.description;
+  var body=document.getElementById('batch-body');
+
+  // ── Linked suppliers (same product group) ──
+  var linkedHtml='';
+  if(item.groupKey){
+    var linked=items.filter(function(i){return i.groupKey===item.groupKey;});
+    var combined=linked.reduce(function(s,i){return s+i.stock;},0);
+    linkedHtml='<div class="sec-label" style="margin-top:4px">Product Group: '+item.groupKey+' <span style="color:var(--orange);font-weight:700;text-transform:none;letter-spacing:0">— '+combined+' '+item.unit+' combined</span></div>';
+    linkedHtml+='<div style="margin-bottom:16px">';
+    linked.forEach(function(li){
+      var isCurrent=li.id===itemId;
+      linkedHtml+='<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 11px;background:'+(isCurrent?'var(--orange-bg)':'var(--s2)')+';border:1px solid '+(isCurrent?'var(--orange-border)':'var(--b1)')+';border-radius:var(--r8);margin-bottom:5px">'+
+        '<div><div style="font-size:0.82rem;font-weight:600">'+(li.supplier||'No supplier')+(isCurrent?' (viewing)':'')+'</div><div style="font-size:0.72rem;color:var(--t3)">'+(li.unitPrice?'RM '+fmtRM(li.unitPrice)+' / '+li.unit:'no price')+'</div></div>'+
+        '<div class="td-mono" style="font-weight:700;color:'+(li.stock<=0?'var(--red)':'var(--t1)')+'">'+li.stock+' '+li.unit+'</div>'+
+      '</div>';
+    });
+    linkedHtml+='</div>';
+  }
+
+  // ── FIFO stock-in batches from log ──
+  var log=getLog().filter(function(e){return e.itemId===itemId&&e.type==='in';});
+  // oldest first (FIFO)
+  log.sort(function(a,b){return (a.date+a.time).localeCompare(b.date+b.time);});
+
+  var batchHtml='<div class="sec-label">Stock-In Timeline <span style="color:var(--green);font-weight:700;text-transform:none;letter-spacing:0">— oldest first, use top batch first (FIFO)</span></div>';
+  if(!log.length){
+    batchHtml+='<div class="empty" style="padding:20px"><h3>No stock-in records yet</h3><p>Stock-in batches will appear here oldest to newest</p></div>';
+  }else{
+    batchHtml+='<div class="batch-timeline">';
+    log.forEach(function(e,idx){
+      var age=Math.floor((Date.now()-new Date(e.date+'T'+(e.time||'00:00')))/86400000);
+      var ageTxt=age<=0?'Today':age===1?'1 day ago':age+' days ago';
+      var isOldest=idx===0;
+      batchHtml+='<div class="batch-item'+(isOldest?' batch-oldest':'')+'">'+
+        '<div class="batch-dot"></div>'+
+        '<div class="batch-content">'+
+          '<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap">'+
+            '<span style="font-weight:600;font-size:0.85rem">+'+e.qty+' '+e.unit+(isOldest?' <span class="batch-use-first">USE FIRST</span>':'')+'</span>'+
+            '<span style="font-size:0.72rem;color:var(--t3)">'+fmtD(e.date)+' '+(e.time||'')+' · '+ageTxt+'</span>'+
+          '</div>'+
+          '<div style="font-size:0.74rem;color:var(--t2);margin-top:2px">'+
+            (e.supplier?'From '+e.supplier+' · ':'')+
+            (e.by?'by '+e.by:'')+
+            (e.ref?' · ref '+e.ref:'')+
+          '</div>'+
+        '</div>'+
+      '</div>';
+    });
+    batchHtml+='</div>';
+  }
+
+  body.innerHTML=linkedHtml+batchHtml;
+  document.getElementById('batch-modal').classList.add('open');
+}
+function closeBatchModal(){document.getElementById('batch-modal').classList.remove('open');}
 
 function saveItem(){
   var name=document.getElementById('m-name').value.trim();
@@ -1557,14 +2083,14 @@ function saveItem(){
   var items=getItems();
   if(editId){
     var i=items.find(function(x){return x.id===editId;});
-    if(i){i.itemNo=document.getElementById('m-no').value.trim();i.category=document.getElementById('m-cat').value.trim();i.description=name;i.unit=unit;i.unitPrice=parseFloat(document.getElementById('m-price').value)||0;i.min=parseFloat(document.getElementById('m-min').value)||0;i.supplier=document.getElementById('m-supplier').value.trim();}
+    if(i){i.itemNo=document.getElementById('m-no').value.trim();i.category=document.getElementById('m-cat').value.trim();i.description=name;i.unit=unit;i.unitPrice=parseFloat(document.getElementById('m-price').value)||0;i.min=parseFloat(document.getElementById('m-min').value)||0;i.supplier=document.getElementById('m-supplier').value.trim();i.groupKey=document.getElementById('m-group').value.trim();}
     setItems(items);closeModal();renderItems();populateCats();toast('Item updated.','ok');
   }else{
     var qty=parseFloat(document.getElementById('m-stock').value)||0;
     var price=parseFloat(document.getElementById('m-price').value)||0;
-    var by=document.getElementById('m-by').value.trim();
+    var by=document.getElementById('m-by').value.trim()||currentWorker();
     var newId=uid();
-    items.push({id:newId,itemNo:document.getElementById('m-no').value.trim(),category:document.getElementById('m-cat').value.trim(),description:name,unit:unit,stock:qty,unitPrice:price,min:parseFloat(document.getElementById('m-min').value)||0,supplier:document.getElementById('m-supplier').value.trim(),created:today()});
+    items.push({id:newId,itemNo:document.getElementById('m-no').value.trim(),category:document.getElementById('m-cat').value.trim(),description:name,unit:unit,stock:qty,unitPrice:price,min:parseFloat(document.getElementById('m-min').value)||0,supplier:document.getElementById('m-supplier').value.trim(),groupKey:document.getElementById('m-group').value.trim(),created:today()});
     setItems(items);
     if(qty>0){var log=getLog();log.push({id:uid(),date:today(),time:nowTime(),itemId:newId,itemName:name,unit:unit,type:'in',qty:qty,prevStock:0,newStock:qty,unitPrice:price,amount:r2(qty*price),supplier:document.getElementById('m-supplier').value.trim(),ref:'',by:by,notes:'Opening balance',source:'manual'});setLog(log);}
     closeModal();renderItems();populateCats();toast('Item added!','ok');
@@ -1697,17 +2223,314 @@ goto=function(id,el){
     renderRecipes();
     return;
   }
+  if(id==='leaderboard'){
+    document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
+    document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('active');});
+    document.getElementById('page-leaderboard').classList.add('active');
+    if(el)el.classList.add('active');
+    closeSidebar();
+    renderLeaderboard();
+    return;
+  }
+  if(id==='usefirst'){
+    document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
+    document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('active');});
+    document.getElementById('page-usefirst').classList.add('active');
+    if(el)el.classList.add('active');
+    closeSidebar();
+    var cats=getCats();
+    var us=document.getElementById('uf-cat');
+    if(us){us.innerHTML='<option value="">All Categories</option>';cats.forEach(function(c){us.appendChild(new Option(c,c));});}
+    renderUseFirst();
+    return;
+  }
   syncMbn(id);
   _origGoto(id,el);
 };
 
+// ── USE FIRST PAGE (oldest stock ranking) ────────────────────────────────────
+function renderUseFirst(){
+  var cat=document.getElementById('uf-cat').value;
+  var items=getItems().filter(function(i){return i.stock>0&&(!cat||i.category===cat);});
+  // attach age, sort oldest first
+  items.forEach(function(i){i._age=itemAge(i);});
+  items.sort(function(a,b){
+    var aa=a._age.oldestDays===null?-1:a._age.oldestDays;
+    var bb=b._age.oldestDays===null?-1:b._age.oldestDays;
+    return bb-aa;
+  });
+  document.getElementById('uf-count').textContent=items.length+' item'+(items.length!==1?'s':'')+' in stock';
+  var tbody=document.getElementById('uf-tbody');
+  if(!items.length){tbody.innerHTML='<tr><td colspan="8"><div class="empty"><h3>No stock to show</h3><p>Items with stock will appear here, oldest first</p></div></td></tr>';return;}
+  tbody.innerHTML=items.map(function(i,idx){
+    var ag=i._age;
+    var col=ageColor(ag.oldestDays);
+    var rank=idx+1;
+    var rankBadge=idx<3?'<span style="display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:'+col+';color:#fff;font-size:0.72rem;font-weight:700;font-family:var(--mono)">'+rank+'</span>':'<span class="td-muted" style="font-family:var(--mono)">'+rank+'</span>';
+    return '<tr>'+
+      '<td>'+rankBadge+'</td>'+
+      '<td class="td-bold">'+i.description+'<br><span style="font-size:0.68rem;color:var(--t3);font-weight:400">'+(i.groupKey?'⛓ '+i.groupKey:'')+'</span></td>'+
+      '<td><span class="cat-tag">'+(i.category||'—')+'</span></td>'+
+      '<td class="td-mono" style="font-weight:600">'+i.stock+' '+i.unit+'</td>'+
+      '<td><div style="display:flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:50%;background:'+col+';flex-shrink:0"></span><div><div style="font-size:0.8rem;font-weight:600;color:'+col+'">'+ageLabel(ag.oldestDays)+'</div><div style="font-size:0.66rem;color:var(--t3)">'+(ag.oldestDate?fmtD(ag.oldestDate):'—')+'</div></div></div></td>'+
+      '<td><div style="font-size:0.8rem">'+ageLabel(ag.lastDays)+' ago</div><div style="font-size:0.66rem;color:var(--t3)">'+(ag.lastDate?fmtD(ag.lastDate):'—')+'</div></td>'+
+      '<td class="td-muted">'+(i.supplier||'—')+'</td>'+
+      '<td style="text-align:right"><div class="btn-row" style="justify-content:flex-end"><button class="btn btn-ghost btn-xs" onclick="openBatchModal(\''+i.id+'\')" title="Full timeline">📋</button><button class="btn btn-orange btn-xs" onclick="quickStockCustom(\''+i.id+'\')" title="Use stock">Use</button></div></td>'+
+    '</tr>';
+  }).join('');
+}
+
+// ── WORKER LEADERBOARD ────────────────────────────────────────────────────────
+function lbPeriodStart(period){
+  var d=new Date();
+  if(period==='today')return today();
+  if(period==='week'){d.setDate(d.getDate()-d.getDay());return d.toISOString().slice(0,10);}
+  if(period==='month'){return today().slice(0,7)+'-01';}
+  return '0000-00-00';
+}
+function renderLeaderboard(){
+  var period=document.getElementById('lb-period').value;
+  var metric=document.getElementById('lb-metric').value;
+  var start=lbPeriodStart(period);
+  var log=getLog().filter(function(e){return e.date>=start&&e.by;});
+  var prodLog=getProdLog().filter(function(j){return j.date>=start&&j.by;});
+
+  // Aggregate per worker
+  var stats={};
+  function ensure(name){if(!stats[name])stats[name]={name:name,total:0,inc:0,out:0,production:0,last:''};return stats[name];}
+  log.forEach(function(e){
+    var s=ensure(e.by);
+    if(e.source==='production')return; // counted separately below
+    s.total++;
+    if(e.type==='in')s.inc++;
+    else if(e.type==='out')s.out++;
+    var stamp=e.date+' '+(e.time||'');
+    if(stamp>s.last)s.last=stamp;
+  });
+  prodLog.forEach(function(j){
+    var s=ensure(j.by);
+    s.production++;s.total++;
+    var stamp=j.date+' '+(j.time||'');
+    if(stamp>s.last)s.last=stamp;
+  });
+
+  var rows=Object.values(stats);
+  // Sort by chosen metric
+  rows.sort(function(a,b){return (b[metric]||0)-(a[metric]||0);});
+  rows=rows.filter(function(r){return r[metric]>0||metric==='total';});
+
+  // ── Podium (top 3) ──
+  var podium=document.getElementById('lb-podium');
+  if(rows.length){
+    var top3=rows.slice(0,3);
+    var medals=['🥇','🥈','🥉'];
+    var heights=['96px','78px','64px'];
+    var order=[1,0,2]; // visual: 2nd, 1st, 3rd
+    var ph='<div class="podium">';
+    order.forEach(function(oi){
+      if(!top3[oi])return;
+      var w=top3[oi];
+      var col=workerColor(w.name);
+      ph+='<div class="podium-col">'+
+        '<div class="podium-medal">'+medals[oi]+'</div>'+
+        '<div class="podium-av" style="background:'+col+'">'+workerInitials(w.name)+'</div>'+
+        '<div class="podium-name">'+w.name+'</div>'+
+        '<div class="podium-score">'+w[metric]+'</div>'+
+        '<div class="podium-bar" style="height:'+heights[oi]+';background:'+(oi===0?'var(--orange)':oi===1?'var(--blue)':'var(--purple)')+'"></div>'+
+      '</div>';
+    });
+    ph+='</div>';
+    podium.innerHTML=ph;
+  }else{
+    podium.innerHTML='<div class="card"><div class="empty" style="padding:30px"><h3>No activity in this period</h3><p>Records will appear once workers start logging stock</p></div></div>';
+  }
+
+  // ── Full table ──
+  document.getElementById('lb-count').textContent=rows.length+' worker'+(rows.length!==1?'s':'');
+  var tbody=document.getElementById('lb-tbody');
+  var me=currentWorker();
+  if(!rows.length){tbody.innerHTML='<tr><td colspan="7"><div class="empty"><h3>No data</h3></div></td></tr>';return;}
+  tbody.innerHTML=rows.map(function(w,idx){
+    var col=workerColor(w.name);
+    var rankBadge=idx===0?'<span class="rank-1">1</span>':idx===1?'<span class="rank-2">2</span>':idx===2?'<span class="rank-3">3</span>':'<span class="rank-n">'+(idx+1)+'</span>';
+    var isMe=w.name===me;
+    var lastTxt=w.last?fmtD(w.last.split(' ')[0])+' '+(w.last.split(' ')[1]||''):'—';
+    return '<tr'+(isMe?' style="background:var(--orange-bg)"':'')+'>'+
+      '<td>'+rankBadge+'</td>'+
+      '<td><div style="display:flex;align-items:center;gap:8px"><span class="lb-av" style="background:'+col+'">'+workerInitials(w.name)+'</span><span class="td-bold">'+w.name+(isMe?' (you)':'')+'</span></div></td>'+
+      '<td class="td-mono" style="font-weight:700">'+w.total+'</td>'+
+      '<td class="td-mono" style="color:var(--blue)">'+w.inc+'</td>'+
+      '<td class="td-mono" style="color:var(--red)">'+w.out+'</td>'+
+      '<td class="td-mono" style="color:var(--green)">'+w.production+'</td>'+
+      '<td class="td-muted">'+lastTxt+'</td>'+
+    '</tr>';
+  }).join('');
+}
+
+// ── DAILY PRODUCTION TARGET ───────────────────────────────────────────────────
+var KPT='ws_prodtarget_v1';
+function getProdTarget(){var v=parseInt(localStorage.getItem(KPT));return isNaN(v)?100:v;}
+function setProdTarget(){
+  var cur=getProdTarget();
+  var val=prompt('Set your daily production target\n\nHow many finished units should the team aim to produce each day?',cur);
+  if(val===null)return;
+  var n=parseInt(val);
+  if(isNaN(n)||n<1){toast('Enter a valid number.','err');return;}
+  localStorage.setItem(KPT,n);
+  renderProdTarget();
+  toast('Daily production target set to '+n+' units.','ok');
+}
+
+function renderProdTarget(){
+  var area=document.getElementById('prod-target-area');
+  if(!area)return;
+  var target=getProdTarget();
+  var today_=today();
+  var todayJobsList=getProdLog().filter(function(j){return j.date===today_;});
+  var made=todayJobsList.reduce(function(s,j){return s+(j.finQty||0);},0);
+  var jobs=todayJobsList.length;
+  var rawUsed=todayJobsList.reduce(function(s,j){return s+(j.rawQty||0);},0);
+  var pct=Math.min(100,Math.round((made/target)*100));
+  var circ=2*Math.PI*42;
+  var offset=circ-(pct/100)*circ;
+  var ringColor=pct>=100?'var(--green)':pct>=50?'var(--orange)':'var(--blue)';
+  var msg=pct>=100?'Target reached — excellent output today!':pct>=75?'Almost there, keep pushing!':pct>=40?'Good progress so far.':made>0?'Production started for today.':'No production recorded yet today.';
+
+  // Breakdown: top products made today
+  var byProduct={};
+  todayJobsList.forEach(function(j){
+    if(!byProduct[j.finName])byProduct[j.finName]={qty:0,unit:j.finUnit};
+    byProduct[j.finName].qty+=(j.finQty||0);
+  });
+  var products=Object.keys(byProduct).map(function(name){return{name:name,qty:byProduct[name].qty,unit:byProduct[name].unit};});
+  products.sort(function(a,b){return b.qty-a.qty;});
+
+  var html='<div class="dt-wrap">'+
+      '<div class="dt-ring">'+
+        '<svg width="96" height="96" viewBox="0 0 96 96">'+
+          '<circle cx="48" cy="48" r="42" fill="none" stroke="var(--s3)" stroke-width="8"/>'+
+          '<circle cx="48" cy="48" r="42" fill="none" stroke="'+ringColor+'" stroke-width="8" stroke-linecap="round" stroke-dasharray="'+circ+'" stroke-dashoffset="'+offset+'" style="transition:stroke-dashoffset 0.5s"/>'+
+        '</svg>'+
+        '<div class="dt-ring-center"><div class="dt-ring-pct" style="color:'+ringColor+'">'+pct+'%</div><div class="dt-ring-lbl">of target</div></div>'+
+      '</div>'+
+      '<div class="dt-info">'+
+        '<div class="dt-count">'+made+' <span>/ '+target+' units made</span></div>'+
+        '<div class="dt-sub">'+msg+'</div>'+
+        '<div class="dt-breakdown">'+
+          '<div class="dt-stat"><span class="dt-dot" style="background:var(--orange)"></span>'+jobs+' job'+(jobs!==1?'s':'')+'</div>'+
+          '<div class="dt-stat"><span class="dt-dot" style="background:var(--green)"></span>'+made+' produced</div>'+
+          '<div class="dt-stat"><span class="dt-dot" style="background:var(--red)"></span>'+rawUsed+' raw used</div>'+
+        '</div>'+
+      '</div>'+
+    '</div>';
+
+  // Product breakdown list
+  if(products.length){
+    html+='<div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--b1)">';
+    html+='<div style="font-size:0.72rem;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px">Made Today</div>';
+    var maxQty=products[0].qty||1;
+    products.slice(0,6).forEach(function(p){
+      var w=Math.max(6,Math.round((p.qty/maxQty)*100));
+      var shortName=p.name.length>34?p.name.slice(0,32)+'…':p.name;
+      html+='<div class="chart-bar-row"><div class="chart-label" title="'+p.name+'">'+shortName+'</div><div class="chart-bar-bg"><div class="chart-bar-fill" style="width:'+w+'%;background:var(--green)"><span class="chart-val">'+p.qty+' '+p.unit+'</span></div></div></div>';
+    });
+    html+='</div>';
+  }
+
+  area.innerHTML=html;
+}
+
 // ── PRODUCTION PAGE ───────────────────────────────────────────────────────────
+// ── PRODUCTION CHART ──────────────────────────────────────────────────────────
+var prodChartMode='product';
+function setProdChartMode(mode){
+  prodChartMode=mode;
+  ['product','daily','worker'].forEach(function(m){
+    var b=document.getElementById('pctab-'+m);
+    if(b)b.classList.toggle('active',m===mode);
+  });
+  var titles={product:'What We Produced',daily:'Daily Production — Last 14 Days',worker:'Production by Worker'};
+  document.getElementById('prodchart-title').textContent=titles[mode];
+  document.getElementById('prodchart-period').style.display=mode==='daily'?'none':'';
+  renderProdChart();
+}
+function prodChartStart(period){
+  var d=new Date();
+  if(period==='week'){d.setDate(d.getDate()-d.getDay());return d.toISOString().slice(0,10);}
+  if(period==='month'){return today().slice(0,7)+'-01';}
+  return '0000-00-00';
+}
+function renderProdChart(){
+  var area=document.getElementById('prodchart-area');
+  if(!area)return;
+  if(prodChartMode==='daily'){renderProdDailyChart(area);return;}
+  var period=document.getElementById('prodchart-period').value;
+  var start=prodChartStart(period);
+  var log=getProdLog().filter(function(j){return j.date>=start;});
+  if(!log.length){area.innerHTML='<div class="chart-empty">No production recorded for this period.</div>';return;}
+
+  var totals={}, key;
+  log.forEach(function(j){
+    key=prodChartMode==='worker'?(j.by||'Unknown'):(j.finName||'Unknown');
+    if(!totals[key])totals[key]={qty:0,unit:j.finUnit||'pcs',jobs:0};
+    totals[key].qty+=(j.finQty||0);
+    totals[key].jobs++;
+  });
+  var rows=Object.keys(totals).map(function(k){return {name:k,qty:totals[k].qty,unit:totals[k].unit,jobs:totals[k].jobs};});
+  rows.sort(function(a,b){return b.qty-a.qty;});
+  rows=rows.slice(0,10);
+  var max=rows[0].qty||1;
+  var barColor=prodChartMode==='worker'?'var(--blue)':'var(--green)';
+  var html='<div class="chart-wrap">';
+  rows.forEach(function(r){
+    var pct=Math.max(5,Math.round((r.qty/max)*100));
+    var shortName=r.name.length>32?r.name.slice(0,30)+'…':r.name;
+    html+='<div class="chart-bar-row">'+
+      '<div class="chart-label" title="'+r.name+' — '+r.jobs+' job'+(r.jobs>1?'s':'')+'">'+shortName+'</div>'+
+      '<div class="chart-bar-bg"><div class="chart-bar-fill" style="width:'+pct+'%;background:'+barColor+'"><span class="chart-val">'+r.qty+' '+r.unit+'</span></div></div>'+
+    '</div>';
+  });
+  html+='</div>';
+  area.innerHTML=html;
+}
+function renderProdDailyChart(area){
+  var log=getProdLog();
+  var days=[];
+  for(var i=13;i>=0;i--){var d=new Date();d.setDate(d.getDate()-i);days.push(d.toISOString().slice(0,10));}
+  var counts=days.map(function(d){
+    var dayLog=log.filter(function(j){return j.date===d;});
+    return {date:d,units:dayLog.reduce(function(s,j){return s+(j.finQty||0);},0),jobs:dayLog.length};
+  });
+  var max=Math.max(1,Math.max.apply(null,counts.map(function(c){return c.units;})));
+  var html='<div style="display:flex;align-items:flex-end;gap:4px;height:160px;padding:8px 0">';
+  counts.forEach(function(c){
+    var h=c.units?Math.max(6,Math.round((c.units/max)*130)):2;
+    var dd=new Date(c.date);
+    var isToday=c.date===today();
+    var color=isToday?'var(--orange)':c.units?'var(--green)':'var(--s4)';
+    html+='<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px" title="'+fmtD(c.date)+': '+c.units+' units, '+c.jobs+' jobs">'+
+      '<span style="font-size:0.6rem;font-family:var(--mono);color:var(--t3);height:12px">'+(c.units||'')+'</span>'+
+      '<div style="width:100%;max-width:24px;height:'+h+'px;background:'+color+';border-radius:4px 4px 0 0;transition:height 0.3s"></div>'+
+      '<span style="font-size:0.58rem;color:'+(isToday?'var(--orange)':'var(--t3)')+';font-weight:'+(isToday?'700':'400')+'">'+dd.getDate()+'</span>'+
+    '</div>';
+  });
+  html+='</div>';
+  var total14=counts.reduce(function(s,c){return s+c.units;},0);
+  html+='<div style="display:flex;gap:18px;justify-content:center;font-size:0.76rem;color:var(--t2);padding-top:4px;border-top:1px solid var(--b1);margin-top:4px">'+
+    '<span><strong style="color:var(--t1)">'+total14+'</strong> units in 14 days</span>'+
+    '<span>Avg <strong style="color:var(--t1)">'+(total14/14).toFixed(1)+'</strong>/day</span>'+
+  '</div>';
+  area.innerHTML=html;
+}
+
 function renderProdPage(){
   var log=getProdLog();
   var today_=today();
   var todayJobs=log.filter(function(j){return j.date===today_;}).length;
   var totalJobs=log.length;
   var totalMade=log.reduce(function(s,j){return s+j.finQty;},0);
+  renderProdTarget();
+  renderProdChart();
 
   document.getElementById('prod-stats').innerHTML=
     '<div class="stat"><div class="stat-icon si-orange"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg></div><div class="stat-val orange">'+todayJobs+'</div><div class="stat-lbl">Jobs Today</div></div>'+
@@ -2357,7 +3180,7 @@ function confirmProdWA(){
 }
 
 // ─── UPGRADE 1: QUICK STOCK BUTTONS ──────────────────────────────────────────
-function quickStock(itemId, delta) {
+function quickStock(itemId, delta, dateStr) {
   var items = getItems();
   var item = items.find(function(i){ return i.id === itemId; });
   if (!item) return;
@@ -2368,7 +3191,8 @@ function quickStock(itemId, delta) {
   setItems(items);
   var log = getLog();
   var by = localStorage.getItem('winko_worker') || '';
-  log.push({ id: uid(), date: today(), time: nowTime(), itemId: itemId, itemName: item.description, unit: item.unit, type: delta > 0 ? 'in' : 'out', qty: Math.abs(delta), prevStock: prev, newStock: newStock, unitPrice: item.unitPrice || 0, amount: r2(Math.abs(delta) * (item.unitPrice || 0)), supplier: item.supplier || '', ref: 'QUICK', by: by, notes: 'Quick ' + (delta > 0 ? '+' : '') + delta, source: 'manual' });
+  var d = dateStr || today();
+  log.push({ id: uid(), date: d, time: nowTime(), itemId: itemId, itemName: item.description, unit: item.unit, type: delta > 0 ? 'in' : 'out', qty: Math.abs(delta), prevStock: prev, newStock: newStock, unitPrice: item.unitPrice || 0, amount: r2(Math.abs(delta) * (item.unitPrice || 0)), supplier: item.supplier || '', ref: 'QUICK', by: by, notes: 'Quick ' + (delta > 0 ? '+' : '') + delta, source: 'manual' });
   setLog(log);
   renderItems();
   toast((delta > 0 ? '+' : '') + delta + ' ' + item.unit + ' — ' + item.description + ' now: ' + newStock, 'ok');
@@ -2422,6 +3246,20 @@ function quickStockCustom(itemId) {
   inputWrap.appendChild(inp);
   inputWrap.appendChild(btnIn);
 
+  // Date field — lets worker set when material came in / went out
+  var dateWrap = document.createElement('div');
+  dateWrap.style.cssText = 'margin-bottom:12px';
+  var dateLbl = document.createElement('div');
+  dateLbl.style.cssText = 'font-size:0.7rem;font-weight:600;color:var(--t2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px';
+  dateLbl.textContent = 'Date of this stock movement';
+  var dateInp = document.createElement('input');
+  dateInp.id = 'qs-date';
+  dateInp.type = 'date';
+  dateInp.value = today();
+  dateInp.style.cssText = 'width:100%;background:var(--s2);border:1px solid var(--b2);border-radius:var(--r6);padding:8px 10px;font-size:0.88rem;color:var(--t1);font-family:var(--sans)';
+  dateWrap.appendChild(dateLbl);
+  dateWrap.appendChild(dateInp);
+
   var hint = document.createElement('div');
   hint.style.cssText = 'font-size:0.72rem;color:var(--t3);margin-bottom:12px;text-align:center';
   hint.textContent = 'Positive number = add stock.  Negative = remove stock.';
@@ -2441,8 +3279,9 @@ function quickStockCustom(itemId) {
   function doSave(){
     var v = parseFloat(inp.value);
     if (isNaN(v) || v === 0) { toast('Enter a valid number.', 'err'); return; }
+    var d = document.getElementById('qs-date').value || today();
     overlay.remove();
-    quickStock(itemId, v);
+    quickStock(itemId, v, d);
   }
 
   saveBtn.onclick = doSave;
@@ -2452,6 +3291,7 @@ function quickStockCustom(itemId) {
   box.appendChild(title);
   box.appendChild(sub);
   box.appendChild(inputWrap);
+  box.appendChild(dateWrap);
   box.appendChild(hint);
   box.appendChild(btnRow);
   overlay.appendChild(box);
@@ -2755,12 +3595,22 @@ function confirmRecount() {
 function seedData(){
   if(getItems().length>0)return;
   var t=today(),tm=nowTime(),items=[],log=[];
-  function add(no,cat,desc,unit,qty,price,supplier,min){
+  function add(no,cat,desc,unit,qty,price,supplier,min,group){
     min=min||0;var id=uid();
-    items.push({id:id,itemNo:String(no),category:cat,description:desc,unit:unit,stock:qty,unitPrice:price||0,min:min,supplier:supplier||'',created:t});
+    items.push({id:id,itemNo:String(no),category:cat,description:desc,unit:unit,stock:qty,unitPrice:price||0,min:min,supplier:supplier||'',groupKey:group||'',created:t});
     if(qty>0)log.push({id:uid(),date:t,time:tm,itemId:id,itemName:desc,unit:unit,type:'in',qty:qty,prevStock:0,newStock:qty,unitPrice:price||0,amount:r2(qty*(price||0)),supplier:supplier||'',ref:'',by:'System',notes:'Opening balance',source:'seed'});
   }
-  add('1','MS Plate (Raw)','3.0mm thk x 1340 x 2680mm','pcs',213.96,541318.80,'KIN KEE HARDWARE',50);
+  // Helper: backdated stock-in batch (for FIFO timeline demo)
+  function addBatch(itemDesc,daysAgo,qty,supplier,by){
+    var item=items.find(function(x){return x.description===itemDesc;});
+    if(!item)return;
+    var d=new Date();d.setDate(d.getDate()-daysAgo);
+    var ds=d.toISOString().slice(0,10);
+    var prev=item.stock;item.stock=r2(prev+qty);
+    log.push({id:uid(),date:ds,time:'09:00',itemId:item.id,itemName:item.description,unit:item.unit,type:'in',qty:qty,prevStock:prev,newStock:item.stock,unitPrice:item.unitPrice,amount:r2(qty*item.unitPrice),supplier:supplier||item.supplier,ref:'DO-'+(1000+daysAgo),by:by||'System',notes:'Delivery batch',source:'manual'});
+  }
+  add('1','MS Plate (Raw)','3.0mm thk x 1340 x 2680mm','pcs',213.96,541318.80,'KIN KEE HARDWARE',50,'3.0mm Raw Plate');
+  add('1b','MS Plate (Raw)','3.0mm thk x 1340 x 2680mm (alt supplier)','pcs',60,538.00,'KEAN SOON HARDWARE',20,'3.0mm Raw Plate');
   add('1','MS Plate (Raw)','4.6mm thk x 1340 x 2680mm','pcs',71,369.58,'KEAN SOON HARDWARE',20);
   add('1','MS Plate (Raw)','1.5mm thk x 1340 x 2680mm','pcs',200,145.00,'Infinity Sdn Bhd',50);
   add('1','MS Plate (Raw)','4.5mm thk x 1340 x 2680mm','pcs',199,326.00,'KEAN SOON HARDWARE',50);
@@ -2820,24 +3670,75 @@ function seedData(){
   add('18','Others (Raw)','Aluminium paint Nippon 9000 red 5L','tin',10,198.00,'KKM',2);
   add('18','Others (Raw)','KTH paint 18 litre','tin',3,190.00,'',1);
   add('18','Others (Raw)','Single side reflector (white)','box',7,1.50,'',2);
-  setItems(items);setLog(log);
+
+  // ── Backdated stock-in batches (for FIFO timeline demo) ──
+  addBatch('3.0mm thk x 1340 x 2680mm',12,40,'KIN KEE HARDWARE','Ali');
+  addBatch('3.0mm thk x 1340 x 2680mm',6,30,'KIN KEE HARDWARE','Ahmad');
+  addBatch('3.0mm thk x 1340 x 2680mm',1,25,'KIN KEE HARDWARE','Siti');
+  addBatch('3.0mm thk x 1340 x 2680mm (alt supplier)',8,60,'KEAN SOON HARDWARE','Ahmad');
+  addBatch('4.5mm type A HDG',9,80,'KEAN SOON HARDWARE','Ali');
+  addBatch('4.5mm type A HDG',3,50,'KEAN SOON HARDWARE','Siti');
+
+  // ── Demo worker activity (for leaderboard) ──
+  function addActivity(daysAgo,itemDesc,type,qty,by){
+    var item=items.find(function(x){return x.description===itemDesc;});
+    if(!item)return;
+    var d=new Date();d.setDate(d.getDate()-daysAgo);
+    var ds=d.toISOString().slice(0,10);
+    var prev=item.stock;
+    var ns=type==='in'?r2(prev+qty):r2(Math.max(0,prev-qty));
+    item.stock=ns;
+    log.push({id:uid(),date:ds,time:(8+daysAgo%9)+':30',itemId:item.id,itemName:item.description,unit:item.unit,type:type,qty:qty,prevStock:prev,newStock:ns,unitPrice:item.unitPrice,amount:r2(qty*item.unitPrice),supplier:item.supplier,ref:'',by:by,notes:'',source:'manual'});
+  }
+  addActivity(0,'4.5mm type A HDG','out',12,'Ali');
+  addActivity(0,'3.0mm thk x 1340 x 2680mm','out',8,'Ali');
+  addActivity(0,'M14 x 30mm bolts x nuts HDG','out',2,'Siti');
+  addActivity(0,'4.6mm thk x 1340 x 2680mm','in',10,'Ahmad');
+  addActivity(1,'4.5mm type A HDG','out',20,'Ali');
+  addActivity(1,'PVC foam x 15m (NORTON)','out',5,'Siti');
+  addActivity(2,'3.0mm thk x 1340 x 2680mm','out',15,'Ahmad');
+  addActivity(2,'Roof panel foam x 20m','out',8,'Siti');
+  addActivity(3,'4.5mm type A HDG','out',10,'Ali');
+  addActivity(4,'M14 x 30mm bolts x nuts HDG','in',5,'Ahmad');
+  addActivity(5,'1.5mm thk x 1340 x 2680mm','out',12,'Siti');
+
+  // ── Demo production jobs (for leaderboard production column) ──
+  var pLog=[];
+  function addProd(daysAgo,job,rawDesc,rawQty,finName,finQty,by){
+    var raw=items.find(function(x){return x.description===rawDesc;});
+    if(!raw)return;
+    var d=new Date();d.setDate(d.getDate()-daysAgo);
+    pLog.push({id:uid(),date:d.toISOString().slice(0,10),time:'10:15',jobDesc:job,rawItemId:raw.id,rawName:raw.description,rawQty:rawQty,rawUnit:raw.unit,finItemId:'',finName:finName,finQty:finQty,finUnit:'pcs',by:by,notes:'',source:'manual'});
+  }
+  addProd(0,'Make 3.0mm A Panel','3.0mm thk x 1340 x 2680mm',10,'3.0mm Type A Panel',10,'Ali');
+  addProd(1,'Make 4.5mm B Panel','4.5mm type A HDG',8,'4.5mm Type B Panel',8,'Ahmad');
+  addProd(2,'Make tank cover','1.5mm thk x 1340 x 2680mm',6,'1.5mm Tank Cover',6,'Ali');
+
+  setItems(items);setLog(log);setProdLog(pLog);
 }
 
 // ─── EVENT LISTENERS ──────────────────────────────────────────────────────────
 document.getElementById('item-modal').addEventListener('click',function(e){if(e.target===this)closeModal();});
 document.getElementById('bulk-modal').addEventListener('click',function(e){if(e.target===this)closeBulk();});
+document.getElementById('batch-modal').addEventListener('click',function(e){if(e.target===this)closeBatchModal();});
 document.addEventListener('click',function(e){var fab=document.getElementById('fab');if(fab&&!fab.contains(e.target))closeFab();});
-document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeModal();closeBulk();closeSidebar();}});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeModal();closeBulk();closeSidebar();closeBatchModal();}});
 
 // ─── INIT ─────────────────────────────────────────────────────────────────────
 (function init(){
   seedData();
+  // Seed a couple of sample workers on first run
+  if(!getWorkers().length){setWorkers([{name:'Ali',pin:'1111'},{name:'Ahmad',pin:'2222'},{name:'Siti',pin:'3333'}]);}
   document.getElementById('topbar-date').textContent=new Date().toLocaleDateString('en-MY',{weekday:'short',month:'short',day:'numeric',year:'numeric'});
   document.getElementById('e-date').value=today();
   var f=new Date();f.setDate(f.getDate()-30);
   document.getElementById('h-from').value=f.toISOString().slice(0,10);
   document.getElementById('h-to').value=today();
   populateCats();populateChartMonths();renderDashboard();loadWorkerName();
+  updateWorkerChip();
+  // Show login screen if nobody logged in yet
+  if(!currentWorker()){openLogin();}
+  else{document.getElementById('login-screen').classList.add('hidden');}
 })();
 </script>
 </body>
