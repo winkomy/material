@@ -53,6 +53,16 @@ body{font-family:var(--sans);background:var(--bg);color:var(--t1);min-height:100
 .login-worker:hover .login-worker-del{display:grid}
 .login-worker-del:hover{background:var(--red-bg);color:var(--red)}
 .login-add{display:flex;gap:8px}
+/* ADMIN WORKER MANAGEMENT */
+.admin-add-worker{display:flex;gap:8px}
+.admin-add-worker input{flex:1;background:var(--s2);border:1px solid var(--b2);border-radius:var(--r8);padding:9px 12px;font-size:0.86rem;color:var(--t1);font-family:var(--sans)}
+.admin-add-worker input:focus{outline:none;border-color:var(--orange)}
+.aw-row{display:flex;align-items:center;gap:10px;padding:9px 11px;background:var(--s2);border:1px solid var(--b1);border-radius:var(--r8);margin-bottom:6px}
+.aw-av{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:700;font-size:0.76rem;flex-shrink:0}
+.aw-info{flex:1;min-width:0}
+.aw-info strong{font-size:0.85rem;font-weight:600;display:block}
+.aw-info span{font-size:0.7rem;color:var(--t3)}
+.aw-actions{display:flex;gap:5px;flex-shrink:0}
 .login-add input{flex:1;background:var(--s2);border:1px solid var(--b2);border-radius:var(--r8);padding:10px 12px;font-size:0.88rem;color:var(--t1);font-family:var(--sans)}
 .login-add input:focus{outline:none;border-color:var(--orange)}
 .login-empty{grid-column:1/-1;text-align:center;padding:24px;color:var(--t3);font-size:0.83rem}
@@ -162,6 +172,15 @@ tbody tr.row-out td{background:rgba(248,81,73,0.05)}
 .td-mono{font-family:var(--mono);font-size:0.78rem}
 .td-muted{color:var(--t2);font-size:0.76rem}
 .td-rm{font-family:var(--mono);font-size:0.78rem;text-align:right}
+/* ROLE-BASED VISIBILITY */
+.role-worker .price-col{display:none!important}
+.role-badge{font-size:0.6rem;font-weight:700;letter-spacing:0.06em;padding:2px 7px;border-radius:99px;margin-left:2px}
+.role-badge-admin{background:var(--orange-bg);color:var(--orange);border:1px solid var(--orange-border)}
+.role-badge-worker{background:var(--s3);color:var(--t2);border:1px solid var(--b2)}
+.admin-only{display:none!important}
+.role-admin .admin-only{display:inline-flex!important}
+.admin-only-block{display:none}
+.role-admin .admin-only-block{display:flex}
 th.th-r{text-align:right}
 /* BADGES */
 .badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:99px;font-size:0.67rem;font-weight:600;letter-spacing:0.02em;white-space:nowrap;border:1px solid}
@@ -410,13 +429,20 @@ th.th-r{text-align:right}
       <div><div style="font-size:1.2rem;font-weight:800">WINKO <span style="color:var(--orange)">Stock</span></div><div style="font-size:0.78rem;color:var(--t2)">Select your name to start</div></div>
     </div>
     <div id="login-worker-grid" class="login-grid"></div>
-    <div class="login-add">
-      <input type="text" id="login-new-name" placeholder="New worker name…" onkeydown="if(event.key==='Enter')addWorkerFromLogin()">
-      <button class="btn btn-orange" onclick="addWorkerFromLogin()">
-        <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>Add
-      </button>
-    </div>
     <p style="font-size:0.72rem;color:var(--t3);text-align:center;margin-top:14px">Tap your name, then enter your 4-digit PIN. First time? You'll set your PIN. 🔒 means a PIN is set.</p>
+    <div style="border-top:1px solid var(--b1);margin-top:16px;padding-top:14px;text-align:center">
+      <button class="btn btn-ghost btn-sm" onclick="toggleAdminLogin()" id="admin-toggle-btn">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 1l9 4v6c0 5.5-3.8 10.7-9 12-5.2-1.3-9-6.5-9-12V5l9-4z"/></svg>
+        Admin Login
+      </button>
+      <div id="admin-login-form" style="display:none;max-width:280px;margin:12px auto 0">
+        <input type="text" id="admin-user" placeholder="Admin username" style="width:100%;background:var(--s2);border:1px solid var(--b2);border-radius:var(--r8);padding:10px 12px;font-size:0.88rem;color:var(--t1);font-family:var(--sans);margin-bottom:8px">
+        <input type="password" id="admin-pass" placeholder="Password" onkeydown="if(event.key==='Enter')doAdminLogin()" style="width:100%;background:var(--s2);border:1px solid var(--b2);border-radius:var(--r8);padding:10px 12px;font-size:0.88rem;color:var(--t1);font-family:var(--sans);margin-bottom:8px">
+        <button class="btn btn-orange" style="width:100%;justify-content:center" onclick="doAdminLogin()">Login as Admin</button>
+        <div id="admin-err" style="font-size:0.75rem;color:var(--red);min-height:1em;margin-top:6px"></div>
+        <div style="font-size:0.68rem;color:var(--t3);margin-top:4px">Default: admin / admin123 — change it in Settings after login</div>
+      </div>
+    </div>
   </div>
 </div>
 <!-- PIN PAD -->
@@ -437,7 +463,11 @@ th.th-r{text-align:right}
       <button class="worker-chip" onclick="openLogin()" title="Switch worker">
         <span class="worker-avatar-sm" id="tb-avatar">?</span>
         <span id="tb-worker-name">Not logged in</span>
+        <span class="role-badge role-badge-worker" id="role-badge">WORKER</span>
         <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <button class="btn btn-ghost btn-sm admin-only" onclick="openAdminSettings()" title="Admin settings">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
       </button>
       <button class="btn btn-ghost btn-sm" onclick="exportCSV()">
         <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Export
@@ -546,7 +576,7 @@ th.th-r{text-align:right}
         <div class="card">
           <div class="card-head"><h2>Stock Levels</h2><span id="dash-count" style="font-size:0.73rem;color:var(--t3)"></span></div>
           <div class="tbl-wrap"><table>
-            <thead><tr><th>#</th><th>Description</th><th>Category</th><th>Unit</th><th>Qty</th><th class="th-r">Unit(RM)</th><th class="th-r">Value(RM)</th><th>Supplier</th><th>Status</th></tr></thead>
+            <thead><tr><th>#</th><th>Description</th><th>Category</th><th>Unit</th><th>Qty</th><th class="th-r price-col">Unit(RM)</th><th class="th-r price-col">Value(RM)</th><th>Supplier</th><th>Status</th></tr></thead>
             <tbody id="dash-tbody"></tbody>
           </table></div>
         </div>
@@ -614,7 +644,7 @@ th.th-r{text-align:right}
             </div>
             <div class="form-grid">
               <div class="fg"><label>Quantity <span class="req">*</span></label><input type="number" id="e-qty" min="0" step="any" placeholder="0"></div>
-              <div class="fg"><label>Unit Price (RM) <span class="hint">optional</span></label><input type="number" id="e-price" min="0" step="any" placeholder="0.00"></div>
+              <div class="fg admin-only-block"><label>Unit Price (RM) <span class="hint">admin only</span></label><input type="number" id="e-price" min="0" step="any" placeholder="0.00"></div>
               <div class="fg"><label>Supplier <span class="hint">optional</span></label><input type="text" id="e-supplier" placeholder="Supplier name"></div>
             </div>
             <div class="form-grid">
@@ -632,7 +662,7 @@ th.th-r{text-align:right}
         <div class="card">
           <div class="card-head"><h2>Today's Entries</h2><span id="today-count" style="font-size:0.73rem;color:var(--t3)"></span></div>
           <div class="tbl-wrap"><table>
-            <thead><tr><th>Time</th><th>Material</th><th>Type</th><th>Qty</th><th>Balance</th><th class="th-r">Unit(RM)</th><th>Supplier</th><th>By</th></tr></thead>
+            <thead><tr><th>Time</th><th>Material</th><th>Type</th><th>Qty</th><th>Balance</th><th class="th-r price-col">Unit(RM)</th><th>Supplier</th><th>By</th></tr></thead>
             <tbody id="today-tbody"></tbody>
           </table></div>
         </div>
@@ -668,7 +698,7 @@ th.th-r{text-align:right}
             </div>
           </div>
           <div class="tbl-wrap"><table>
-            <thead><tr><th>#</th><th>Description</th><th>Category</th><th>Unit</th><th>Qty</th><th>Stock Age</th><th class="th-r">Unit(RM)</th><th class="th-r">Value(RM)</th><th>Supplier</th><th>Min</th><th>Status</th><th style="text-align:center">Quick ±</th><th style="text-align:right">Actions</th></tr></thead>
+            <thead><tr><th>#</th><th>Description</th><th>Category</th><th>Unit</th><th>Qty</th><th>Stock Age</th><th class="th-r price-col">Unit(RM)</th><th class="th-r price-col">Value(RM)</th><th>Supplier</th><th>Min</th><th>Status</th><th style="text-align:center">Quick ±</th><th style="text-align:right">Actions</th></tr></thead>
             <tbody id="items-tbody"></tbody>
           </table></div>
         </div>
@@ -908,7 +938,7 @@ th.th-r{text-align:right}
             <button class="btn btn-ghost btn-sm" onclick="renderHistory()">Apply Filter</button>
           </div>
           <div class="tbl-wrap"><table>
-            <thead><tr><th>Date</th><th>Time</th><th>Material</th><th>Type</th><th>Qty</th><th>Balance</th><th class="th-r">Unit(RM)</th><th class="th-r">Amount(RM)</th><th>Supplier</th><th>By</th><th>Source</th><th></th></tr></thead>
+            <thead><tr><th>Date</th><th>Time</th><th>Material</th><th>Type</th><th>Qty</th><th>Balance</th><th class="th-r price-col">Unit(RM)</th><th class="th-r price-col">Amount(RM)</th><th>Supplier</th><th>By</th><th>Source</th><th></th></tr></thead>
             <tbody id="hist-tbody"></tbody>
           </table></div>
         </div>
@@ -919,6 +949,44 @@ th.th-r{text-align:right}
 
 <!-- ADD/EDIT MODAL -->
 <!-- BATCH TIMELINE MODAL -->
+<!-- ADMIN SETTINGS MODAL -->
+<div class="modal-bg" id="admin-settings-modal">
+  <div class="modal" style="max-width:520px">
+    <div class="modal-head"><h2>Admin Dashboard</h2><button class="close-btn" onclick="closeAdminSettings()">✕</button></div>
+    <div class="modal-body">
+
+      <!-- WORKER MANAGEMENT -->
+      <div class="sec-label">Manage Workers</div>
+      <div class="admin-add-worker">
+        <input type="text" id="aw-name" placeholder="Worker name" onkeydown="if(event.key==='Enter')document.getElementById('aw-pin').focus()">
+        <input type="text" id="aw-pin" placeholder="PIN" maxlength="4" inputmode="numeric" onkeydown="if(event.key==='Enter')adminAddWorker()" style="max-width:80px">
+        <select id="aw-access" style="background:var(--s2);border:1px solid var(--b2);border-radius:var(--r8);padding:9px 8px;font-size:0.82rem;color:var(--t1);font-family:var(--sans);max-width:120px">
+          <option value="worker">Worker</option>
+          <option value="full">Full Access</option>
+        </select>
+        <button class="btn btn-orange" onclick="adminAddWorker()">
+          <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>Add
+        </button>
+      </div>
+      <div style="font-size:0.7rem;color:var(--t3);margin:6px 0 10px"><strong>Worker</strong> = quantities only, no pricing. <strong>Full Access</strong> = sees pricing, edits dates, manages everything (like admin). Leave PIN blank for the worker to set their own.</div>
+      <div id="admin-worker-list"></div>
+
+      <div class="divider"></div>
+
+      <!-- ADMIN CREDENTIALS -->
+      <div class="sec-label">Change Admin Login</div>
+      <div class="fg" style="margin-bottom:10px"><label>Admin Username</label><input type="text" id="as-user"></div>
+      <div class="fg" style="margin-bottom:10px"><label>New Password <span class="hint">leave blank to keep</span></label><input type="password" id="as-pass" placeholder="••••••"></div>
+      <button class="btn btn-orange" onclick="saveAdminCred()">Save Credentials</button>
+
+      <div class="divider"></div>
+      <div class="sec-label">Session</div>
+      <button class="btn btn-ghost" onclick="logoutToWorker()">Switch to Worker Mode</button>
+      <p style="font-size:0.72rem;color:var(--t3);margin-top:10px">Admin can add/remove workers, reset PINs, edit stock-in dates and pricing. Workers see quantities only.</p>
+    </div>
+  </div>
+</div>
+
 <div class="modal-bg" id="batch-modal">
   <div class="modal" style="max-width:600px">
     <div class="modal-head"><h2 id="batch-title">Stock Timeline</h2><button class="close-btn" onclick="closeBatchModal()">✕</button></div>
@@ -940,7 +1008,7 @@ th.th-r{text-align:right}
       </div>
       <div class="form-grid">
         <div class="fg"><label>Unit <span class="req">*</span></label><input type="text" id="m-unit" placeholder="pcs / kg / bag"></div>
-        <div class="fg"><label>Unit Price (RM)</label><input type="number" id="m-price" min="0" step="any" placeholder="0.00"></div>
+        <div class="fg admin-only-block"><label>Unit Price (RM) <span class="hint">admin only</span></label><input type="number" id="m-price" min="0" step="any" placeholder="0.00"></div>
         <div class="fg"><label>Min Level</label><input type="number" id="m-min" min="0" step="any" placeholder="0"></div>
       </div>
       <div class="fg" style="margin-bottom:10px"><label>Supplier</label><input type="text" id="m-supplier" placeholder="Supplier name"></div>
@@ -1305,7 +1373,7 @@ function renderDashTable(){
   if(!filtered.length){tbody.innerHTML='<tr><td colspan="9"><div class="empty"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" style="width:40px;height:40px;margin:0 auto 10px;display:block;opacity:0.15"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg><h3>No items found</h3><p>Try a different search</p></div></td></tr>';return;}
   tbody.innerHTML=filtered.map(function(i){
     var rc=i.stock<=0?'row-out':i.min>0&&i.stock<=i.min?'row-low':'';
-    return '<tr class="'+rc+'"><td class="td-muted">'+(i.itemNo||'—')+'</td><td class="td-bold">'+i.description+'</td><td><span class="cat-tag">'+(i.category||'—')+'</span></td><td>'+i.unit+'</td><td>'+stockBar(i)+'</td><td class="td-rm">'+(i.unitPrice?fmtRM(i.unitPrice):'—')+'</td><td class="td-rm">'+(i.stock&&i.unitPrice?fmtRM(r2(i.stock*i.unitPrice)):'—')+'</td><td class="td-muted">'+(i.supplier||'—')+'</td><td>'+statusBadge(i)+'</td></tr>';
+    return '<tr class="'+rc+'"><td class="td-muted">'+(i.itemNo||'—')+'</td><td class="td-bold">'+i.description+'</td><td><span class="cat-tag">'+(i.category||'—')+'</span></td><td>'+i.unit+'</td><td>'+stockBar(i)+'</td><td class="td-rm price-col">'+(i.unitPrice?fmtRM(i.unitPrice):'—')+'</td><td class="td-rm price-col">'+(i.stock&&i.unitPrice?fmtRM(r2(i.stock*i.unitPrice)):'—')+'</td><td class="td-muted">'+(i.supplier||'—')+'</td><td>'+statusBadge(i)+'</td></tr>';
   }).join('');
 }
 
@@ -1656,7 +1724,7 @@ function confirmWA(){
     else if(type==='out')item.stock=r2(Math.max(0,prev-qty));
     else item.stock=r2(qty);
     if(r.supplier)item.supplier=r.supplier;
-    log.push({id:uid(),date:today(),time:nowTime(),itemId:itemId,itemName:item.description,unit:item.unit,type:type,qty:qty,prevStock:prev,newStock:item.stock,unitPrice:item.unitPrice||0,amount:r2(qty*(item.unitPrice||0)),supplier:r.supplier||'',ref:'',by:localStorage.getItem('winko_worker')||'',notes:r.parsedName,source:'whatsapp'});
+    log.push({id:uid(),date:today(),time:nowTime(),itemId:itemId,itemName:item.description,unit:item.unit,type:type,qty:qty,prevStock:prev,newStock:item.stock,unitPrice:item.unitPrice||0,amount:r2(qty*(item.unitPrice||0)),supplier:r.supplier||'',ref:'',by:currentWorker(),notes:r.parsedName,source:'whatsapp'});
     added++;
   });
   setItems(items);setLog(log);
@@ -1668,36 +1736,186 @@ function confirmWA(){
 // ─── WORKER LOGIN SYSTEM (name + PIN) ─────────────────────────────────────────
 var KW='ws_workers_v2';
 var AVATAR_COLORS=['#f97316','#58a6ff','#3fb950','#bc8cff','#f85149','#d29922','#ec4899','#14b8a6'];
+var DEFAULT_WORKERS=[{name:'Ali',pin:''},{name:'Ahmad',pin:''},{name:'Siti',pin:''}];
 function getWorkers(){
+  var list=null;
   try{
     var raw=JSON.parse(localStorage.getItem(KW));
-    if(Array.isArray(raw))return raw;
+    if(Array.isArray(raw))list=raw;
   }catch{}
   // Migrate old v1 string-array format (no PINs) → objects
-  try{
-    var old=JSON.parse(localStorage.getItem('ws_workers_v1'));
-    if(Array.isArray(old)&&old.length){
-      var migrated=old.map(function(n){return {name:n,pin:''};});
-      setWorkers(migrated);
-      return migrated;
-    }
-  }catch{}
-  return [];
+  if(!list){
+    try{
+      var old=JSON.parse(localStorage.getItem('ws_workers_v1'));
+      if(Array.isArray(old)&&old.length){
+        list=old.map(function(n){return {name:String(n),pin:''};});
+      }
+    }catch{}
+  }
+  if(!Array.isArray(list))list=[];
+  // Self-heal: keep only valid objects with a real name; normalise shape
+  list=list.map(function(w){
+    if(typeof w==='string')return {name:w,pin:''};
+    if(w&&typeof w==='object'&&cleanName(w.name))return {name:cleanName(w.name),pin:(w.pin||''),allAccess:!!w.allAccess};
+    return null;
+  }).filter(Boolean);
+  return list;
 }
 function setWorkers(d){localStorage.setItem(KW,JSON.stringify(d));}
-function findWorker(name){return getWorkers().find(function(w){return w.name.toLowerCase()===name.toLowerCase();});}
-function currentWorker(){return localStorage.getItem('winko_worker')||'';}
+function findWorker(name){return getWorkers().find(function(w){return w.name.toLowerCase()===cleanName(name).toLowerCase();});}
+function cleanName(v){
+  if(v===null||v===undefined)return '';
+  var s=String(v).trim();
+  if(s===''||s==='null'||s==='undefined')return '';
+  return s;
+}
+// ── ADMIN ROLE ────────────────────────────────────────────────────────────────
+var KADMIN='ws_admin_cred_v1';   // {user,pass}
+var KROLE='ws_role';             // 'admin' | 'worker'
+function getAdminCred(){try{return JSON.parse(localStorage.getItem(KADMIN))||{user:'admin',pass:'admin123'};}catch{return {user:'admin',pass:'admin123'};}}
+function setAdminCred(c){localStorage.setItem(KADMIN,JSON.stringify(c));}
+function isAdmin(){return localStorage.getItem(KROLE)==='admin';}
+function setRole(r){localStorage.setItem(KROLE,r);}
+// Show/hide admin-only and price elements based on role
+function applyRole(){
+  var admin=isAdmin();
+  document.body.classList.toggle('role-admin',admin);
+  document.body.classList.toggle('role-worker',!admin);
+  var badge=document.getElementById('role-badge');
+  if(badge){badge.textContent=admin?'ADMIN':'WORKER';badge.className='role-badge '+(admin?'role-badge-admin':'role-badge-worker');}
+}
+function toggleAdminLogin(){
+  var f=document.getElementById('admin-login-form');
+  f.style.display=f.style.display==='none'?'block':'none';
+  if(f.style.display==='block')document.getElementById('admin-user').focus();
+}
+function doAdminLogin(){
+  var u=document.getElementById('admin-user').value.trim();
+  var p=document.getElementById('admin-pass').value;
+  var cred=getAdminCred();
+  var err=document.getElementById('admin-err');
+  if(u.toLowerCase()===cred.user.toLowerCase()&&p===cred.pass){
+    setRole('admin');
+    localStorage.setItem('winko_worker',cred.user);
+    document.getElementById('login-screen').classList.add('hidden');
+    document.getElementById('admin-pass').value='';
+    document.getElementById('admin-login-form').style.display='none';
+    applyRole();updateWorkerChip();loadWorkerName();
+    toast('Logged in as Admin — full access','ok');
+  }else{
+    err.textContent='Wrong username or password.';
+  }
+}
+function openAdminSettings(){
+  if(!isAdmin())return;
+  var cred=getAdminCred();
+  document.getElementById('as-user').value=cred.user;
+  document.getElementById('as-pass').value='';
+  renderAdminWorkers();
+  document.getElementById('admin-settings-modal').classList.add('open');
+}
+function renderAdminWorkers(){
+  var list=document.getElementById('admin-worker-list');
+  if(!list)return;
+  var workers=getWorkers();
+  if(!workers.length){list.innerHTML='<div style="font-size:0.8rem;color:var(--t3);padding:10px 0">No workers yet. Add one above.</div>';return;}
+  list.innerHTML=workers.map(function(w){
+    var col=workerColor(w.name);
+    var pinTxt=w.pin?'PIN set 🔒':'No PIN — sets on first login';
+    var accessBadge=w.allAccess
+      ? '<span style="font-size:0.6rem;font-weight:700;color:var(--orange);background:var(--orange-bg);border:1px solid var(--orange-border);border-radius:99px;padding:1px 7px">FULL ACCESS</span>'
+      : '<span style="font-size:0.6rem;font-weight:700;color:var(--t2);background:var(--s3);border:1px solid var(--b2);border-radius:99px;padding:1px 7px">WORKER</span>';
+    return '<div class="aw-row">'+
+      '<div class="aw-av" style="background:'+col+'">'+workerInitials(w.name)+'</div>'+
+      '<div class="aw-info"><strong>'+w.name+' '+accessBadge+'</strong><span>'+pinTxt+'</span></div>'+
+      '<div class="aw-actions">'+
+        '<button class="btn btn-ghost btn-xs" onclick="adminToggleAccess(\''+w.name.replace(/'/g,"\\'")+'\')" title="Toggle access level">'+(w.allAccess?'↓ Worker':'↑ Full')+'</button>'+
+        '<button class="btn btn-ghost btn-xs" onclick="adminSetPin(\''+w.name.replace(/'/g,"\\'")+'\')" title="Set/reset PIN">PIN</button>'+
+        '<button class="btn btn-red btn-xs" onclick="adminRemoveWorker(\''+w.name.replace(/'/g,"\\'")+'\')" title="Remove worker">✕</button>'+
+      '</div>'+
+    '</div>';
+  }).join('');
+}
+function adminToggleAccess(name){
+  var workers=getWorkers();
+  var w=workers.find(function(x){return x.name===name;});
+  if(!w)return;
+  w.allAccess=!w.allAccess;
+  setWorkers(workers);
+  renderAdminWorkers();
+  toast(name+(w.allAccess?' now has FULL access':' is now a normal worker'),'ok');
+}
+function adminAddWorker(){
+  var name=document.getElementById('aw-name').value.trim();
+  var pin=document.getElementById('aw-pin').value.trim();
+  var access=document.getElementById('aw-access').value;
+  if(!name){toast('Enter a worker name.','err');return;}
+  if(pin&&!/^\d{4}$/.test(pin)){toast('PIN must be exactly 4 digits (or blank).','err');return;}
+  var workers=getWorkers();
+  if(workers.some(function(w){return w.name.toLowerCase()===name.toLowerCase();})){toast('That name already exists.','err');return;}
+  workers.push({name:name,pin:pin||'',allAccess:access==='full'});
+  setWorkers(workers);
+  document.getElementById('aw-name').value='';
+  document.getElementById('aw-pin').value='';
+  document.getElementById('aw-access').value='worker';
+  renderAdminWorkers();
+  toast('Worker added: '+name,'ok');
+}
+function adminSetPin(name){
+  var w=findWorker(name);
+  if(!w)return;
+  var pin=prompt('Set a 4-digit PIN for '+name+'\n(leave blank to clear, so they set their own next login):',w.pin||'');
+  if(pin===null)return;
+  pin=pin.trim();
+  if(pin&&!/^\d{4}$/.test(pin)){toast('PIN must be exactly 4 digits.','err');return;}
+  var workers=getWorkers();
+  var ww=workers.find(function(x){return x.name===name;});
+  if(ww)ww.pin=pin;
+  setWorkers(workers);
+  renderAdminWorkers();
+  toast(pin?'PIN updated for '+name:'PIN cleared for '+name,'ok');
+}
+function adminRemoveWorker(name){
+  if(!confirm('Remove '+name+' from the worker list?\nTheir past records stay in history.'))return;
+  setWorkers(getWorkers().filter(function(x){return x.name!==name;}));
+  renderAdminWorkers();
+  toast('Worker removed.','info');
+}
+function closeAdminSettings(){document.getElementById('admin-settings-modal').classList.remove('open');}
+function saveAdminCred(){
+  var u=document.getElementById('as-user').value.trim();
+  var p=document.getElementById('as-pass').value;
+  if(!u){toast('Username required.','err');return;}
+  var cred=getAdminCred();
+  cred.user=u;
+  if(p)cred.pass=p;
+  setAdminCred(cred);
+  toast('Admin credentials updated.','ok');
+  closeAdminSettings();
+}
+function logoutToWorker(){
+  setRole('worker');
+  applyRole();
+  closeAdminSettings();
+  openLogin();
+}
+function currentWorker(){return cleanName(localStorage.getItem('winko_worker'));}
 function workerColor(name){
+  name=cleanName(name)||'?';
   var sum=0;for(var i=0;i<name.length;i++)sum+=name.charCodeAt(i);
   return AVATAR_COLORS[sum%AVATAR_COLORS.length];
 }
 function workerInitials(name){
+  name=cleanName(name);
+  if(!name)return '?';
   var parts=name.trim().split(/\s+/);
   if(parts.length>=2)return (parts[0][0]+parts[1][0]).toUpperCase();
   return name.slice(0,2).toUpperCase();
 }
 
 function openLogin(){
+  // Safety: if worker list somehow empty/corrupt, restore defaults so names always show
+  if(!getWorkers().length){setWorkers(DEFAULT_WORKERS.slice());}
   renderLoginGrid();
   document.getElementById('login-screen').classList.remove('hidden');
 }
@@ -1705,14 +1923,13 @@ function renderLoginGrid(){
   var workers=getWorkers();
   var grid=document.getElementById('login-worker-grid');
   if(!workers.length){
-    grid.innerHTML='<div class="login-empty">No workers yet. Add the first worker below 👇</div>';
+    grid.innerHTML='<div class="login-empty">No workers yet. Login as Admin to add workers.</div>';
     return;
   }
   grid.innerHTML=workers.map(function(w){
     var col=workerColor(w.name);
     var hasPin=w.pin?'🔒':'';
     return '<div class="login-worker" onclick="promptPin(\''+w.name.replace(/'/g,"\\'")+'\')">'+
-      '<button class="login-worker-del" onclick="event.stopPropagation();removeWorker(\''+w.name.replace(/'/g,"\\'")+'\')" title="Remove">✕</button>'+
       '<div class="login-worker-av" style="background:'+col+'">'+workerInitials(w.name)+'</div>'+
       '<div class="login-worker-name">'+w.name+' '+hasPin+'</div>'+
     '</div>';
@@ -1804,10 +2021,14 @@ function closePinPad(){
 }
 function doLogin(name){
   localStorage.setItem('winko_worker',name);
+  var w=findWorker(name);
+  // Workers flagged "all access" get full admin rights
+  setRole(w&&w.allAccess?'admin':'worker');
   document.getElementById('login-screen').classList.add('hidden');
+  applyRole();
   updateWorkerChip();
   loadWorkerName();
-  toast('Logged in as '+name,'ok');
+  toast('Logged in as '+name+(w&&w.allAccess?' (full access)':''),'ok');
   var pb=document.getElementById('prod-by');if(pb)pb.value=name;
 }
 
@@ -1911,7 +2132,7 @@ function renderTodayEntries(){
   if(!log.length){tbody.innerHTML='<tr><td colspan="8"><div class="empty" style="padding:20px"><h3>No entries yet today</h3></div></td></tr>';return;}
   var lbl={in:'↑ In',out:'↓ Out',adjust:'⟳'},cls={in:'b-in',out:'b-out',adjust:'b-adj'};
   tbody.innerHTML=log.map(function(e){
-    return '<tr><td class="td-mono" style="font-size:0.75rem">'+e.time+'</td><td class="td-bold">'+e.itemName+'</td><td><span class="badge '+(cls[e.type]||'b-adj')+'">'+(lbl[e.type]||e.type)+'</span></td><td class="td-mono">'+e.qty+' '+e.unit+'</td><td class="td-mono">'+e.newStock+' '+e.unit+'</td><td class="td-rm">'+(e.unitPrice?fmtRM(e.unitPrice):'—')+'</td><td class="td-muted">'+(e.supplier||'—')+'</td><td>'+(e.by||'—')+'</td></tr>';
+    return '<tr><td class="td-mono" style="font-size:0.75rem">'+e.time+'</td><td class="td-bold">'+e.itemName+'</td><td><span class="badge '+(cls[e.type]||'b-adj')+'">'+(lbl[e.type]||e.type)+'</span></td><td class="td-mono">'+e.qty+' '+e.unit+'</td><td class="td-mono">'+e.newStock+' '+e.unit+'</td><td class="td-rm price-col">'+(e.unitPrice?fmtRM(e.unitPrice):'—')+'</td><td class="td-muted">'+(e.supplier||'—')+'</td><td>'+(e.by||'—')+'</td></tr>';
   }).join('');
 }
 
@@ -1970,7 +2191,7 @@ function renderItems(){
         '<div style="font-size:0.64rem;color:var(--t3);margin-top:1px">new: '+ageLabel(ag.lastDays)+' ago</div>'+
       '</td>';
     }
-    return '<tr class="'+rc+'"><td class="td-muted">'+(i.itemNo||'—')+'</td>'+descCell+'<td><span class="cat-tag">'+(i.category||'—')+'</span></td><td>'+i.unit+'</td><td>'+stockBar(i)+'</td>'+ageCell+'<td class="td-rm">'+(i.unitPrice?fmtRM(i.unitPrice):'—')+'</td><td class="td-rm">'+(i.stock&&i.unitPrice?fmtRM(r2(i.stock*i.unitPrice)):'—')+'</td><td class="td-muted">'+(i.supplier||'—')+'</td><td class="td-mono">'+(i.min||'—')+'</td><td>'+statusBadge(i)+'</td>'+
+    return '<tr class="'+rc+'"><td class="td-muted">'+(i.itemNo||'—')+'</td>'+descCell+'<td><span class="cat-tag">'+(i.category||'—')+'</span></td><td>'+i.unit+'</td><td>'+stockBar(i)+'</td>'+ageCell+'<td class="td-rm price-col">'+(i.unitPrice?fmtRM(i.unitPrice):'—')+'</td><td class="td-rm price-col">'+(i.stock&&i.unitPrice?fmtRM(r2(i.stock*i.unitPrice)):'—')+'</td><td class="td-muted">'+(i.supplier||'—')+'</td><td class="td-mono">'+(i.min||'—')+'</td><td>'+statusBadge(i)+'</td>'+
       '<td>'+
         '<div class="quick-stock">'+
           '<button class="qs-btn out" onclick="quickStock(\''+i.id+'\','+(- smallStep)+')" title="Remove '+smallStep+'">-'+smallStep+'</button>'+
@@ -2050,12 +2271,13 @@ function openBatchModal(itemId){
       var age=Math.floor((Date.now()-new Date(e.date+'T'+(e.time||'00:00')))/86400000);
       var ageTxt=age<=0?'Today':age===1?'1 day ago':age+' days ago';
       var isOldest=idx===0;
+      var editBtn=isAdmin()?'<button class="btn btn-ghost btn-xs admin-only" style="display:inline-flex;margin-left:6px" onclick="editBatchDate(\''+e.id+'\')" title="Edit this date (admin)">✎ date</button>':'';
       batchHtml+='<div class="batch-item'+(isOldest?' batch-oldest':'')+'">'+
         '<div class="batch-dot"></div>'+
         '<div class="batch-content">'+
           '<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap">'+
             '<span style="font-weight:600;font-size:0.85rem">+'+e.qty+' '+e.unit+(isOldest?' <span class="batch-use-first">USE FIRST</span>':'')+'</span>'+
-            '<span style="font-size:0.72rem;color:var(--t3)">'+fmtD(e.date)+' '+(e.time||'')+' · '+ageTxt+'</span>'+
+            '<span style="font-size:0.72rem;color:var(--t3)">'+fmtD(e.date)+' '+(e.time||'')+' · '+ageTxt+editBtn+'</span>'+
           '</div>'+
           '<div style="font-size:0.74rem;color:var(--t2);margin-top:2px">'+
             (e.supplier?'From '+e.supplier+' · ':'')+
@@ -2070,6 +2292,23 @@ function openBatchModal(itemId){
 
   body.innerHTML=linkedHtml+batchHtml;
   document.getElementById('batch-modal').classList.add('open');
+  window._batchModalItemId=itemId;
+}
+function editBatchDate(logId){
+  if(!isAdmin()){toast('Only admin can edit dates.','err');return;}
+  var log=getLog();
+  var entry=log.find(function(e){return e.id===logId;});
+  if(!entry)return;
+  var newDate=prompt('Edit the stock-in date for this batch:\n('+entry.qty+' '+entry.unit+', currently '+fmtD(entry.date)+')\n\nEnter date as YYYY-MM-DD:',entry.date);
+  if(newDate===null)return;
+  newDate=newDate.trim();
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(newDate)){toast('Use format YYYY-MM-DD, e.g. 2026-05-01','err');return;}
+  if(isNaN(new Date(newDate+'T00:00:00').getTime())){toast('Invalid date.','err');return;}
+  entry.date=newDate;
+  setLog(log);
+  toast('Stock-in date updated to '+fmtD(newDate),'ok');
+  if(window._batchModalItemId)openBatchModal(window._batchModalItemId);
+  renderItems();
 }
 function closeBatchModal(){document.getElementById('batch-modal').classList.remove('open');}
 
@@ -2156,7 +2395,7 @@ function renderHistory(){
   var tbody=document.getElementById('hist-tbody');
   if(!log.length){tbody.innerHTML='<tr><td colspan="11"><div class="empty"><h3>No records found</h3><p>Adjust your date range or filters</p></div></td></tr>';return;}
   tbody.innerHTML=log.map(function(e){
-    return '<tr><td class="td-mono" style="font-size:0.74rem">'+fmtD(e.date)+'</td><td class="td-mono" style="font-size:0.74rem">'+(e.time||'—')+'</td><td class="td-bold">'+e.itemName+'</td><td><span class="badge '+(cls[e.type]||'b-adj')+'">'+(lbl[e.type]||e.type)+'</span></td><td class="td-mono">'+e.qty+' '+e.unit+'</td><td class="td-mono">'+e.newStock+' '+e.unit+'</td><td class="td-rm">'+(e.unitPrice?fmtRM(e.unitPrice):'—')+'</td><td class="td-rm">'+(e.amount?fmtRM(e.amount):'—')+'</td><td class="td-muted">'+(e.supplier||'—')+'</td><td>'+(e.by||'—')+'</td><td title="'+(e.source||'manual')+'">'+(srcIcon[e.source]||'✏️')+'</td><td><button class="btn btn-ghost btn-xs" onclick="undoEntry(\''+e.id+'\')" title="Undo this entry" style="white-space:nowrap"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="11" height="11"><path d="M3 7v6h6"/><path d="M3 13a9 9 0 1 0 2.93-6.36L3 9.5"/></svg></button></td></tr>';
+    return '<tr><td class="td-mono" style="font-size:0.74rem">'+fmtD(e.date)+'</td><td class="td-mono" style="font-size:0.74rem">'+(e.time||'—')+'</td><td class="td-bold">'+e.itemName+'</td><td><span class="badge '+(cls[e.type]||'b-adj')+'">'+(lbl[e.type]||e.type)+'</span></td><td class="td-mono">'+e.qty+' '+e.unit+'</td><td class="td-mono">'+e.newStock+' '+e.unit+'</td><td class="td-rm price-col">'+(e.unitPrice?fmtRM(e.unitPrice):'—')+'</td><td class="td-rm price-col">'+(e.amount?fmtRM(e.amount):'—')+'</td><td class="td-muted">'+(e.supplier||'—')+'</td><td>'+(e.by||'—')+'</td><td title="'+(e.source||'manual')+'">'+(srcIcon[e.source]||'✏️')+'</td><td><button class="btn btn-ghost btn-xs" onclick="undoEntry(\''+e.id+'\')" title="Undo this entry" style="white-space:nowrap"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="11" height="11"><path d="M3 7v6h6"/><path d="M3 13a9 9 0 1 0 2.93-6.36L3 9.5"/></svg></button></td></tr>';
   }).join('');
 }
 
@@ -2595,7 +2834,7 @@ function openProdModal(prefill){
   document.getElementById('prod-fin-item').value=prefill.finItemId||'';
   document.getElementById('prod-fin-qty').value=prefill.finQty||'';
   document.getElementById('prod-fin-unit').value=prefill.finUnit||'';
-  document.getElementById('prod-by').value=localStorage.getItem('winko_worker')||'';
+  document.getElementById('prod-by').value=currentWorker();
   document.getElementById('prod-notes').value=prefill.notes||'';
   document.getElementById('prod-edit-id').value='';
   document.getElementById('prod-msg').textContent='';
@@ -2691,7 +2930,7 @@ function saveProdJob(){
   var finId=document.getElementById('prod-fin-item').value;
   var finQty=parseFloat(document.getElementById('prod-fin-qty').value)||0;
   var jobDesc=document.getElementById('prod-job').value.trim();
-  var by=document.getElementById('prod-by').value.trim()||localStorage.getItem('winko_worker')||'';
+  var by=cleanName(document.getElementById('prod-by').value)||currentWorker();
   var notes=document.getElementById('prod-notes').value.trim();
   var date=document.getElementById('prod-date').value||today();
   var msgEl=document.getElementById('prod-msg');msgEl.textContent='';
@@ -3144,7 +3383,7 @@ function confirmProdWA(){
 
     var rawItem=r.rawMatchedId?items.find(function(x){return x.id===r.rawMatchedId;}):null;
     var finItem=r.finMatchedId?items.find(function(x){return x.id===r.finMatchedId;}):null;
-    var by=localStorage.getItem('winko_worker')||'';
+    var by=currentWorker();
     var date=today();
 
     // Create new finished product if needed
@@ -3190,7 +3429,7 @@ function quickStock(itemId, delta, dateStr) {
   item.stock = newStock;
   setItems(items);
   var log = getLog();
-  var by = localStorage.getItem('winko_worker') || '';
+  var by = currentWorker();
   var d = dateStr || today();
   log.push({ id: uid(), date: d, time: nowTime(), itemId: itemId, itemName: item.description, unit: item.unit, type: delta > 0 ? 'in' : 'out', qty: Math.abs(delta), prevStock: prev, newStock: newStock, unitPrice: item.unitPrice || 0, amount: r2(Math.abs(delta) * (item.unitPrice || 0)), supplier: item.supplier || '', ref: 'QUICK', by: by, notes: 'Quick ' + (delta > 0 ? '+' : '') + delta, source: 'manual' });
   setLog(log);
@@ -3569,7 +3808,7 @@ function updateRecountStatus() {
 
 function confirmRecount() {
   var items = getItems(), log = getLog();
-  var by = localStorage.getItem('winko_worker') || '';
+  var by = currentWorker();
   var adjusted = 0;
   items.forEach(function(item){
     var rd = recountData[item.id];
@@ -3721,19 +3960,34 @@ function seedData(){
 document.getElementById('item-modal').addEventListener('click',function(e){if(e.target===this)closeModal();});
 document.getElementById('bulk-modal').addEventListener('click',function(e){if(e.target===this)closeBulk();});
 document.getElementById('batch-modal').addEventListener('click',function(e){if(e.target===this)closeBatchModal();});
+var asm=document.getElementById('admin-settings-modal');if(asm)asm.addEventListener('click',function(e){if(e.target===this)closeAdminSettings();});
 document.addEventListener('click',function(e){var fab=document.getElementById('fab');if(fab&&!fab.contains(e.target))closeFab();});
-document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeModal();closeBulk();closeSidebar();closeBatchModal();}});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeModal();closeBulk();closeSidebar();closeBatchModal();closeAdminSettings();}});
 
 // ─── INIT ─────────────────────────────────────────────────────────────────────
 (function init(){
   seedData();
   // Seed a couple of sample workers on first run
-  if(!getWorkers().length){setWorkers([{name:'Ali',pin:'1111'},{name:'Ahmad',pin:'2222'},{name:'Siti',pin:'3333'}]);}
+  if(!getWorkers().length){setWorkers(DEFAULT_WORKERS.slice());}
+  // One-time cleanup: fix any "null"/"undefined" by-fields stored in old records
+  (function cleanupNulls(){
+    if(localStorage.getItem('ws_cleaned_v1'))return;
+    var log=getLog();var changed=false;
+    log.forEach(function(e){var c=cleanName(e.by);if(e.by!==c){e.by=c;changed=true;}});
+    if(changed)setLog(log);
+    var pl=getProdLog();var pchanged=false;
+    pl.forEach(function(j){var c=cleanName(j.by);if(j.by!==c){j.by=c;pchanged=true;}});
+    if(pchanged)setProdLog(pl);
+    var w=cleanName(localStorage.getItem('winko_worker'));
+    if(w)localStorage.setItem('winko_worker',w);else localStorage.removeItem('winko_worker');
+    localStorage.setItem('ws_cleaned_v1','1');
+  })();
   document.getElementById('topbar-date').textContent=new Date().toLocaleDateString('en-MY',{weekday:'short',month:'short',day:'numeric',year:'numeric'});
   document.getElementById('e-date').value=today();
   var f=new Date();f.setDate(f.getDate()-30);
   document.getElementById('h-from').value=f.toISOString().slice(0,10);
   document.getElementById('h-to').value=today();
+  applyRole();
   populateCats();populateChartMonths();renderDashboard();loadWorkerName();
   updateWorkerChip();
   // Show login screen if nobody logged in yet
